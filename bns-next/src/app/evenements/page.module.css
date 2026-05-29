@@ -1,0 +1,21 @@
+.wrap { padding: calc(64px + 12px + 3rem) 2rem 5rem; max-width: 1260px; margin: 0 auto; }
+.header { margin-bottom: 3rem; }
+.tag { display: inline-flex; background: var(--g-bg); color: var(--g-dk); padding: .28rem .7rem; border-radius: 100px; font-size: .61rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .8rem; }
+.h1 { font-family: var(--serif); font-size: clamp(2.4rem,5vw,4rem); font-weight: 800; letter-spacing: -.04em; line-height: .95; margin-bottom: .9rem; }
+.sub { font-size: .9rem; color: var(--muted); line-height: 1.72; max-width: 520px; }
+.grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; margin-bottom: 5rem; }
+.card { background: var(--surface); border: 1px solid var(--b); border-radius: var(--r); padding: 1.8rem; box-shadow: var(--sh); transition: all .28s; }
+.card:hover { transform: translateY(-4px); box-shadow: var(--sh2); border-color: rgba(109,191,65,.2); }
+.icon { font-size: 2rem; margin-bottom: 1rem; }
+.cardTitle { font-family: var(--serif); font-size: 1.1rem; font-weight: 800; margin-bottom: .5rem; }
+.cardDesc { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+.cta { background: var(--g); border-radius: 20px; padding: 3.5rem; text-align: center; }
+.ctaH { font-family: var(--serif); font-size: clamp(2rem,4vw,3rem); font-weight: 800; color: #000; margin-bottom: .8rem; }
+.ctaP { font-size: .88rem; color: rgba(0,0,0,.5); margin-bottom: 2rem; line-height: 1.7; }
+.ctaBtns { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
+.btnF { padding: .8rem 1.9rem; background: #000; color: #fff; font-size: .75rem; font-weight: 700; border-radius: 11px; transition: all .2s; }
+.btnF:hover { background: #111; }
+.btnW { padding: .8rem 1.9rem; background: #fff; color: #000; font-size: .75rem; font-weight: 600; border-radius: 11px; transition: all .2s; }
+.btnW:hover { background: rgba(255,255,255,.85); }
+@media (max-width: 800px) { .grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }

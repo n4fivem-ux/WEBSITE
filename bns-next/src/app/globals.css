@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+:root {
+  --g: #6DBF41;
+  --g-bg: #EEF8E5;
+  --g-dk: #4a8f2a;
+  --g-glow: rgba(109,191,65,.22);
+  --bg: #F4F4F2;
+  --surface: #FFFFFF;
+  --surface2: #F0F0EE;
+  --ink: #111111;
+  --muted: #6a6d68;
+  --muted2: #a0a39e;
+  --b: rgba(0,0,0,.07);
+  --b2: rgba(0,0,0,.13);
+  --sh: 0 1px 12px rgba(0,0,0,.06);
+  --sh2: 0 8px 40px rgba(0,0,0,.09);
+  --nav-h: 64px;
+  --nav-top: 12px;
+  --r: 16px;
+  --W: 1260px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans, Outfit, sans-serif);
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; border: none; background: none; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--g); border-radius: 2px; }
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+@keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes fadeIn  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }

@@ -1,0 +1,65 @@
+.header { padding: calc(64px + 12px + 3rem) 2rem 0; max-width: 1260px; margin: 0 auto; }
+.tag { display: inline-flex; background: var(--g-bg); color: var(--g-dk); padding: .28rem .7rem; border-radius: 100px; font-size: .61rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .8rem; }
+.h1 { font-family: var(--serif); font-size: clamp(2.4rem,5vw,4rem); font-weight: 800; letter-spacing: -.04em; line-height: .95; margin-bottom: .9rem; }
+.sub { font-size: .9rem; color: var(--muted); line-height: 1.72; max-width: 520px; }
+
+.tabsWrap { padding: 2rem 2rem 0; max-width: 1260px; margin: 0 auto; }
+.tabs { background: var(--surface); border: 1px solid var(--b); border-radius: var(--r); box-shadow: var(--sh); display: flex; gap: 8px; padding: 8px; flex-wrap: wrap; }
+.tab { flex: 1; min-width: 180px; padding: .9rem 1.1rem; border-radius: 10px; display: flex; align-items: center; gap: .8rem; cursor: pointer; transition: all .22s; border: none; background: transparent; text-align: left; font-family: inherit; }
+.tab:hover { background: var(--bg); }
+.tabActive { background: var(--ink) !important; }
+.tabThumb { width: 52px; height: 38px; border-radius: 7px; overflow: hidden; flex-shrink: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+.tabActive .tabThumb { background: #242424; }
+.tabInfo { flex: 1; min-width: 0; }
+.tabName { font-family: var(--serif); font-size: .84rem; font-weight: 800; color: var(--ink); line-height: 1.1; letter-spacing: -.02em; }
+.tabActive .tabName { color: #fff; }
+.tabPrice { font-size: .57rem; color: var(--muted2); margin-top: 2px; }
+.tabActive .tabPrice { color: rgba(255,255,255,.4); }
+.tabDot { width: 7px; height: 7px; border-radius: 50%; background: var(--g); flex-shrink: 0; margin-left: auto; }
+
+.productArea { padding: 1.5rem 2rem 5rem; max-width: 1260px; margin: 0 auto; }
+.product { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: start; animation: fadeIn .3s ease; }
+
+.gallery { position: sticky; top: calc(64px + 12px + 1.5rem); }
+.galleryMain { background: var(--surface); border: 1px solid var(--b); border-radius: var(--r); overflow: hidden; box-shadow: var(--sh2); margin-bottom: .8rem; position: relative; }
+.galleryStatus { position: absolute; top: 1rem; left: 1rem; padding: .28rem .7rem; border-radius: 100px; font-size: .58rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.sAvail { background: var(--g-bg); border: 1px solid rgba(109,191,65,.3); color: var(--g-dk); }
+.sSoon { background: rgba(0,0,0,.6); backdrop-filter: blur(6px); color: rgba(255,255,255,.8); }
+.thumbs { display: flex; gap: .6rem; }
+.thumb { flex: 1; border-radius: 10px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color .2s; background: var(--surface); }
+.thumbActive { border-color: var(--g); }
+
+.info { position: sticky; top: calc(64px + 12px + 1.5rem); }
+.carBrand { font-size: .6rem; font-weight: 700; color: var(--muted2); letter-spacing: .14em; text-transform: uppercase; margin-bottom: .3rem; }
+.carTitle { font-family: var(--serif); font-size: clamp(2rem,3.5vw,3rem); font-weight: 800; letter-spacing: -.04em; line-height: .95; margin-bottom: .5rem; }
+.carTagline { font-size: .85rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.6rem; }
+.specsGrid { display: grid; grid-template-columns: repeat(3,1fr); gap: .8rem; margin-bottom: 1.8rem; }
+.specBox { background: var(--surface); border: 1px solid var(--b); border-radius: 12px; padding: .9rem 1rem; box-shadow: var(--sh); }
+.specVal { font-family: var(--serif); font-size: 1.3rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.specKey { font-size: .57rem; color: var(--muted2); text-transform: uppercase; letter-spacing: .08em; margin-top: .2rem; }
+.features { margin-bottom: 1.8rem; }
+.feature { display: flex; align-items: center; gap: .6rem; padding: .6rem 0; border-bottom: 1px solid var(--b); }
+.feature:last-child { border-bottom: none; }
+.featIcon { width: 28px; height: 28px; background: var(--g-bg); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .75rem; }
+.featLabel { font-size: .78rem; font-weight: 500; color: var(--ink); }
+.featVal { font-size: .75rem; color: var(--muted); margin-left: auto; }
+.priceBox { background: var(--surface); border: 1px solid var(--b); border-radius: var(--r); padding: 1.4rem; box-shadow: var(--sh); margin-bottom: 1rem; }
+.priceRow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+.priceLabel { font-size: .65rem; color: var(--muted2); text-transform: uppercase; letter-spacing: .1em; }
+.priceAmount { font-family: var(--serif); font-size: 2.2rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+.priceAmount span { font-size: .8rem; font-weight: 500; color: var(--muted); font-family: var(--sans); }
+.btnReserve { display: block; width: 100%; padding: 1rem; background: var(--ink); color: #fff; font-size: .8rem; font-weight: 700; border-radius: 11px; text-align: center; transition: all .25s; font-family: var(--sans); }
+.btnReserve:hover { background: var(--g); color: #000; transform: translateY(-2px); box-shadow: 0 10px 28px var(--g-glow); }
+.btnDisabled { display: block; width: 100%; padding: 1rem; background: var(--surface2); color: var(--muted2); font-size: .8rem; border-radius: 11px; cursor: default; font-family: var(--sans); }
+.btnNotify { display: block; width: 100%; padding: .8rem; background: transparent; color: var(--ink); font-size: .76rem; font-weight: 500; border-radius: 11px; border: 1px solid var(--b2); text-align: center; margin-top: .5rem; transition: all .2s; }
+.btnNotify:hover { border-color: rgba(109,191,65,.4); color: var(--g-dk); }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.2rem; }
+.chip { display: inline-flex; align-items: center; padding: .25rem .65rem; border-radius: 100px; background: var(--g-bg); border: 1px solid rgba(109,191,65,.2); font-size: .6rem; font-weight: 600; color: var(--g-dk); }
+
+@media (max-width: 1050px) {
+  .product { grid-template-columns: 1fr; }
+  .gallery, .info { position: static; }
+  .tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .tab { min-width: 160px; }
+}
+@media (max-width: 600px) { .specsGrid { grid-template-columns: repeat(2,1fr); } .thumbs { display: none; } }

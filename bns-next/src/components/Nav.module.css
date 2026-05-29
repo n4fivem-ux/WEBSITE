@@ -1,0 +1,60 @@
+.nav {
+  position: fixed;
+  top: var(--nav-top);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  width: min(calc(100% - 24px), var(--W));
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  gap: .8rem;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--b2);
+  border-radius: 16px;
+  box-shadow: var(--sh2);
+  transition: background .3s;
+}
+.solid { background: rgba(255,255,255,.99); }
+
+.logo { display: flex; align-items: center; gap: .65rem; flex-shrink: 0; }
+.logoIcon { width: 36px; height: 36px; background: var(--ink); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.logoName { font-family: var(--serif); font-size: .8rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; line-height: 1; }
+.logoName b { color: var(--g); }
+.logoSub { font-size: .4rem; color: var(--muted2); letter-spacing: .2em; text-transform: uppercase; margin-top: 2px; }
+
+.navLinks { display: flex; gap: .1rem; flex: 1; justify-content: center; }
+.navLinks a { font-size: .68rem; font-weight: 500; color: var(--muted); padding: .4rem .82rem; border-radius: 9px; transition: all .18s; white-space: nowrap; }
+.navLinks a:hover, .navLinks .on { background: var(--bg); color: var(--ink); }
+
+.navRight { display: flex; align-items: center; gap: .5rem; flex-shrink: 0; }
+.navCta { padding: .45rem 1.2rem; background: var(--g); color: #000; font-size: .67rem; font-weight: 700; border-radius: 9px; transition: all .2s; white-space: nowrap; }
+.navCta:hover { background: #7fd44a; transform: translateY(-1px); }
+
+.burger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+.burger span { width: 20px; height: 1.5px; background: var(--ink); display: block; border-radius: 2px; }
+
+.mob {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 501;
+  background: rgba(244,244,242,.98);
+  backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.8rem;
+}
+.mobClose { position: absolute; top: 1.2rem; right: 1.5rem; font-size: 1.4rem; color: var(--muted); padding: .4rem .7rem; }
+.mob a { font-family: var(--serif); font-size: clamp(1.8rem,6vw,3rem); font-weight: 800; color: var(--muted); transition: color .2s; }
+.mob a:hover { color: var(--g); }
+
+@media (max-width: 1050px) {
+  .navLinks { display: none; }
+  .burger { display: flex; }
+}

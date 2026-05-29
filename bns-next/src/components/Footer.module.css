@@ -1,0 +1,29 @@
+.footer { background: var(--surface); border-top: 1px solid var(--b); padding: 4rem 2rem 2rem; position: relative; }
+.inner { max-width: var(--W); margin: 0 auto; }
+.top { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+
+.brand p { font-size: .75rem; color: var(--muted2); line-height: 1.8; max-width: 210px; margin-top: .9rem; }
+.logo { display: flex; align-items: center; gap: .65rem; }
+.logoIcon { width: 36px; height: 36px; background: var(--ink); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.logoName { font-family: var(--serif); font-size: .8rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.logoName b { color: var(--g); }
+
+.soc { display: flex; gap: .4rem; margin-top: 1.2rem; }
+.soc a { width: 30px; height: 30px; border-radius: 7px; background: var(--bg); border: 1px solid var(--b); display: flex; align-items: center; justify-content: center; font-size: .6rem; font-weight: 700; color: var(--muted2); transition: all .2s; }
+.soc a:hover { background: var(--ink); color: #fff; }
+
+.col h5 { font-size: .56rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted2); margin-bottom: 1rem; }
+.col li { margin-bottom: .55rem; }
+.col a { font-size: .77rem; color: var(--muted2); transition: color .2s; }
+.col a:hover { color: var(--ink); }
+
+.bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 1.6rem; border-top: 1px solid var(--b); font-size: .63rem; color: var(--muted2); flex-wrap: wrap; gap: .5rem; }
+.links { display: flex; gap: .8rem; }
+.links a { color: var(--muted2); transition: color .2s; }
+.links a:hover { color: var(--ink); }
+
+.waFab { position: fixed; bottom: 24px; right: 24px; z-index: 490; width: 52px; height: 52px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,.4); transition: transform .2s; }
+.waFab:hover { transform: scale(1.1); }
+
+@media (max-width: 900px) { .top { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+@media (max-width: 600px) { .top { grid-template-columns: 1fr; } .bottom { flex-direction: column; text-align: center; } }
