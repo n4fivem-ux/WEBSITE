@@ -8,7 +8,7 @@ const cars = [
   {
     id: "rs3", brand: "Audi Sport · 2026", name: "RS3 Sportback",
     tagline: "Le compact sportif ultime. 400 ch, Quattro, boîte DSG 7 — une fusée homologuée pour la route.",
-    img: "/img/rs3-1.png", thumbs: ["/img/rs3-1.png","/img/rs3_2.png","/img/rs3_3.png","/img/rs3_int1.png"],
+    img: "/img/rs3-1.png", thumbs: ["/img/rs3-1.png","/img/rs3-2.png"],
     specs: [{v:"400 ch",k:"Puissance"},{v:"3.8 s",k:"0–100 km/h"},{v:"290 km/h",k:"Vitesse max"},{v:"5 cyl.",k:"Moteur"},{v:"Quattro",k:"Transmission"},{v:"DSG 7",k:"Boîte"}],
     features: [{icon:"🛡️",label:"Assurance tous risques",val:"Incluse"},{icon:"⛽",label:"Plein inclus",val:"Inclus"},{icon:"🚿",label:"Nettoyage intégral",val:"Inclus"},{icon:"📍",label:"Livraison domicile",val:"30 km · Bruxelles"},{icon:"📋",label:"Permis B requis",val:"3 ans minimum"}],
     price: "350", weekend: "650", available: true,
@@ -16,7 +16,7 @@ const cars = [
   {
     id: "golfr", brand: "Volkswagen · 2024", name: "Golf 8R",
     tagline: "La Golf R, le mythe. 333 ch, 4Motion, boîte DSG 7 — la quintessence du hot-hatch quotidien.",
-    img: "/img/golf-1.png", thumbs: ["/img/golf-1.png","/img/golfr_2.png","/img/golfr_3.png","/img/golfr_int1.png"],
+    img: "/img/golf-1.png", thumbs: ["/img/golf-1.png","/img/golf-2.png"],
     specs: [{v:"333 ch",k:"Puissance"},{v:"4.7 s",k:"0–100 km/h"},{v:"270 km/h",k:"Vitesse max"},{v:"2.0 TSI",k:"Moteur"},{v:"4Motion",k:"Transmission"},{v:"DSG 7",k:"Boîte"}],
     features: [{icon:"🛡️",label:"Assurance tous risques",val:"Incluse"},{icon:"⛽",label:"Plein inclus",val:"Inclus"},{icon:"🚿",label:"Nettoyage intégral",val:"Inclus"},{icon:"📍",label:"Livraison domicile",val:"30 km · Bruxelles"},{icon:"📋",label:"Permis B requis",val:"3 ans minimum"}],
     price: "280", weekend: "520", available: true,
@@ -24,7 +24,7 @@ const cars = [
   {
     id: "a45s", brand: "Mercedes-AMG · 4MATIC+", name: "A45s AMG",
     tagline: "421 ch, le 4 cylindres le plus puissant de série. Une bête dans un costume compact. Disponible prochainement.",
-    img: "/img/a45s-1.png", thumbs: ["/img/a45s-1.png","/img/a45s_2.png","/img/a45s_3.png","/img/a45s_int1.png"],
+    img: "/img/a45s-1.png", thumbs: ["/img/a45s-1.png","/img/a45s-2.png"],
     specs: [{v:"421 ch",k:"Puissance"},{v:"3.9 s",k:"0–100 km/h"},{v:"270 km/h",k:"Vitesse max"},{v:"2.0 T",k:"Moteur"},{v:"4MATIC+",k:"Transmission"},{v:"AMG DCT 8",k:"Boîte"}],
     features: [{icon:"🛡️",label:"Assurance tous risques",val:"Incluse"},{icon:"⛽",label:"Plein inclus",val:"Inclus"},{icon:"🚿",label:"Nettoyage intégral",val:"Inclus"},{icon:"📍",label:"Livraison domicile",val:"30 km · Bruxelles"}],
     price: null, weekend: null, available: false,
@@ -32,7 +32,7 @@ const cars = [
   {
     id: "m135i", brand: "BMW M Performance · xDrive", name: "M135i",
     tagline: "306 ch, xDrive, transmission intégrale — le plaisir BMW avec la polyvalence d'une compacte premium.",
-    img: "/img/m135i-1.png", thumbs: ["/img/m135i-1.png"],
+    img: "/img/m135i-1.png", thumbs: ["/img/m135i-1.png","/img/m135i-2.png"],
     specs: [{v:"306 ch",k:"Puissance"},{v:"4.9 s",k:"0–100 km/h"},{v:"250 km/h",k:"Vitesse max"},{v:"2.0 T",k:"Moteur"},{v:"xDrive",k:"Transmission"},{v:"Auto 8",k:"Boîte"}],
     features: [{icon:"🛡️",label:"Assurance tous risques",val:"Incluse"},{icon:"⛽",label:"Plein inclus",val:"Inclus"},{icon:"🚿",label:"Nettoyage intégral",val:"Inclus"},{icon:"📍",label:"Livraison domicile",val:"30 km · Bruxelles"}],
     price: null, weekend: null, available: false,
