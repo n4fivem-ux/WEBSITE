@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Contact - BNS Prestige</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>:root{--g:#6DBF41;--g-bg:#EEF8E5;--g-dk:#4a8f2a;--ink:#111;--muted:#6a6d68;--muted2:#a0a39e;--bg:#F7F7F4;--white:#fff;--b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);--sh:0 2px 14px rgba(0,0,0,.06);--sh2:0 8px 40px rgba(0,0,0,.1);--serif:Syne,sans-serif;--sans:Outfit,sans-serif;--nav-h:66px;--nav-top:14px;--pt:calc(var(--nav-h) + var(--nav-top) + 24px);--W:1260px;--r:16px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:var(--sans)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px}
+.nav{position:fixed;top:var(--nav-top);left:50%;transform:translateX(-50%);z-index:900;width:min(calc(100% - 24px),var(--W));height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.4rem;gap:.8rem;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);border:1px solid var(--b2);border-radius:14px;box-shadow:var(--sh2)}
+.logo{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:13px}
+.logo-txt{display:flex;flex-direction:column}
+.logo-name{font-family:var(--serif);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);line-height:1}
+.logo-name b{color:var(--g)}
+.logo-sub{font-size:.38rem;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:.12rem}
+.nav-links a{font-size:.64rem;font-weight:500;color:var(--muted);padding:.32rem .62rem;border-radius:8px;transition:all .18s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.on{background:var(--bg);color:var(--ink);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:.38rem;flex-shrink:0}
+.i18n-sw{display:flex;gap:2px;background:rgba(0,0,0,.05);border-radius:8px;padding:3px;flex-shrink:0}
+.i18n-btn{padding:.24rem .46rem;border-radius:6px;font-size:.58rem;font-weight:700;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:all .15s}
+.i18n-btn:hover{color:var(--ink)}
+.i18n-btn.active{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.nav-cta{padding:.42rem 1rem;background:var(--ink);color:#fff;font-size:.63rem;font-weight:600;border-radius:9px;transition:background .18s;white-space:nowrap}
+.nav-cta:hover,.nav-cta.on{background:var(--g)}
+.burger{display:none;flex-direction:column;gap:5px;padding:4px}
+.burger span{width:18px;height:1.5px;background:var(--ink);display:block;border-radius:2px}
+.mob{display:none;position:fixed;inset:0;z-index:899;background:rgba(247,247,244,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:1.8rem}
+.mob.open{display:flex}
+.mob a{font-family:var(--serif);font-size:clamp(1.8rem,7vw,3.2rem);font-weight:700;color:var(--muted);transition:color .2s}
+.mob a:hover{color:var(--g)}
+footer{background:var(--white);border-top:1px solid var(--b);padding:4rem 24px 2rem}
+.ft{max-width:var(--W);margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.ft-p{font-size:.73rem;color:var(--muted2);line-height:1.8;max-width:200px;margin-top:.8rem}
+.ft-soc{display:flex;gap:.4rem;margin-top:1.1rem}
+.ft-soc a{width:28px;height:28px;border-radius:7px;background:var(--bg);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:var(--muted2);transition:all .18s}
+.ft-soc a:hover{background:var(--ink);color:#fff}
+.ft-col h5{font-size:.55rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:.9rem}
+.ft-col li{margin-bottom:.5rem}
+.ft-col a{font-size:.74rem;color:var(--muted2);transition:color .18s}
+.ft-col a:hover{color:var(--ink)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid var(--b);font-size:.62rem;color:var(--muted2)}
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:999;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.5);transition:transform .2s}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:28px;height:28px}
+@media(max-width:1100px){.ft-top{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:768px){:root{--nav-h:58px;--nav-top:10px;--pt:calc(var(--nav-h) + var(--nav-top) + 18px)}.nav{padding:0 1rem}.nav-links,.i18n-sw,.nav-cta{display:none}.burger{display:flex}.ft-top{grid-template-columns:1fr 1fr}.ft-bot{flex-direction:column;gap:.4rem;text-align:center}footer{padding:3rem 16px 2rem}}
+@media(max-width:480px){.ft-top{grid-template-columns:1fr}}.ph{padding:var(--pt) 24px 48px;max-width:var(--W);margin:0 auto}
+.ph-pill{display:inline-flex;align-items:center;gap:.35rem;background:var(--g-bg);color:var(--g-dk);padding:.26rem .68rem;border-radius:100px;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem}
+.ph-h1{font-family:var(--serif);font-size:clamp(2.4rem,5.5vw,5rem);font-weight:800;color:var(--ink);line-height:.9;letter-spacing:-.05em;margin-bottom:.5rem}
+.ph-h1 span{color:var(--g);display:block}
+.ph-sub{font-size:.84rem;color:var(--muted);max-width:380px;line-height:1.7}
+.contact-grid{padding:0 24px 56px;max-width:var(--W);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.channels{display:flex;flex-direction:column;gap:10px}
+.ch{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);padding:1.4rem;display:flex;align-items:center;gap:1rem;text-decoration:none;transition:all .22s}
+.ch:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:rgba(109,191,65,.3)}
+.ch-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.3rem}
+.ch-lbl{font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:.2rem}
+.ch-val{font-size:.88rem;font-weight:600;color:var(--ink);line-height:1}
+.ch-note{font-size:.65rem;color:var(--muted2);margin-top:.18rem}
+.form-card{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh2);overflow:hidden}
+.fc-h{padding:1.1rem 1.5rem;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:.6rem}
+.fc-dot{width:8px;height:8px;background:var(--g);border-radius:50%}
+.fc-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)}
+.fc-body{padding:1.5rem}
+.f-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.f-row1{margin-bottom:10px}
+.field{display:flex;flex-direction:column;gap:.26rem}
+.field label{font-size:.62rem;font-weight:500;color:var(--muted);letter-spacing:.04em}
+.field input,.field select,.field textarea{background:var(--bg);border:1.5px solid transparent;border-radius:9px;color:var(--ink);padding:.65rem .85rem;font-size:.84rem;outline:none;width:100%;font-family:var(--sans);transition:all .2s;-webkit-appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--g);background:var(--white)}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted2)}
+.field textarea{resize:vertical;min-height:100px;line-height:1.6}
+.btn-send{width:100%;padding:.88rem;border-radius:10px;background:var(--ink);color:#fff;font-size:.78rem;font-weight:700;font-family:var(--serif);cursor:pointer;border:none;transition:all .24s;margin-top:.5rem}
+.btn-send:hover{background:var(--g);transform:translateY(-1px);box-shadow:0 8px 24px rgba(109,191,65,.28)}
+.btn-send.sent{background:var(--g-bg);color:var(--g-dk);pointer-events:none}
+.map-section{padding:0 24px 72px;max-width:var(--W);margin:0 auto}
+.map-card{background:var(--white);border-radius:20px;border:1px solid var(--b);box-shadow:var(--sh2);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.map-frame{height:360px;position:relative;overflow:hidden}
+.map-frame iframe{width:100%;height:100%;border:none;display:block}
+.map-info{padding:2.5rem}
+.map-info h3{font-family:var(--serif);font-size:1.55rem;font-weight:800;color:var(--ink);letter-spacing:-.04em;margin-bottom:.45rem}
+.map-info p{font-size:.82rem;color:var(--muted);line-height:1.72;margin-bottom:1.2rem}
+.zone-chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.zc{display:inline-flex;align-items:center;gap:.28rem;padding:.28rem .65rem;border-radius:100px;background:var(--g-bg);color:var(--g-dk);font-size:.66rem;font-weight:500;border:1px solid rgba(109,191,65,.2)}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr}.map-card{grid-template-columns:1fr}.map-frame{height:280px}}
+@media(max-width:768px){.contact-grid,.map-section{padding:0 16px 48px}.f-row2{grid-template-columns:1fr}}.wa-fab{position:fixed;bottom:24px;right:24px;z-index:490;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:transform .2s}.wa-fab:hover{transform:scale(1.1)}.wa-fab svg{width:26px;height:26px}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="logo-txt"><div class="logo-name">BNS <b>Prestige</b></div><div class="logo-sub">Location Bruxelles</div></div></a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li>
+    <li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li>
+    <li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li>
+    <li><a href="contact.html" class="on" data-i18n="nav_contact">Contact</a></li>
+  </ul>
+  <div class="nav-right"><div class="i18n-sw"><button class="i18n-btn active" data-lang="fr" onclick="setLang('fr')">FR</button><button class="i18n-btn" data-lang="nl" onclick="setLang('nl')">NL</button><button class="i18n-btn" data-lang="en" onclick="setLang('en')">EN</button></div><a href="reserver.html" class="nav-cta" data-i18n="nav_reserver">Reserver</a><button class="burger" onclick="document.getElementById('mob').classList.toggle('open')"><span></span><span></span><span></span></button></div>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-close" onclick="document.getElementById('mob').classList.remove('open')">✕</button>
+  <a href="index.html" onclick="document.getElementById('mob').classList.remove('open')" data-i18n="nav_accueil">Accueil</a>
+  <a href="nosvoitures.html" onclick="document.getElementById('mob').classList.remove('open')" data-i18n="nav_voitures">Nos Voitures</a>
+  <a href="comment-ca-marche.html" onclick="document.getElementById('mob').classList.remove('open')" data-i18n="nav_comment">Comment ça marche</a>
+  <a href="contact.html" onclick="document.getElementById('mob').classList.remove('open')" data-i18n="nav_contact">Contact</a>
+  <a href="reserver.html" onclick="document.getElementById('mob').classList.remove('open')" data-i18n="nav_reserver">Réserver →</a>
+</div>
+
+<div class="ph">
+  <div class="ph-pill" data-i18n="contact_pill">Contact direct</div>
+  <h1 class="ph-h1" data-i18n="contact_h1">Parlons-nous <span>directement.</span></h1>
+  <p class="ph-sub" data-i18n="contact_sub">Pas de bot, pas d'attente. L'équipe BNS Prestige, 7j/7.</p>
+</div>
+
+<div class="contact-grid">
+  <div class="channels">
+    <a class="ch" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige" target="_blank" rel="noopener">
+      <div class="ch-icon" style="background:rgba(37,211,102,.15)">💬</div>
+      <div><div class="ch-lbl">WhatsApp</div><div class="ch-val">+32 4XX XX XX XX</div><div class="ch-note">Réponse sous 30 min</div></div>
+    </a>
+    <a class="ch" href="tel:+32400000000">
+      <div class="ch-icon" style="background:var(--g-bg)">📞</div>
+      <div><div class="ch-lbl">Téléphone</div><div class="ch-val">+32 4XX XX XX XX</div><div class="ch-note">8h–22h · 7j/7</div></div>
+    </a>
+    <a class="ch" href="/cdn-cgi/l/email-protection#7f1c10110b1e1c0b3f1d110c0f0d1a0c0b16181a511d1a">
+      <div class="ch-icon" style="background:var(--bg)">✉️</div>
+      <div><div class="ch-lbl">Email</div><div class="ch-val"><span class="__cf_email__" data-cfemail="f3909c9d87929087b3919d8083819680879a9496dd9196">[email&#160;protected]</span></div><div class="ch-note">Réponse sous 2h</div></div>
+    </a>
+  </div>
+  <div class="form-card">
+    <div class="fc-h"><div class="fc-dot"></div><div class="fc-title" data-i18n="contact_form_title">Envoyer un message</div></div>
+    <div class="fc-body">
+      <form id="contactForm" onsubmit="sendContact(event)">
+        <div class="f-row2">
+          <div class="field"><label>Prénom *</label><input type="text" name="prenom" required autocomplete="given-name" placeholder="Prénom"/></div>
+          <div class="field"><label>Nom *</label><input type="text" name="nom" required autocomplete="family-name" placeholder="Nom"/></div>
+        </div>
+        <div class="f-row2">
+          <div class="field"><label>Email *</label><input type="email" name="email" required autocomplete="email" placeholder="vous@email.com"/></div>
+          <div class="field"><label>Téléphone *</label><input type="tel" name="tel" required autocomplete="tel" placeholder="+32 …"/></div>
+        </div>
+        <div class="f-row1">
+          <div class="field"><label>Sujet</label>
+            <select name="sujet">
+              <option value="Question générale">Question générale</option>
+              <option value="Réservation">Réservation</option>
+              <option value="Événement / occasion">Événement / occasion</option>
+              <option value="Partenariat">Partenariat</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="f-row1">
+          <div class="field"><label>Message *</label><textarea name="message" required placeholder="Votre message…"></textarea></div>
+        </div>
+        <button type="submit" class="btn-send" id="csb">Envoyer le message</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<div class="map-section">
+  <div class="map-card">
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d40000!2d4.3517!3d50.8503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sbe!4v1700000000000!5m2!1sfr!2sbe"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Zone de livraison BNS Prestige - Bruxelles 30km">
+      </iframe>
+    </div>
+    <div class="map-info">
+      <h3>Zone de livraison</h3>
+      <p>Nous livrons votre voiture directement chez vous, dans tout Bruxelles et dans un rayon de <strong>30 km</strong>. Sans frais supplementaires.</p>
+      <div class="zone-chips">
+        <span class="zc">&#x1F4CD; Bruxelles-Ville</span>
+        <span class="zc">&#x1F4CD; Ixelles</span>
+        <span class="zc">&#x1F4CD; Uccle</span>
+        <span class="zc">&#x1F4CD; Forest</span>
+        <span class="zc">&#x1F4CD; Schaerbeek</span>
+        <span class="zc">&#x1F4CD; Woluwe</span>
+        <span class="zc">&#x1F4CD; Etterbeek</span>
+        <span class="zc">&#x1F4CD; Watermael</span>
+        <span class="zc">&#x1F4CD; Molenbeek</span>
+        <span class="zc">&#x1F4CD; Laeken</span>
+        <span class="zc">&#x1F4CD; Zaventem</span>
+        <span class="zc">&#x1F4CD; Overijse</span>
+        <span class="zc">+ toute zone 30km</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var SB_URL=window.SUPABASE_URL||'';var SB_KEY=window.SUPABASE_KEY||'';
+var db=null;
+window.addEventListener('DOMContentLoaded',function(){
+  if(typeof supabase!=='undefined'&&SB_URL && SB_URL.length > 10){
+    try{db=supabase.createClient(SB_URL,SB_KEY);}catch(e){}
+  }
+});
+
+async function sendContact(e){
+  e.preventDefault();
+  var b=document.getElementById('csb');
+  b.textContent='Envoi...';b.disabled=true;
+  var f=new FormData(e.target);
+  var data={prenom:f.get('prenom'),nom:f.get('nom'),email:f.get('email'),telephone:f.get('tel'),sujet:f.get('sujet'),message:f.get('message'),status:'contact'};
+  var done=function(){
+    b.textContent='Message envoye ! Nous repondons sous 2h.';
+    b.classList.add('sent');
+    setTimeout(function(){b.textContent='Envoyer le message';b.classList.remove('sent');b.disabled=false;e.target.reset();},8000);
+  };
+  if(db){db.from('reservations').insert([data]).then(done).catch(done);}else{setTimeout(done,800);}
+}
+</script>
+<!-- ZONE DE LIVRAISON -->
+<section style="padding:56px 24px 0;max-width:1260px;margin:0 auto">
+  <div style="display:inline-flex;align-items:center;gap:.35rem;background:var(--g-bg,#EEF8E5);color:var(--g-dk,#4a8f2a);padding:.28rem .7rem;border-radius:100px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem">Zone de livraison</div>
+  <h2 style="font-family:Syne,sans-serif;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;letter-spacing:-.04em;margin-bottom:.5rem;color:var(--ink,#111)">Bruxelles &amp; alentours — 30 km.</h2>
+  <p style="font-size:.84rem;color:var(--muted,#6a6d68);margin-bottom:1.5rem;max-width:520px;line-height:1.7">La livraison est incluse dans le prix pour toute adresse dans un rayon de 30 km autour de Bruxelles. Domicile, hôtel, bureau — nous venons à vous.</p>
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start">
+    <div style="border-radius:16px;overflow:hidden;box-shadow:0 6px 36px rgba(0,0,0,.1);border:1px solid rgba(0,0,0,.08);height:400px">
+      <!-- Google Maps centered on Brussels, zoom 10 shows ~30km radius nicely -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d80546!2d4.3516!3d50.8503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sbe!4v1710000000000!5m2!1sfr!2sbe"
+        width="100%" height="100%" style="border:0;display:block" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade" title="BNS Prestige — Zone livraison Bruxelles 30km">
+      </iframe>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:var(--white,#fff);border-radius:12px;border:1px solid var(--b,rgba(0,0,0,.07));padding:1.2rem">
+        <div style="font-size:.56rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2,#a0a39e);margin-bottom:.7rem">Zones couvertes</div>
+        <div style="display:flex;flex-direction:column;gap:.35rem">
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--ink,#111)"><span style="width:7px;height:7px;border-radius:50%;background:#6DBF41;flex-shrink:0"></span>Bruxelles — toutes communes</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--ink,#111)"><span style="width:7px;height:7px;border-radius:50%;background:#6DBF41;flex-shrink:0"></span>Ixelles, Etterbeek, Uccle</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--ink,#111)"><span style="width:7px;height:7px;border-radius:50%;background:#6DBF41;flex-shrink:0"></span>Woluwe-Saint-Lambert/Pierre</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--ink,#111)"><span style="width:7px;height:7px;border-radius:50%;background:#6DBF41;flex-shrink:0"></span>Waterloo, La Hulpe</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--ink,#111)"><span style="width:7px;height:7px;border-radius:50%;background:#6DBF41;flex-shrink:0"></span>Zaventem, Tervuren</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--ink,#111)"><span style="width:7px;height:7px;border-radius:50%;background:#6DBF41;flex-shrink:0"></span>Overijse, Rhode-Saint-Genèse</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--ink,#111)"><span style="width:7px;height:7px;border-radius:50%;background:#6DBF41;flex-shrink:0"></span>Grimbergen, Machelen</div>
+          <div style="display:flex;align-items:center;gap:.4rem;font-size:.77rem;color:var(--muted,#6a6d68);font-style:italic"><span style="width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.15);flex-shrink:0"></span>+ toute zone dans les 30 km</div>
+        </div>
+      </div>
+      <div style="background:var(--g-bg,#EEF8E5);border-radius:12px;border:1px solid rgba(109,191,65,.2);padding:1.1rem">
+        <div style="font-size:.78rem;color:var(--g-dk,#4a8f2a);line-height:1.6"><strong>Zone hors périmètre ?</strong><br/>Contactez-nous — nous trouverons une solution.</div>
+        <a href="https://wa.me/32400000000" style="display:inline-flex;align-items:center;gap:.35rem;margin-top:.65rem;padding:.4rem .85rem;background:#25D366;color:#fff;font-size:.68rem;font-weight:600;border-radius:8px;text-decoration:none">💬 WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="logo-name">BNS <b>Prestige</b></div></div></a>
+        <p data-i18n="ft_location">Location de voitures sportives · Bruxelles et alentours.</p>
+        <div class="ft-soc"><a href="https://instagram.com/bnsprestige" target="_blank" rel="noopener">IG</a><a href="https://wa.me/32400000000" target="_blank" rel="noopener">WA</a><a href="https://snapchat.com/add/bnsprestige" target="_blank" rel="noopener">SC</a></div>
+      </div>
+      <div class="ft-col"><h5 data-i18n="ft_pages">Pages</h5><ul>
+        <li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li>
+        <li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li>
+        <li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li>
+        <li><a href="reserver.html" data-i18n="nav_reserver">Réserver</a></li>
+        <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_fleet">Flotte</h5><ul>
+        <li><a href="nosvoitures.html#rs3">Audi RS3 — 350€/j</a></li>
+        <li><a href="nosvoitures.html#golfr">Golf 8 R — 280€/j</a></li>
+        
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_contact">Contact</h5><ul>
+        <li><a href="https://wa.me/32400000000">WhatsApp</a></li>
+        <li><a href="tel:+32400000000">+32 4XX XX XX XX</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#791a16170d181a0d391b170a090b1c0a0d101e1c571b1c"><span class="__cf_email__" data-cfemail="b7d4d8d9c3d6d4c3f7d5d9c4c7c5d2c4c3ded0d299d5d2">[email&#160;protected]</span></a></li>
+      </ul></div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 BNS Prestige.</span>
+      <div class="ft-links"><a href="cgv.html">CGV</a> · <a href="cgv.html">RGPD</a></div>
+      <span>Bruxelles &amp; alentours</span>
+    </div>
+  </div>
+</footer>
+<a class="wa-float" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0
+<a class="wa-fab" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.553 4.092 1.52 5.8
+</body>
+</html>

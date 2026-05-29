@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Comment ca marche - BNS Prestige</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>:root{--g:#6DBF41;--g-bg:#EEF8E5;--g-dk:#4a8f2a;--ink:#111;--muted:#6a6d68;--muted2:#a0a39e;--bg:#F7F7F4;--white:#fff;--b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);--sh:0 2px 14px rgba(0,0,0,.06);--sh2:0 8px 40px rgba(0,0,0,.1);--serif:Syne,sans-serif;--sans:Outfit,sans-serif;--nav-h:66px;--nav-top:14px;--pt:calc(var(--nav-h) + var(--nav-top) + 24px);--W:1260px;--r:16px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:var(--sans)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px}
+.nav{position:fixed;top:var(--nav-top);left:50%;transform:translateX(-50%);z-index:900;width:min(calc(100% - 24px),var(--W));height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.4rem;gap:.8rem;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);border:1px solid var(--b2);border-radius:14px;box-shadow:var(--sh2)}
+.logo{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:13px}
+.logo-txt{display:flex;flex-direction:column}
+.logo-name{font-family:var(--serif);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);line-height:1}
+.logo-name b{color:var(--g)}
+.logo-sub{font-size:.38rem;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:.12rem}
+.nav-links a{font-size:.64rem;font-weight:500;color:var(--muted);padding:.32rem .62rem;border-radius:8px;transition:all .18s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.on{background:var(--bg);color:var(--ink);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:.38rem;flex-shrink:0}
+.i18n-sw{display:flex;gap:2px;background:rgba(0,0,0,.05);border-radius:8px;padding:3px;flex-shrink:0}
+.i18n-btn{padding:.24rem .46rem;border-radius:6px;font-size:.58rem;font-weight:700;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:all .15s}
+.i18n-btn:hover{color:var(--ink)}
+.i18n-btn.active{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.nav-cta{padding:.42rem 1rem;background:var(--ink);color:#fff;font-size:.63rem;font-weight:600;border-radius:9px;transition:background .18s;white-space:nowrap}
+.nav-cta:hover,.nav-cta.on{background:var(--g)}
+.burger{display:none;flex-direction:column;gap:5px;padding:4px}
+.burger span{width:18px;height:1.5px;background:var(--ink);display:block;border-radius:2px}
+.mob{display:none;position:fixed;inset:0;z-index:899;background:rgba(247,247,244,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:1.8rem}
+.mob.open{display:flex}
+.mob a{font-family:var(--serif);font-size:clamp(1.8rem,7vw,3.2rem);font-weight:700;color:var(--muted);transition:color .2s}
+.mob a:hover{color:var(--g)}
+footer{background:var(--white);border-top:1px solid var(--b);padding:4rem 24px 2rem}
+.ft{max-width:var(--W);margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.ft-p{font-size:.73rem;color:var(--muted2);line-height:1.8;max-width:200px;margin-top:.8rem}
+.ft-soc{display:flex;gap:.4rem;margin-top:1.1rem}
+.ft-soc a{width:28px;height:28px;border-radius:7px;background:var(--bg);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:var(--muted2);transition:all .18s}
+.ft-soc a:hover{background:var(--ink);color:#fff}
+.ft-col h5{font-size:.55rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:.9rem}
+.ft-col li{margin-bottom:.5rem}
+.ft-col a{font-size:.74rem;color:var(--muted2);transition:color .18s}
+.ft-col a:hover{color:var(--ink)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid var(--b);font-size:.62rem;color:var(--muted2)}
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:999;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.5);transition:transform .2s}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:28px;height:28px}
+@media(max-width:1100px){.ft-top{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:768px){:root{--nav-h:58px;--nav-top:10px;--pt:calc(var(--nav-h) + var(--nav-top) + 18px)}.nav{padding:0 1rem}.nav-links,.i18n-sw,.nav-cta{display:none}.burger{display:flex}.ft-top{grid-template-columns:1fr 1fr}.ft-bot{flex-direction:column;gap:.4rem;text-align:center}footer{padding:3rem 16px 2rem}}
+@media(max-width:480px){.ft-top{grid-template-columns:1fr}}.wrap{max-width:var(--W);margin:0 auto;padding:var(--pt) 24px 80px}
+.hero-tag{display:inline-flex;align-items:center;gap:.35rem;background:var(--g-bg);color:var(--g-dk);padding:.26rem .68rem;border-radius:100px;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.5rem,6vw,5rem);font-weight:800;color:var(--ink);line-height:.92;letter-spacing:-.05em;margin-bottom:.75rem;text-align:center}
+.hero-h1 span{color:var(--g)}
+.hero-p{font-size:.9rem;color:var(--muted);max-width:480px;margin:0 auto 2rem;line-height:1.72;text-align:center}
+.hero{text-align:center;margin-bottom:60px}
+.steps{position:relative;max-width:760px;margin:0 auto 80px}
+.steps::before{content:"";position:absolute;left:40px;top:20px;bottom:20px;width:2px;background:linear-gradient(to bottom,var(--g) 0%,rgba(109,191,65,.06) 100%)}
+.step{display:grid;grid-template-columns:80px 1fr;gap:2rem;margin-bottom:54px}
+.step:last-child{margin-bottom:0}
+.step-num{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.step-circle{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;box-shadow:var(--sh2);background:var(--ink)}
+.step-circle svg{width:24px;height:24px}
+.step-n{font-family:var(--serif);font-size:.54rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-top:.52rem}
+.step-body{padding-top:.35rem}
+.step-title{font-family:var(--serif);font-size:1.45rem;font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:.45rem}
+.step-desc{font-size:.86rem;color:var(--muted);line-height:1.7;max-width:480px;margin-bottom:.85rem}
+.step-detail{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);padding:1.1rem 1.3rem}
+.step:nth-child(1) .step-circle{background:var(--g)}
+.step:nth-child(3) .step-circle{background:#25D366}
+.step:nth-child(4) .step-circle{background:var(--g-dk)}
+.chip-row{display:flex;gap:.55rem;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:.28rem;background:var(--bg);border:1px solid var(--b2);border-radius:8px;padding:.35rem .72rem;font-size:.7rem;color:var(--muted)}
+.chip .dot{width:5px;height:5px;border-radius:50%;background:var(--g);flex-shrink:0}
+.wa-bubble{background:#25D366;border-radius:12px 12px 12px 2px;padding:.85rem 1.05rem;max-width:340px}
+.wa-n{font-size:.56rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.26rem}
+.wa-t{font-size:.78rem;color:#fff;line-height:1.55}
+.wa-time{font-size:.54rem;color:rgba(255,255,255,.42);margin-top:.32rem;text-align:right}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-top:.5rem}
+.mode-card{padding:.8rem .95rem;border-radius:10px;border:2px solid var(--b2);cursor:pointer;transition:all .22s;background:var(--bg);-webkit-tap-highlight-color:rgba(109,191,65,.1);user-select:none}
+.mode-card:hover,.mode-card.active{border-color:var(--g);background:var(--g-bg)}
+.mode-card-lbl{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem;color:var(--muted2)}
+.mode-card:hover .mode-card-lbl,.mode-card.active .mode-card-lbl{color:var(--g-dk)}
+.mode-card-val{font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.18rem}
+.mode-card-note{font-size:.63rem;color:var(--muted2)}
+.mode-card:hover .mode-card-note,.mode-card.active .mode-card-note{color:var(--g-dk)}
+.cbar{margin-top:.65rem;padding:.62rem .82rem;background:var(--bg);border-radius:8px;font-size:.7rem;color:var(--muted)}
+.cta-block{background:var(--ink);border-radius:22px;padding:3.2rem 2.5rem;text-align:center;position:relative;overflow:hidden;margin-bottom:72px}
+.cta-block::before{content:"BNS";position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-family:var(--serif);font-size:11rem;font-weight:800;color:rgba(255,255,255,.04);line-height:1;pointer-events:none}
+.cta-h{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);font-weight:800;color:#fff;letter-spacing:-.04em;margin-bottom:.55rem;position:relative}
+.cta-p{font-size:.86rem;color:rgba(255,255,255,.4);max-width:340px;margin:0 auto 1.6rem;line-height:1.7;position:relative}
+.cta-btns{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;position:relative}
+.btn-g{padding:.82rem 1.9rem;background:var(--g);color:#000;font-size:.74rem;font-weight:700;border-radius:10px;display:inline-block;transition:all .24s;font-family:var(--serif)}
+.btn-g:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn-wh{padding:.82rem 1.9rem;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);font-size:.74rem;font-weight:500;border-radius:10px;display:inline-block;border:1px solid rgba(255,255,255,.1);transition:all .24s}
+.btn-wh:hover{background:rgba(255,255,255,.15);color:#fff}
+.faq-title{font-family:var(--serif);font-size:2rem;font-weight:800;letter-spacing:-.04em;margin-bottom:1.5rem;text-align:center}
+.faq{max-width:680px;margin:0 auto 72px}
+.fi{background:var(--white);border-radius:var(--r);border:1px solid var(--b);margin-bottom:7px;overflow:hidden}
+.fi-q{padding:.95rem 1.25rem;font-size:.84rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.5rem;transition:background .18s;-webkit-tap-highlight-color:rgba(109,191,65,.08)}
+.fi-q:hover{background:var(--bg)}
+.fi-icon{width:21px;height:21px;border-radius:50%;background:var(--bg);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem;font-weight:700;color:var(--muted);transition:all .24s}
+.fi.open .fi-icon{background:var(--g);color:#fff;transform:rotate(45deg);border-color:var(--g)}
+.fi-a{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.fi.open .fi-a{max-height:280px}
+.fi-ai{padding:.75rem 1.25rem 1rem;font-size:.8rem;color:var(--muted);line-height:1.7;border-top:1px solid var(--b)}
+@media(max-width:768px){.wrap{padding:calc(var(--nav-h) + var(--nav-top) + 18px) 16px 56px}.steps::before{left:28px}.step{grid-template-columns:56px 1fr;gap:1.2rem}.step-circle{width:40px;height:40px}.step-circle svg{width:18px;height:18px}.cta-block{padding:2.2rem 1.5rem}}
+@media(max-width:480px){.mode-grid{grid-template-columns:1fr}.step{grid-template-columns:44px 1fr;gap:.7rem}}.mob-close{position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;color:var(--muted);padding:.4rem .7rem;background:none;border:none;cursor:pointer}
+.wa-fab{position:fixed;bottom:24px;right:24px;z-index:490;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:transform .2s}.wa-fab:hover{transform:scale(1.1)}.wa-fab svg{width:26px;height:26px}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">BNS <b>Prestige</b></div><div class="logo-sub">Location · Bruxelles</div></div>
+  </a>
+  <ul class="nav-links"><li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li><li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li><li><a href="comment-ca-marche.html" class="on" data-i18n="nav_comment">Comment ça marche</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul>
+  <div class="nav-right">
+    <a href="reserver.html" class="nav-cta" data-i18n="nav_reserver">Réserver →</a>
+    <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-close" onclick="document.getElementById('mob').classList.remove('open')">✕</button>
+  <a href="index.html" onclick="document.getElementById('mob').classList.remove('open')">Accueil</a><a href="nosvoitures.html" onclick="document.getElementById('mob').classList.remove('open')">Nos Voitures</a><a href="comment-ca-marche.html" onclick="document.getElementById('mob').classList.remove('open')">Comment ça marche</a><a href="contact.html" onclick="document.getElementById('mob').classList.remove('open')">Contact</a><a href="reserver.html" onclick="document.getElementById('mob').classList.remove('open')">Réserver →</a>
+</div>
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-tag">Simple et rapide</div>
+    <h1 class="hero-h1"><span data-i18n="how_h1">Comment ca marche</span></h1>
+    <p class="hero-p" data-i18n="how_sub">Louer une voiture BNS Prestige en 4 etapes simples.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num"><div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="step-n">01</div></div>
+      <div class="step-body"><div class="step-title" data-i18n="step1_title">Choisissez votre voiture</div><p class="step-desc">Parcourez notre flotte et selectionnez les dates sur le calendrier. Le prix s affiche en temps reel.</p><div class="step-detail"><div class="chip-row"><span class="chip"><span class="dot"></span>Audi RS3 350/j</span><span class="chip"><span class="dot"></span>Golf 8 R 280/j</span></div><div style="margin-top:.65rem;font-size:.7rem;color:var(--muted)">1 clic = 24h - 2 clics = plusieurs jours</div></div></div>
+    </div>
+    <div class="step">
+      <div class="step-num"><div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg></div><div class="step-n">02</div></div>
+      <div class="step-body"><div class="step-title" data-i18n="step2_title">Envoyez votre demande</div><p class="step-desc">Remplissez le formulaire en ligne. Nous recevons votre demande instantanement.</p><div class="step-detail"><div style="display:flex;align-items:flex-start;gap:.8rem;padding:.85rem 1rem;background:var(--g-bg);border-radius:10px;border:1px solid rgba(109,191,65,.22)"><span style="font-size:1.3rem;flex-shrink:0">&#x1F4F8;</span><div style="font-size:.75rem;color:var(--g-dk);line-height:1.6"><strong>Verification du permis</strong> apres votre demande, nous vous demandons une photo de votre permis via WhatsApp.</div></div></div></div>
+    </div>
+    <div class="step">
+      <div class="step-num"><div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div><div class="step-n">03</div></div>
+      <div class="step-body"><div class="step-title" data-i18n="step3_title">Confirmation WhatsApp</div><p class="step-desc">Nous confirmons votre reservation sous 5-10 minutes et discutons des details.</p><div class="wa-bubble"><div class="wa-n">BNS Prestige</div><div class="wa-t">Bonjour ! Merci pour votre demande. Confirmation sous 5-10 minutes. &#x1F3CE;</div><div class="wa-time">maintenant</div></div></div>
+    </div>
+    <div class="step">
+      <div class="step-num"><div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="step-n">04</div></div>
+      <div class="step-body"><div class="step-title" data-i18n="step4_title">Remise des cles</div><p class="step-desc">Retrait a Bruxelles ou livraison a domicile (30 km). Contrat signe, vous partez !</p><div class="step-detail"><div class="mode-grid"><div class="mode-card active" id="mc-r" onclick="selMode(this,'r')"><div class="mode-card-lbl">Retrait</div><div class="mode-card-val">Bruxelles sur RDV</div><div class="mode-card-note">Adresse communiquee a la confirmation</div></div><div class="mode-card" id="mc-l" onclick="selMode(this,'l')"><div class="mode-card-lbl">Livraison</div><div class="mode-card-val">A votre adresse</div><div class="mode-card-note">Frais inclus rayon 30 km Bruxelles</div></div></div><div class="cbar">Contrat signe a la remise - Apportez votre <strong>permis valide</strong></div></div></div>
+    </div>
+  </div>
+  <div class="faq">
+    <div class="faq-title" data-i18n="faq_title">Questions frequentes</div>
+    <div class="fi"><div class="fi-q" onclick="tfaq(this)"><span data-i18n="faq_q1">Quel age minimum pour louer ?</span><span class="fi-icon">+</span></div><div class="fi-a"><div class="fi-ai">Minimum <strong>20 ans</strong> et <strong>2 ans de permis de conduire</strong>. Le permis doit etre valide.</div></div></div>
+    <div class="fi"><div class="fi-q" onclick="tfaq(this)"><span data-i18n="faq_q2">La livraison a domicile est-elle incluse ?</span><span class="fi-icon">+</span></div><div class="fi-a"><div class="fi-ai">Oui, incluse dans le prix pour <strong>Bruxelles et dans un rayon de 30 km</strong>.</div></div></div>
+    <div class="fi"><div class="fi-q" onclick="tfaq(this)"><span data-i18n="faq_q3">L assurance est-elle incluse ?</span><span class="fi-icon">+</span></div><div class="fi-a"><div class="fi-ai">Oui, <strong>assurance tous risques</strong> incluse. Vous restez responsable des infractions au code de la route.</div></div></div>
+    <div class="fi"><div class="fi-q" onclick="tfaq(this)"><span data-i18n="faq_q4">Puis-je louer pour 24h seulement ?</span><span class="fi-icon">+</span></div><div class="fi-a"><div class="fi-ai">Oui. Cliquez sur un seul jour dans le calendrier, choisissez l heure de depart, le retour se fait 24h plus tard.</div></div></div>
+    <div class="fi"><div class="fi-q" onclick="tfaq(this)"><span data-i18n="faq_q5">Comment fonctionne le tarif weekend ?</span><span class="fi-icon">+</span></div><div class="fi-a"><div class="fi-ai">Sam + Dim = forfait 2 jours : RS3 <strong>600EUR</strong>, Golf R <strong>500EUR</strong>.</div></div></div>
+    <div class="fi"><div class="fi-q" onclick="tfaq(this)"><span data-i18n="faq_q6">Comment annuler une reservation ?</span><span class="fi-icon">+</span></div><div class="fi-a"><div class="fi-ai">Contactez-nous par WhatsApp. Annulation <strong>sans frais</strong> si effectuee plus de 48h avant la prise en charge.</div></div></div>
+    <div class="fi"><div class="fi-q" onclick="tfaq(this)"><span data-i18n="faq_q7">Quels documents faut-il apporter ?</span><span class="fi-icon">+</span></div><div class="fi-a"><div class="fi-ai">Uniquement votre <strong>permis de conduire valide</strong>. Le contrat est signe sur place.</div></div></div>
+  </div>
+  <div class="cta-block">
+    <div class="cta-h">Pret a rouler ?</div>
+    <p class="cta-p">Choisissez votre voiture, vos dates, envoyez votre demande. Confirmation sous 5 minutes.</p>
+    <div class="cta-btns"><a href="nosvoitures.html" class="btn-g">Voir les voitures</a><a href="contact.html" class="btn-wh">Nous contacter</a></div>
+  </div>
+</div>
+<script>
+function tfaq(el){var i=el.parentElement,o=i.classList.contains('open');document.querySelectorAll('.fi').forEach(function(x){x.classList.remove('open');});if(!o)i.classList.add('open');}
+function selMode(el,mode){document.querySelectorAll('.mode-card').forEach(function(c){c.classList.remove('active');});el.classList.add('active');}
+</script>
+<footer>
+  <div class="ft">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="logo-name">BNS <b>Prestige</b></div></div></a>
+        <p data-i18n="ft_location">Location de voitures sportives · Bruxelles et alentours.</p>
+        <div class="ft-soc"><a href="https://instagram.com/bnsprestige" target="_blank" rel="noopener">IG</a><a href="https://wa.me/32400000000" target="_blank" rel="noopener">WA</a><a href="https://snapchat.com/add/bnsprestige" target="_blank" rel="noopener">SC</a></div>
+      </div>
+      <div class="ft-col"><h5 data-i18n="ft_pages">Pages</h5><ul>
+        <li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li>
+        <li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li>
+        <li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li>
+        <li><a href="reserver.html" data-i18n="nav_reserver">Réserver</a></li>
+        <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_fleet">Flotte</h5><ul>
+        <li><a href="nosvoitures.html#rs3">Audi RS3 — 350€/j</a></li>
+        <li><a href="nosvoitures.html#golfr">Golf 8 R — 280€/j</a></li>
+        
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_contact">Contact</h5><ul>
+        <li><a href="https://wa.me/32400000000">WhatsApp</a></li>
+        <li><a href="tel:+32400000000">+32 4XX XX XX XX</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#54373b3a2035372014363a2724263127203d33317a3631"><span class="__cf_email__" data-cfemail="fe9d91908a9f9d8abe9c908d8e8c9b8d8a97999bd09c9b">[email&#160;protected]</span></a></li>
+      </ul></div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 BNS Prestige.</span>
+      <div class="ft-links"><a href="cgv.html">CGV</a> · <a href="cgv.html">RGPD</a></div>
+      <span>Bruxelles &amp; alentours</span>
+    </div>
+  </div>
+</footer>
+<a class="wa-float" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.553 4.092 1.52 5.819L0 24l6.335-1.49C8.03 23.447 9.983 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.88 0-3.628-.507-5.135-1.39l-.369-.218-3.762.984.998-3.667-.24-.378A9.818 9.818 0 012.182 12C2.182 6.57 6.
+<a class="wa-fab" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.553 4.092 1.52 5.819L0 24l6.335-1.49C8.03 23.447 9.983 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.88 0-3.628-.507-5.135-1.39l-.369-.218-3.762.984.998-3.667-.24-.378A9.818 9.818 0 012.182 12C2.182 6.57 6.
+<script src="i18n.js"></script>
+</body>
+</html>

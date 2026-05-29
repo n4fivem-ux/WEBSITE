@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Nos Voitures — BNS Prestige</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--g:#6DBF41;--g-bg:#EEF8E5;--g-dk:#4a8f2a;--ink:#111;--muted:#6a6d68;--muted2:#a0a39e;--bg:#F7F7F4;--white:#fff;--red:#ef4444;--red-bg:#fef2f2;--b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);--sh:0 1px 12px rgba(0,0,0,.06);--sh2:0 6px 36px rgba(0,0,0,.09);--serif:"Syne",sans-serif;--sans:"Outfit",sans-serif;--nav:66px;--W:1260px;--r:16px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{display:block;max-width:100%}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px}
+.nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:500;width:min(calc(100% - 24px),var(--W));height:var(--nav);display:flex;align-items:center;justify-content:space-between;padding:0 1.4rem;background:rgba(255,255,255,.92);backdrop-filter:blur(22px);border:1px solid var(--b2);border-radius:14px;box-shadow:var(--sh2)}
+.logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:13px}
+.logo-name{font-family:var(--serif);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);line-height:1}
+.logo-name b{color:var(--g)}
+.logo-sub{font-size:.38rem;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:.2rem}
+.nav-links a{font-size:.68rem;font-weight:500;color:var(--muted);padding:.38rem .75rem;border-radius:8px;transition:all .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.on{background:var(--bg);color:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.nav-cta{padding:.45rem 1.1rem;background:var(--ink);color:#fff;font-size:.66rem;font-weight:600;border-radius:9px;transition:background .2s;display:inline-block}
+.nav-cta:hover{background:var(--g)}
+.burger{display:none;flex-direction:column;gap:5px;padding:4px;cursor:pointer;background:none;border:none}
+.burger span{width:18px;height:1.5px;background:var(--ink);display:block;border-radius:2px}
+.mob{display:none;position:fixed;inset:0;z-index:499;background:rgba(247,247,244,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mob.open{display:flex}
+.mob-close{position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;color:var(--muted);padding:.4rem .7rem;background:none;border:none;cursor:pointer}
+.mob a{font-family:var(--serif);font-size:clamp(1.8rem,7vw,3.5rem);font-weight:700;color:var(--muted);transition:color .2s}
+.mob a:hover{color:var(--g)}
+.selector-wrap{padding:calc(66px + 14px + 20px) 24px 0;max-width:var(--W);margin:0 auto}
+.selector-inner{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);display:flex;gap:8px;padding:8px;flex-wrap:wrap}
+.sel-tab{flex:1;min-width:150px;padding:.9rem 1.2rem;border-radius:10px;display:flex;align-items:center;gap:.8rem;cursor:pointer;transition:all .22s;background:transparent;user-select:none}
+.sel-tab:hover{background:var(--bg)}
+.sel-tab.active{background:var(--ink);box-shadow:var(--sh2)}
+.sel-thumb{width:48px;height:36px;border-radius:6px;overflow:hidden;flex-shrink:0;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.sel-thumb img{max-width:100%;max-height:100%;object-fit:contain}
+.sel-tab.active .sel-thumb{background:#2a2a2a}
+.sel-name{font-family:var(--serif);font-size:.85rem;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.02em}
+.sel-tab.active .sel-name{color:#fff}
+.sel-price{font-size:.58rem;color:var(--muted2);margin-top:2px;white-space:nowrap}
+.sel-tab.active .sel-price{color:rgba(255,255,255,.4)}
+.sel-dot{width:7px;height:7px;border-radius:50%;background:var(--g);flex-shrink:0;margin-left:auto;opacity:0;transition:opacity .2s}
+.sel-tab.active .sel-dot{opacity:1}
+.product-wrap{padding:20px 24px 72px;max-width:var(--W);margin:0 auto}
+.product-page{display:none}
+.product-page.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.prod-head{text-align:center;margin-bottom:1.8rem}
+.prod-brand{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);margin-bottom:.4rem}
+.prod-name{font-family:var(--serif);font-size:clamp(2.5rem,6vw,5rem);font-weight:800;color:var(--ink);line-height:.92;letter-spacing:-.05em;margin-bottom:.4rem}
+.prod-tagline{font-size:.88rem;color:var(--muted)}
+.prod-main{display:grid;grid-template-columns:230px 1fr 305px;gap:14px;align-items:start;margin-bottom:14px}
+.inc-panel{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);padding:1.4rem;position:sticky;top:calc(var(--nav)+16px)}
+.inc-title{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.9rem}
+.inc-row{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--b)}
+.inc-row:last-child{border-bottom:none}
+.inc-ck{width:18px;height:18px;border-radius:5px;background:var(--g-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.inc-ck svg{width:10px;height:10px;color:var(--g-dk)}
+.inc-t{font-size:.75rem;color:var(--ink);line-height:1.35}
+.inc-s{font-size:.6rem;color:var(--muted2);margin-top:1px}
+.gal-panel{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden}
+.gal-main{height:320px;display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-in;overflow:hidden}
+.gal-main img{max-height:100%;max-width:100%;object-fit:contain;transition:transform .6s;filter:drop-shadow(0 6px 20px rgba(0,0,0,.1))}
+.gal-main:hover img{transform:scale(1.05)}
+.gal-thumbs{display:flex;gap:7px;padding:10px;background:var(--bg);border-top:1px solid var(--b);overflow-x:auto}
+.gthumb{width:58px;height:42px;flex-shrink:0;border-radius:7px;border:2px solid transparent;overflow:hidden;background:var(--white);display:flex;align-items:center;justify-content:center;padding:3px;cursor:pointer;transition:border-color .2s}
+.gthumb img{max-width:100%;max-height:100%;object-fit:contain}
+.gthumb.on{border-color:var(--g)}
+.avail-panel{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden;position:sticky;top:calc(var(--nav)+16px)}
+.ap-head{padding:1rem 1.3rem;background:rgba(109,191,65,.07);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.ap-title{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink)}
+.ab{font-size:.57rem;font-weight:700;padding:.22rem .5rem;border-radius:5px;letter-spacing:.06em;display:inline-flex;align-items:center;gap:.28rem}
+.ab.green{background:var(--g);color:#fff}.ab.red{background:var(--red);color:#fff}.ab.grey{background:var(--bg);color:var(--muted2);border:1px solid var(--b2)}
+.ab-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.7;flex-shrink:0}
+.ap-body{padding:1rem}
+.ap-sub{font-size:.67rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem}
+.cal-month{font-family:var(--serif);font-size:.88rem;font-weight:700;color:var(--ink)}
+.cal-arrow{width:26px;height:26px;border-radius:6px;background:var(--bg);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;transition:all .2s;color:var(--muted);user-select:none}
+.cal-arrow:hover{background:var(--ink);color:#fff}
+.cal-hd{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px}
+.cdh{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);text-align:center;padding:.25rem 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cd{aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.66rem;font-weight:600;cursor:pointer;transition:all .15s}
+.cd-n{line-height:1}.cd-p{font-size:.38rem;color:var(--g-dk);line-height:1;margin-top:1px;font-weight:500}
+.cd.empty{pointer-events:none}
+.cd.past{opacity:.28;background:transparent;color:var(--muted2);cursor:default;pointer-events:none}
+/* KEY FIX: available AND unset both show colored, not grey */
+.cd.available,.cd.unset{color:var(--ink);background:var(--bg)}
+.cd.available:hover,.cd.unset:hover{background:var(--g-bg);color:var(--g-dk)}
+.cd.weekend{color:var(--ink);background:rgba(109,191,65,.1)}
+.cd.weekend:hover{background:var(--g-bg);color:var(--g-dk)}
+.cd.booked{color:var(--red);background:var(--red-bg);cursor:not-allowed;pointer-events:none;opacity:.6}
+.cd.booked .cd-p{display:none}
+.cd.selected{background:var(--ink)!important;color:#fff!important}
+.cd.selected .cd-p{color:rgba(255,255,255,.55)}
+.cd.in-range{background:var(--g-bg);color:var(--g-dk)}
+.cd.today-mark{box-shadow:0 0 0 2px var(--ink) inset}
+.cal-leg{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
+.cl{display:flex;align-items:center;gap:.28rem;font-size:.57rem;color:var(--muted)}
+.cl-d{width:6px;height:6px;border-radius:2px}
+.cl-d.g{background:var(--g)}.cl-d.w{background:rgba(109,191,65,.3);border:1px solid rgba(109,191,65,.4)}.cl-d.r{background:var(--red)}
+.tp{display:none;margin-top:.8rem;padding:.85rem;background:var(--g-bg);border-radius:10px;border:1px solid rgba(109,191,65,.22)}
+.tp.show{display:block}
+.tp-title{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g-dk);margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.tp-badge{background:var(--g);color:#fff;font-size:.52rem;padding:.15rem .45rem;border-radius:4px}
+.tp-row{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.tp-f{display:flex;flex-direction:column;gap:.22rem}
+.tp-lbl{font-size:.58rem;color:var(--g-dk);font-weight:600}
+.tp-sel{background:var(--white);border:1.5px solid rgba(109,191,65,.25);border-radius:7px;color:var(--ink);padding:.5rem .65rem;font-size:.82rem;outline:none;width:100%;font-family:var(--sans);-webkit-appearance:none;cursor:pointer}
+.tp-ret{background:var(--white);border:1.5px solid rgba(109,191,65,.18);border-radius:7px;color:var(--g-dk);padding:.5rem .65rem;font-size:.74rem;font-weight:600;min-height:38px;display:flex;align-items:center}
+.pb{margin-top:.8rem;border-radius:11px;overflow:hidden;border:1px solid var(--b)}
+.pb-top{background:var(--ink);padding:.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between}
+.pb-top.mt{background:var(--bg)}
+.pb-top-lbl{font-size:.57rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em}
+.pb-top.mt .pb-top-lbl{color:var(--muted2)}
+.pb-top-price{font-family:var(--serif);font-size:1.6rem;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1}
+.pb-top.mt .pb-top-price{color:var(--muted2);font-size:.82rem;font-family:var(--sans);font-weight:400}
+.pb-bd{background:var(--bg);padding:.75rem 1.1rem;display:flex;flex-direction:column;gap:.35rem}
+.pb-row{display:flex;justify-content:space-between;align-items:center;font-size:.7rem}
+.pb-lbl{color:var(--muted2)}.pb-val{color:var(--ink);font-weight:600}.pb-val.we{color:var(--g-dk)}
+.pb-hint{font-size:.58rem;color:var(--muted2);text-align:center;padding:.4rem;background:var(--bg);border-top:1px solid var(--b)}
+.res-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;margin-top:.7rem;padding:.9rem;border-radius:10px;background:var(--ink);color:#fff;font-family:var(--serif);font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:all .25s}
+.res-btn:hover:not(:disabled){background:var(--g);box-shadow:0 8px 24px rgba(109,191,65,.28)}
+.res-btn:disabled{background:var(--muted2);cursor:not-allowed;opacity:.65}
+.specs-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.sc{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);padding:1.2rem;text-align:center}
+.sc-v{font-family:var(--serif);font-size:1.7rem;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.04em}
+.sc-k{font-size:.58rem;font-weight:500;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-top:.25rem}
+.ei-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:40px}
+.ei{border-radius:var(--r);overflow:hidden;background:var(--white);border:1px solid var(--b);box-shadow:var(--sh);height:180px;display:flex;align-items:center;justify-content:center;padding:12px}
+.ei img{max-width:100%;max-height:100%;object-fit:contain}
+.cs-sect{margin-bottom:72px}
+.cs-head-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem}
+.cs-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:var(--ink);letter-spacing:-.04em}
+.cs-note{font-size:.78rem;color:var(--muted);max-width:260px;line-height:1.5}
+.cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cs-card{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.cs-card:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.cs-photo{height:190px;overflow:hidden;position:relative}
+.cs-photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.cs-card:hover .cs-photo img{transform:scale(1.04)}
+.cs-tag{position:absolute;top:.7rem;right:.7rem;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);color:#fff;padding:.2rem .55rem;border-radius:100px;font-size:.54rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.cs-body{padding:1rem 1.2rem 1.3rem}
+.cs-brand{font-size:.54rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);margin-bottom:.22rem}
+.cs-name{font-family:var(--serif);font-size:1.25rem;font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:.3rem}
+.cs-power{font-size:.74rem;color:var(--muted);margin-bottom:.65rem}
+.cs-btn{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:500;color:var(--muted2);padding:.28rem .65rem;border-radius:8px;border:1px solid var(--b2);background:var(--bg);transition:all .2s}
+.cs-card:hover .cs-btn{background:var(--g-bg);color:var(--g-dk);border-color:rgba(109,191,65,.3)}
+footer{background:var(--white);border-top:1px solid var(--b);padding:4rem 24px 2rem}
+.ft{max-width:var(--W);margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3.5rem;margin-bottom:3.5rem}
+.ft-brand-p{font-size:.74rem;color:var(--muted2);line-height:1.8;max-width:200px;margin-top:.85rem}
+.ft-soc{display:flex;gap:.4rem;margin-top:1.2rem}
+.ft-soc a{width:29px;height:29px;border-radius:7px;background:var(--bg);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;color:var(--muted2);transition:all .2s}
+.ft-soc a:hover{background:var(--ink);color:#fff}
+.ft-col h5{font-size:.56rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:1rem}
+.ft-col li{margin-bottom:.55rem}
+.ft-col a{font-size:.76rem;color:var(--muted2);transition:color .2s}
+.ft-col a:hover{color:var(--ink)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.6rem;border-top:1px solid var(--b);font-size:.63rem;color:var(--muted2)}
+.wa-fab{position:fixed;bottom:24px;right:24px;z-index:490;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:transform .2s;text-decoration:none}
+.wa-fab:hover{transform:scale(1.1)}
+.wa-fab svg{width:26px;height:26px}
+@media(max-width:1100px){.prod-main{grid-template-columns:1fr 1fr}.inc-panel{grid-column:1;grid-row:2;position:static}.gal-panel{grid-column:1/-1;grid-row:1}.avail-panel{grid-column:2;grid-row:2;position:static}.cs-grid{grid-template-columns:repeat(3,1fr)}.ft-top{grid-template-columns:1fr 1fr;gap:2.5rem}}
+@media(max-width:768px){:root{--nav:58px}.nav{top:10px;padding:0 1rem}.nav-links,.nav-cta{display:none}.burger{display:flex}.selector-wrap{padding:calc(var(--nav)+26px) 12px 0}.selector-inner{gap:5px;padding:5px}.sel-tab{min-width:0;padding:.7rem .8rem}.product-wrap{padding:16px 12px 48px}.prod-main{grid-template-columns:1fr;gap:10px}.inc-panel,.avail-panel{position:static}.gal-main{height:250px}.cs-grid{grid-template-columns:1fr 1fr}.ft-top{grid-template-columns:1fr 1fr;gap:2rem}.ft-bot{flex-direction:column;gap:.4rem;text-align:center}footer{padding:3rem 12px 2rem}}
+@media(max-width:480px){.sel-tab .sel-thumb{display:none}.sel-tab{flex:1;min-width:0}.cs-grid{grid-template-columns:1fr}.ft-top{grid-template-columns:1fr}.prod-name{font-size:2.2rem}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">BNS <b>Prestige</b></div><div class="logo-sub">Location Bruxelles</div></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li>
+    <li><a href="nosvoitures.html" class="on" data-i18n="nav_voitures">Nos Voitures</a></li>
+    <li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ca marche</a></li>
+    <li><a href="evenements.html" data-i18n="nav_occasions">Occasions</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="reserver.html" class="nav-cta" data-i18n="nav_reserver">Reserver</a>
+    <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-close" onclick="document.getElementById('mob').classList.remove('open')">x</button>
+  <a href="index.html" onclick="document.getElementById('mob').classList.remove('open')">Accueil</a>
+  <a href="nosvoitures.html" onclick="document.getElementById('mob').classList.remove('open')">Nos Voitures</a>
+  <a href="comment-ca-marche.html" onclick="document.getElementById('mob').classList.remove('open')">Comment ca marche</a>
+  <a href="evenements.html" onclick="document.getElementById('mob').classList.remove('open')">Occasions</a>
+  <a href="contact.html" onclick="document.getElementById('mob').classList.remove('open')">Contact</a>
+  <a href="reserver.html" onclick="document.getElementById('mob').classList.remove('open')">Reserver</a>
+</div>
+
+<!-- SELECTOR — RS3 + Golf R uniquement -->
+<div class="selector-wrap">
+  <div class="selector-inner">
+    <div class="sel-tab active" id="tab-rs3" onclick="showCar('rs3')">
+      <div class="sel-thumb"><img src="img/rs3_1.png" alt/></div>
+      <div><div class="sel-name">Audi RS3</div><div class="sel-price">350EUR/j - Sam-Dim: 600EUR</div></div>
+      <div class="sel-dot"></div>
+    </div>
+    <div class="sel-tab" id="tab-golfr" onclick="showCar('golfr')">
+      <div class="sel-thumb" style="background:#e8e8e5"><img src="img/golfr_1.png" alt/></div>
+      <div><div class="sel-name">Golf 8 R</div><div class="sel-price">280EUR/j - Sam-Dim: 500EUR</div></div>
+      <div class="sel-dot"></div>
+    </div>
+  </div>
+</div>
+
+<div class="product-wrap">
+<template id="inc-tpl">
+  <div class="inc-title">Ce qui est inclus</div>
+  <div class="inc-row"><div class="inc-ck"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div><div class="inc-t">Assurance tous risques</div><div class="inc-s">Sans franchise excessive</div></div></div>
+  <div class="inc-row"><div class="inc-ck"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div><div class="inc-t">Livraison - Bruxelles 30km</div><div class="inc-s">Retour sur le meme secteur</div></div></div>
+  <div class="inc-row"><div class="inc-ck"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div><div class="inc-t">Plein de carburant</div><div class="inc-s">Remise et retour avec le plein</div></div></div>
+  <div class="inc-row"><div class="inc-ck"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div><div class="inc-t">Nettoyage complet</div><div class="inc-s">Int. ext. a chaque remise</div></div></div>
+  <div class="inc-row"><div class="inc-ck"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div><div class="inc-t">Kilometrage illimite</div></div></div>
+  <div class="inc-row"><div class="inc-ck"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg></div><div><div class="inc-t">Assistance 24h / 7j</div></div></div>
+</template>
+
+<!-- RS3 -->
+<div class="product-page active" id="page-rs3">
+  <div class="prod-head"><div class="prod-brand">Audi Sport - Sportback - 2026</div><h1 class="prod-name">Audi RS3</h1><p class="prod-tagline">400 ch - 5 cyl. turbo - Gris Nardo - Quattro</p></div>
+  <div class="prod-main">
+    <div class="inc-panel" id="inc-rs3"></div>
+    <div class="gal-panel">
+      <div class="gal-main"><img src="img/rs3_3.png" alt="RS3" id="img-rs3"/></div>
+      <div class="gal-thumbs">
+        <div class="gthumb on" onclick="setImg('rs3','img/rs3_3.png',this)"><img src="img/rs3_3.png" alt/></div>
+        <div class="gthumb" onclick="setImg('rs3','img/rs3_1.png',this)"><img src="img/rs3_1.png" alt/></div>
+        <div class="gthumb" onclick="setImg('rs3','img/rs3_2.png',this)"><img src="img/rs3_2.png" alt/></div>
+        <div class="gthumb" style="background:#1a1a1a" onclick="setImg('rs3','img/rs3_int1.png',this)"><img src="img/rs3_int1.png" alt/></div>
+        <div class="gthumb" style="background:#1a1a1a" onclick="setImg('rs3','img/rs3_int2.png',this)"><img src="img/rs3_int2.png" alt/></div>
+      </div>
+    </div>
+    <div class="avail-panel">
+      <div class="ap-head"><div class="ap-title">Disponibilites</div><span class="ab grey" id="badge-rs3"><span class="ab-dot"></span>...</span></div>
+      <div class="ap-body">
+        <p class="ap-sub">1 clic = 24h - 2 clics = plusieurs jours</p>
+        <div class="cal-nav"><div class="cal-arrow" onclick="prevMonth('rs3')">&#8249;</div><span class="cal-month" id="cm-rs3"></span><div class="cal-arrow" onclick="nextMonth('rs3')">&#8250;</div></div>
+        <div class="cal-hd"><div class="cdh">L</div><div class="cdh">M</div><div class="cdh">M</div><div class="cdh">J</div><div class="cdh">V</div><div class="cdh">S</div><div class="cdh">D</div></div>
+        <div class="cal-grid" id="cal-rs3"></div>
+        <div class="cal-leg"><div class="cl"><div class="cl-d g"></div>Lun-Ven: 350/j</div><div class="cl"><div class="cl-d w"></div>Sam-Dim: 600</div><div class="cl"><div class="cl-d r"></div>Complet</div></div>
+        <div class="tp" id="tp-rs3"><div class="tp-title"><span>Heure de remise</span><span class="tp-badge">24h</span></div><div class="tp-row"><div class="tp-f"><label class="tp-lbl">Depart</label><select class="tp-sel" id="h1-rs3" onchange="updateRet('rs3')"></select></div><div class="tp-f"><label class="tp-lbl">Retour (lendemain)</label><div class="tp-ret" id="ret-rs3">-</div></div></div></div>
+        <div class="pb"><div class="pb-top mt" id="pbt-rs3"><span class="pb-top-lbl">Total estime</span><span class="pb-top-price" id="ptp-rs3">Selectionnez une date</span></div><div class="pb-bd" id="pbd-rs3" style="display:none"><div class="pb-row"><span class="pb-lbl" id="pr-rs3">-</span><span class="pb-val" id="pd-rs3">-</span></div><div class="pb-row" id="pwe-rs3" style="display:none"><span class="pb-lbl" style="color:var(--g-dk)">Tarif Sam-Dim</span><span class="pb-val we" id="pwv-rs3">-</span></div></div><div class="pb-hint">Prix indicatif - confirme par WhatsApp</div></div>
+        <button class="res-btn" id="rb-rs3" onclick="goRes('rs3')" disabled>Selectionnez une date</button>
+      </div>
+    </div>
+  </div>
+  <div class="specs-row"><div class="sc"><div class="sc-v">400</div><div class="sc-k">chevaux</div></div><div class="sc"><div class="sc-v">3,8 s</div><div class="sc-k">0-100 km/h</div></div><div class="sc"><div class="sc-v">290</div><div class="sc-k">km/h max</div></div></div>
+  <div class="ei-grid"><div class="ei"><img src="img/rs3_int1.png" alt/></div><div class="ei"><img src="img/rs3_int2.png" alt/></div></div>
+</div>
+
+<!-- GOLF R -->
+<div class="product-page" id="page-golfr">
+  <div class="prod-head"><div class="prod-brand">Volkswagen - Golf R - 2026</div><h1 class="prod-name">Golf 8 R</h1><p class="prod-tagline">333 ch - 4Motion AWD - Bleu Lapiz - DSG 7</p></div>
+  <div class="prod-main">
+    <div class="inc-panel" id="inc-golfr"></div>
+    <div class="gal-panel">
+      <div class="gal-main" style="background:#f0f0ef"><img src="img/golfr_1.png" alt="Golf R" id="img-golfr"/></div>
+      <div class="gal-thumbs" style="background:#e8e8e5">
+        <div class="gthumb on" style="background:#f0f0ef" onclick="setImg('golfr','img/golfr_1.png',this)"><img src="img/golfr_1.png" alt/></div>
+        <div class="gthumb" style="background:#f0f0ef" onclick="setImg('golfr','img/golfr_2.png',this)"><img src="img/golfr_2.png" alt/></div>
+        <div class="gthumb" style="background:#f0f0ef" onclick="setImg('golfr','img/golfr_3.png',this)"><img src="img/golfr_3.png" alt/></div>
+        <div class="gthumb" style="background:#f0f0ef" onclick="setImg('golfr','img/golfr_6.png',this)"><img src="img/golfr_6.png" alt/></div>
+        <div class="gthumb" style="background:#1a1a1a" onclick="setImg('golfr','img/golfr_int1.png',this)"><img src="img/golfr_int1.png" alt/></div>
+        <div class="gthumb" style="background:#1a1a1a" onclick="setImg('golfr','img/golfr_int2.png',this)"><img src="img/golfr_int2.png" alt/></div>
+      </div>
+    </div>
+    <div class="avail-panel">
+      <div class="ap-head"><div class="ap-title">Disponibilites</div><span class="ab grey" id="badge-golfr"><span class="ab-dot"></span>...</span></div>
+      <div class="ap-body">
+        <p class="ap-sub">1 clic = 24h - 2 clics = plusieurs jours</p>
+        <div class="cal-nav"><div class="cal-arrow" onclick="prevMonth('golfr')">&#8249;</div><span class="cal-month" id="cm-golfr"></span><div class="cal-arrow" onclick="nextMonth('golfr')">&#8250;</div></div>
+        <div class="cal-hd"><div class="cdh">L</div><div class="cdh">M</div><div class="cdh">M</div><div class="cdh">J</div><div class="cdh">V</div><div class="cdh">S</div><div class="cdh">D</div></div>
+        <div class="cal-grid" id="cal-golfr"></div>
+        <div class="cal-leg"><div class="cl"><div class="cl-d g"></div>Lun-Ven: 280/j</div><div class="cl"><div class="cl-d w"></div>Sam-Dim: 500</div><div class="cl"><div class="cl-d r"></div>Complet</div></div>
+        <div class="tp" id="tp-golfr"><div class="tp-title"><span>Heure de remise</span><span class="tp-badge">24h</span></div><div class="tp-row"><div class="tp-f"><label class="tp-lbl">Depart</label><select class="tp-sel" id="h1-golfr" onchange="updateRet('golfr')"></select></div><div class="tp-f"><label class="tp-lbl">Retour (lendemain)</label><div class="tp-ret" id="ret-golfr">-</div></div></div></div>
+        <div class="pb"><div class="pb-top mt" id="pbt-golfr"><span class="pb-top-lbl">Total estime</span><span class="pb-top-price" id="ptp-golfr">Selectionnez une date</span></div><div class="pb-bd" id="pbd-golfr" style="display:none"><div class="pb-row"><span class="pb-lbl" id="pr-golfr">-</span><span class="pb-val" id="pd-golfr">-</span></div><div class="pb-row" id="pwe-golfr" style="display:none"><span class="pb-lbl" style="color:var(--g-dk)">Tarif Sam-Dim</span><span class="pb-val we" id="pwv-golfr">-</span></div></div><div class="pb-hint">Prix indicatif - confirme par WhatsApp</div></div>
+        <button class="res-btn" id="rb-golfr" onclick="goRes('golfr')" disabled>Selectionnez une date</button>
+      </div>
+    </div>
+  </div>
+  <div class="specs-row"><div class="sc"><div class="sc-v">333</div><div class="sc-k">chevaux</div></div><div class="sc"><div class="sc-v">4,9 s</div><div class="sc-k">0-100 km/h</div></div><div class="sc"><div class="sc-v">270</div><div class="sc-k">km/h max</div></div></div>
+  <div class="ei-grid"><div class="ei" style="background:#111"><img src="img/golfr_int1.png" alt/></div><div class="ei" style="background:#111"><img src="img/golfr_int2.png" alt/></div></div>
+</div>
+
+<!-- COMING SOON — RS6, G63, A45S, Clio Alpine (now coming soon) -->
+<div class="cs-sect">
+  <div class="cs-head-row">
+    <div class="cs-title" data-i18n="coming_title">Bientot disponibles</div>
+    <p class="cs-note" data-i18n="coming_sub">Contactez-nous pour etre notifie en priorite.</p>
+  </div>
+  <div class="cs-grid">
+    <div class="cs-card"><div class="cs-photo"><img src="img/rs6_1.png" alt/><span class="cs-tag">Bientot</span></div><div class="cs-body"><div class="cs-brand">Audi Sport</div><div class="cs-name">RS6 Avant</div><div class="cs-power">630 ch - V8 biturbo - Quattro</div><a href="contact.html" class="cs-btn">Me notifier</a></div></div>
+    <div class="cs-card"><div class="cs-photo" style="background:#111"><img src="img/g63_1.png" alt/><span class="cs-tag">Bientot</span></div><div class="cs-body"><div class="cs-brand">Mercedes-AMG</div><div class="cs-name">G 63 AMG</div><div class="cs-power">585 ch - V8 biturbo - SUV</div><a href="contact.html" class="cs-btn">Me notifier</a></div></div>
+    <div class="cs-card"><div class="cs-photo" style="background:#dce8f5"><img src="img/clio_1.png" alt/><span class="cs-tag">Bientot</span></div><div class="cs-body"><div class="cs-brand">Renault Alpine</div><div class="cs-name">Clio 5 Alpine</div><div class="cs-power">200 ch - EDC 7 - FWD</div><a href="contact.html" class="cs-btn">Me notifier</a></div></div>
+  </div>
+</div>
+</div><!-- /product-wrap -->
+
+<footer>
+  <div class="ft">
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="logo" style="display:inline-flex"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="logo-name">BNS <b>Prestige</b></div></div></a>
+        <p class="ft-brand-p" data-i18n="ft_location">Location de voitures sportives - Bruxelles et alentours.</p>
+        <div class="ft-soc"><a href="https://instagram.com/bnsprestige" target="_blank" rel="noopener">IG</a><a href="https://wa.me/32400000000" target="_blank" rel="noopener">WA</a><a href="https://snapchat.com/add/bnsprestige" target="_blank" rel="noopener">SC</a></div>
+      </div>
+      <div class="ft-col"><h5 data-i18n="ft_pages">Pages</h5><ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="nosvoitures.html">Nos Voitures</a></li>
+        <li><a href="comment-ca-marche.html">Comment ca marche</a></li>
+        <li><a href="reserver.html">Reserver</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_fleet">Flotte</h5><ul>
+        <li><a href="#rs3" onclick="showCar('rs3');return false">Audi RS3 - 350EUR/j</a></li>
+        <li><a href="#golfr" onclick="showCar('golfr');return false">Golf 8 R - 280EUR/j</a></li>
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_contact">Contact</h5><ul>
+        <li><a href="https://wa.me/32400000000">WhatsApp</a></li>
+        <li><a href="tel:+32400000000">+32 4XX XX XX XX</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#a2c1cdccd6c3c1d6e2c0ccd1d2d0c7d1d6cbc5c78cc0c7"><span class="__cf_email__" data-cfemail="89eae6e7fde8eafdc9ebe7faf9fbecfafde0eeeca7ebec">[email&#160;protected]</span></a></li>
+      </ul></div>
+    </div>
+    <div class="ft-bot"><span>2026 BNS Prestige.</span><span>Bruxelles alentours</span></div>
+  </div>
+</footer>
+
+<a class="wa-fab" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.553 4.092 1.52 5.819L0 24l6.335-1.49C8.03 23.447 9.983 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.88 0-3.628-.507-5.135-1.39l-.369-.218-3.762.984.998-3.667-.24-.378A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg></a>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// PRIX — RS3 et Golf R uniquement
+var CARS = ['rs3','golfr'];
+var WD  = {rs3:350, golfr:280};
+var WE  = {rs3:600, golfr:500};
+var WEd = {rs3:300, golfr:250};
+var CAR_NAMES = {rs3:'Audi RS3', golfr:'Golf 8 R'};
+
+// Inject included panels
+(function(){
+  var tpl = document.getElementById('inc-tpl');
+  if(!tpl) return;
+  CARS.forEach(function(c){var p=document.getElementById('inc-'+c);if(p)p.innerHTML=tpl.innerHTML;});
+})();
+
+// Time selects
+CARS.forEach(function(car){
+  var sel = document.getElementById('h1-'+car);
+  if(!sel||sel.options.length) return;
+  for(var h=8;h<=23;h++){var o=document.createElement('option');o.value=h+'h00';o.textContent=h+'h00';if(h===9)o.selected=true;sel.appendChild(o);}
+});
+
+// State
+var ST = {};
+CARS.forEach(function(car){
+  var n=new Date();
+  ST[car]={y:n.getFullYear(),m:n.getMonth(),data:{},s1:null,s2:null};
+  renderCal(car);setBadge(car);
+});
+
+function showCar(car){
+  document.querySelectorAll('.product-page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.sel-tab').forEach(function(t){t.classList.remove('active');});
+  var pg=document.getElementById('page-'+car),tb=document.getElementById('tab-'+car);
+  if(pg)pg.classList.add('active');if(tb)tb.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setImg(car,src,thumb){
+  var img=document.getElementById('img-'+car);if(img)img.src=src;
+  document.querySelectorAll('#page-'+car+' .gthumb').forEach(function(t){t.classList.remove('on');});
+  if(thumb)thumb.classList.add('on');
+}
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+
+function setBadge(car){
+  var s=ST[car],b=document.getElementById('badge-'+car);if(!b)return;
+  var today=new Date();today.setHours(0,0,0,0);
+  var dim=new Date(s.y,s.m+1,0).getDate(),found=false;
+  for(var d=1;d<=dim;d++){
+    var dt=new Date(s.y,s.m,d);
+    if(dt<today)continue;
+    // KEY: no entry = available
+    if(s.data[dk(dt)]!=='booked'){found=true;break;}
+  }
+  b.className=found?'ab green':'ab red';
+  b.innerHTML=found?'<span class="ab-dot"></span>Disponible':'<span class="ab-dot"></span>Complet ce mois';
+}
+
+function renderCal(car){
+  var s=ST[car];
+  var MN=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
+  var title=document.getElementById('cm-'+car);if(title)title.textContent=MN[s.m]+' '+s.y;
+  var grid=document.getElementById('cal-'+car);if(!grid)return;
+  grid.innerHTML='';
+  var today=new Date();today.setHours(0,0,0,0);
+  var startDow=new Date(s.y,s.m,1).getDay();startDow=startDow===0?6:startDow-1;
+  var dim=new Date(s.y,s.m+1,0).getDate();
+  var t1=s.s1?s.s1.getTime():null,t2=s.s2?s.s2.getTime():null;
+  var retTime=null;
+  if(s.s1&&!s.s2){var rd=new Date(s.s1);rd.setDate(rd.getDate()+1);retTime=rd.getTime();}
+  for(var i=0;i<startDow;i++){var e=document.createElement('div');e.className='cd empty';grid.appendChild(e);}
+  for(var d=1;d<=dim;d++){
+    var date=new Date(s.y,s.m,d);date.setHours(0,0,0,0);
+    var key=dk(date),st=s.data[key],dow=date.getDay(),isWE=dow===6||dow===0,t=date.getTime();
+    var el=document.createElement('div');
+    var n=document.createElement('span');n.className='cd-n';n.textContent=d;el.appendChild(n);
+    if(date>=today&&st!=='booked'){var p=document.createElement('span');p.className='cd-p';p.textContent=(isWE?WEd[car]:WD[car])+'';el.appendChild(p);}
+    if(date<today){
+      el.className='cd past';
+    }else if(st==='booked'){
+      el.className='cd booked';
+    }else{
+      // *** KEY FIX: unset/undefined = available, rendered colored ***
+      var cls='cd '+(isWE?'weekend':'available');
+      if(t1&&t===t1)cls+=' selected';
+      else if(t2&&t===t2)cls+=' selected';
+      else if(retTime&&t===retTime&&!t2)cls+=' selected';
+      else if(t1&&t2&&t>t1&&t<t2)cls+=' in-range';
+      el.className=cls;
+      (function(c,dt){el.addEventListener('click',function(){onDayClick(c,dt);});})(car,date);
+    }
+    if(date.toDateString()===today.toDateString())el.classList.add('today-mark');
+    grid.appendChild(el);
+  }
+}
+
+function onDayClick(car,date){
+  var s=ST[car];
+  if(!s.s1||(s.s1&&s.s2)){s.s1=date;s.s2=null;}
+  else{
+    if(date.getTime()===s.s1.getTime()){s.s1=null;s.s2=null;}
+    else if(date<s.s1){s.s1=date;s.s2=null;}
+    else{
+      var blocked=false,c=new Date(s.s1);c.setDate(c.getDate()+1);
+      while(c<=date){if(s.data[dk(c)]==='booked'){blocked=true;break;}c.setDate(c.getDate()+1);}
+      if(blocked){s.s1=date;s.s2=null;}else{s.s2=date;}
+    }
+  }
+  var tp=document.getElementById('tp-'+car);
+  if(tp)tp.classList.toggle('show',s.s1!==null&&s.s2===null);
+  if(s.s1&&!s.s2)updateRet(car);
+  renderCal(car);updatePB(car);
+}
+
+function updateRet(car){
+  var s=ST[car];if(!s.s1)return;
+  var h1el=document.getElementById('h1-'+car);
+  var h1v=h1el?h1el.value:'9h00';
+  var rd=new Date(s.s1);rd.setDate(rd.getDate()+1);
+  var fmt=function(d){return d.toLocaleDateString('fr-BE',{weekday:'short',day:'numeric',month:'short'});};
+  var retEl=document.getElementById('ret-'+car);
+  if(retEl)retEl.textContent=fmt(rd)+' a '+h1v;
+  updatePB(car);
+}
+
+function updatePB(car){
+  var s=ST[car];
+  var ptp=document.getElementById('ptp-'+car),pbt=document.getElementById('pbt-'+car);
+  var pbd=document.getElementById('pbd-'+car),pr=document.getElementById('pr-'+car);
+  var pd=document.getElementById('pd-'+car),pwe=document.getElementById('pwe-'+car);
+  var pwv=document.getElementById('pwv-'+car),rb=document.getElementById('rb-'+car);
+  var fmt=function(d){return d.toLocaleDateString('fr-BE',{weekday:'short',day:'numeric',month:'short'});};
+  var fmtP=function(p){return p.toLocaleString('fr-BE')+' EUR';};
+  if(!s.s1){
+    pbt.classList.add('mt');pbd.style.display='none';ptp.textContent='Selectionnez une date';
+    rb.disabled=true;rb.textContent='Selectionnez une date';return;
+  }
+  if(!s.s2){
+    // *** KEY FIX: 24h = 1 seul jour, prix d'UN seul jour ***
+    var isWE=s.s1.getDay()===6||s.s1.getDay()===0;
+    var price=isWE?WEd[car]:WD[car];
+    var h1v=document.getElementById('h1-'+car)?document.getElementById('h1-'+car).value:'9h00';
+    var rd=new Date(s.s1);rd.setDate(rd.getDate()+1);
+    pbt.classList.remove('mt');ptp.textContent=fmtP(price);
+    pr.textContent=fmt(s.s1)+' '+h1v+' > '+fmt(rd)+' '+h1v;
+    pd.textContent='Location 24 heures';pbd.style.display='flex';
+    if(isWE){pwe.style.display='flex';pwv.textContent='Tarif Sam-Dim '+fmtP(WEd[car]);}
+    else pwe.style.display='none';
+    rb.disabled=false;rb.textContent='Reserver 24h - '+fmtP(price);return;
+  }
+  var total=0,wed=0,wdd=0,cur=new Date(s.s1),end=new Date(s.s2);end.setDate(end.getDate()+1);
+  while(cur<end){var w=cur.getDay();if(w===6||w===0){total+=WEd[car];wed++;}else{total+=WD[car];wdd++;}cur.setDate(cur.getDate()+1);}
+  var days=wed+wdd;
+  pbt.classList.remove('mt');ptp.textContent=fmtP(total);
+  pr.textContent=fmt(s.s1)+' > '+fmt(s.s2);pd.textContent=days+' jour'+(days>1?'s':'');pbd.style.display='flex';
+  if(wed>0){
+    pwe.style.display='flex';var nWE=Math.floor(wed/2),soloWE=wed%2,txt='';
+    if(nWE)txt+=nWE+'xWE ('+fmtP(nWE*WE[car])+')';
+    if(soloWE)txt+=(txt?' + ':'')+soloWE+'j WE ('+fmtP(soloWE*WEd[car])+')';
+    pwv.textContent=txt;
+  }else pwe.style.display='none';
+  rb.disabled=false;rb.textContent='Reserver - '+fmtP(total);
+}
+
+function prevMonth(car){var s=ST[car];if(s.m===0){s.y--;s.m=11;}else s.m--;loadDB(car);}
+function nextMonth(car){var s=ST[car];if(s.m===11){s.y++;s.m=0;}else s.m++;loadDB(car);}
+
+// *** KEY FIX: 24h passes ONLY d1, mode=24h — reserver knows it's 1 day ***
+function goRes(car){
+  var s=ST[car];
+  var f=function(d){return d?d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'):'';};
+  var h1=document.getElementById('h1-'+car)?document.getElementById('h1-'+car).value:'';
+  if(s.s1&&!s.s2){
+    // 24h: only d1, mode=24h — no d2 so reserver won't double the price
+    location.href='reserver.html?car='+car+'&d1='+f(s.s1)+'&h1='+h1+'&mode=24h';
+  }else{
+    location.href='reserver.html?car='+car+'&d1='+f(s.s1)+'&d2='+f(s.s2)+'&h1='+h1;
+  }
+}
+
+// Supabase
+var db=null;
+function loadDB(car){
+  if(!db){renderCal(car);setBadge(car);return;}
+  var s=ST[car],mm=String(s.m+1).padStart(2,'0');
+  db.from('availability').select('date,status').eq('car',car).gte('date',s.y+'-'+mm+'-01').lte('date',s.y+'-'+mm+'-31')
+    .then(function(r){
+      if(r.data)r.data.forEach(function(x){ST[car].data[x.date]=x.status;});
+      renderCal(car);setBadge(car);
+    }).catch(function(){renderCal(car);setBadge(car);});
+}
+
+window.initDB=function(){
+  try{
+    if(typeof supabase==='undefined'||!window.SUPABASE_URL){
+      CARS.forEach(function(c){renderCal(c);setBadge(c);});return;
+    }
+    db=supabase.createClient(window.SUPABASE_URL,window.SUPABASE_KEY);
+    console.log('[BNS] Supabase connecte');
+    CARS.forEach(loadDB);
+    db.channel('av').on('postgres_changes',{event:'*',schema:'public',table:'availability'},function(p){
+      var car=(p.new&&p.new.car)||(p.old&&p.old.car);
+      if(car&&ST[car]){
+        if(p.eventType==='DELETE'&&p.old)delete ST[car].data[p.old.date];
+        else if(p.new)ST[car].data[p.new.date]=p.new.status;
+        renderCal(car);setBadge(car);
+      }
+    }).subscribe();
+  }catch(e){console.warn('Supabase:',e.message);}
+};
+
+var hash=location.hash.replace('#','');
+if(CARS.indexOf(hash)>=0)
+</body>
+</html>

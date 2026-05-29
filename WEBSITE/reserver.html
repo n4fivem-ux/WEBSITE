@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Réserver — BNS Prestige</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--g:#6DBF41;--g-bg:#EEF8E5;--g-dk:#4a8f2a;--ink:#111;--muted:#6a6d68;--muted2:#a0a39e;--bg:#F7F7F4;--white:#fff;--b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);--sh:0 1px 14px rgba(0,0,0,.07);--sh2:0 6px 36px rgba(0,0,0,.1);--serif:Syne,sans-serif;--sans:Outfit,sans-serif;--nav-h:66px;--nav-top:14px;--r:16px;--W:1260px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}ul{list-style:none}
+button{cursor:pointer;border:none;font-family:var(--sans)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px}
+/* NAV */
+.nav{position:fixed;top:var(--nav-top);left:50%;transform:translateX(-50%);z-index:500;width:min(calc(100% - 24px),var(--W));height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.4rem;gap:.8rem;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--b2);border-radius:14px;box-shadow:var(--sh2)}
+.logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:13px}
+.logo-name{font-family:var(--serif);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+.logo-name b{color:var(--g)}
+.logo-sub{font-size:.38rem;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:.15rem;flex:1;justify-content:center}
+.nav-links a{font-size:.68rem;font-weight:500;color:var(--muted);padding:.38rem .78rem;border-radius:8px;transition:all .18s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.on{background:var(--bg);color:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+.nav-cta{padding:.45rem 1.1rem;background:var(--ink);color:#fff;font-size:.66rem;font-weight:600;border-radius:9px;transition:background .2s;white-space:nowrap;display:inline-block}
+.nav-cta.on,.nav-cta:hover{background:var(--g)}
+.burger{display:none;flex-direction:column;gap:5px;padding:6px;background:transparent}
+.burger span{width:18px;height:1.5px;background:var(--ink);display:block;border-radius:2px}
+.mob{display:none;position:fixed;inset:0;z-index:501;background:rgba(247,247,244,.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:1.8rem}
+.mob.open{display:flex}
+.mob-close{position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;color:var(--muted);padding:.4rem .7rem;background:none;border:none;cursor:pointer}
+.mob a{font-family:var(--serif);font-size:clamp(1.8rem,6vw,3rem);font-weight:700;color:var(--muted);transition:color .2s}
+.mob a:hover{color:var(--g)}
+/* PAGE */
+.page-top{padding:calc(var(--nav-h) + var(--nav-top) + 48px) 24px 28px;max-width:var(--W);margin:0 auto}
+.page-tag{display:inline-flex;align-items:center;gap:.35rem;background:var(--g-bg);color:var(--g-dk);padding:.28rem .7rem;border-radius:100px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.7rem}
+.page-h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,4rem);font-weight:800;color:var(--ink);line-height:.95;letter-spacing:-.05em;margin-bottom:.5rem}
+.page-h1 span{color:var(--g)}
+.page-note{font-size:.84rem;color:var(--muted);max-width:440px;line-height:1.72}
+/* PROGRESS */
+.progress{max-width:var(--W);margin:0 auto;padding:0 24px 24px;display:flex;align-items:center;justify-content:flex-start;gap:0}
+.prog-step{display:flex;align-items:center;gap:0;flex-shrink:0}
+.prog-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;flex-shrink:0}
+.prog-dot.done{background:var(--g);color:#fff}
+.prog-dot.active{background:var(--ink);color:#fff}
+.prog-dot.todo{background:var(--bg);color:var(--muted2);border:1.5px solid var(--b2)}
+.prog-lbl{font-size:.6rem;font-weight:500;color:var(--muted2);margin-left:.35rem;white-space:nowrap}
+.prog-dot.active + .prog-lbl{color:var(--ink);font-weight:600}
+.prog-line{width:36px;height:2px;background:var(--b2);margin:0 6px;flex-shrink:0}
+.prog-line.done{background:var(--g)}
+/* MAIN LAYOUT */
+.main{padding:0 24px 80px;max-width:var(--W);margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+/* RECAP BAR */
+.recap{background:var(--ink);border-radius:14px;padding:.95rem 1.4rem;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.7rem}
+.recap-car{display:flex;align-items:center;gap:.8rem}
+.recap-thumb{width:52px;height:38px;border-radius:7px;overflow:hidden;background:#2a2a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.recap-thumb img{max-width:100%;max-height:100%;object-fit:contain}
+.recap-name{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff;line-height:1}
+.recap-cat{font-size:.56rem;color:rgba(255,255,255,.35);margin-top:2px}
+.recap-dates{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.rdb{display:flex;flex-direction:column;padding:.3rem .7rem;background:rgba(255,255,255,.07);border-radius:8px;border:1px solid rgba(255,255,255,.1)}
+.rdb-l{font-size:.48rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em}
+.rdb-v{font-size:.76rem;color:#fff;font-weight:600;margin-top:1px}
+.recap-arr{color:rgba(255,255,255,.22)}
+.recap-price{font-family:var(--serif);font-size:1.35rem;font-weight:800;color:var(--g);letter-spacing:-.04em;line-height:1}
+.recap-price-note{font-size:.54rem;color:rgba(255,255,255,.28);margin-top:1px}
+.recap-edit{padding:.3rem .7rem;background:rgba(255,255,255,.07);color:rgba(255,255,255,.42);font-size:.58rem;font-weight:500;border-radius:7px;border:1px solid rgba(255,255,255,.1);transition:all .2s;display:inline-block}
+.recap-edit:hover{background:rgba(255,255,255,.14);color:#fff}
+/* FORM CARD */
+.form-card{background:var(--white);border-radius:20px;border:1px solid var(--b);box-shadow:var(--sh2);overflow:hidden}
+.fc-head{padding:1.2rem 1.6rem;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:.65rem}
+.fc-dot{width:9px;height:9px;background:var(--g);border-radius:50%}
+.fc-title{font-family:var(--serif);font-size:1.1rem;font-weight:700}
+.fc-body{padding:1.6rem}
+/* Car picker */
+.car-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.cp-card{padding:.75rem;border-radius:11px;border:1.5px solid var(--b2);cursor:pointer;transition:all .22s;background:transparent;display:block;width:100%;text-align:left}
+.cp-card:hover{border-color:var(--g);background:var(--g-bg)}
+.cp-card.on{border-color:var(--g);background:var(--g-bg);box-shadow:0 0 0 1px var(--g)}
+.cp-img{height:42px;display:flex;align-items:center;justify-content:center;margin-bottom:.4rem}
+.cp-img img{max-height:100%;max-width:80%;object-fit:contain}
+.cp-name{font-family:var(--serif);font-size:.8rem;font-weight:700;line-height:1}
+.cp-price{font-size:.56rem;color:var(--muted2);margin-top:1px}
+/* Section labels */
+.fsec{font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin:.7rem 0 .5rem;display:block;padding-bottom:.3rem;border-bottom:1px solid var(--b)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.row1{margin-bottom:10px}
+.field{display:flex;flex-direction:column;gap:.28rem}
+.field label{font-size:.62rem;font-weight:500;color:var(--muted)}
+.field input,.field select,.field textarea{background:var(--bg);border:1.5px solid transparent;border-radius:9px;color:var(--ink);padding:.65rem .85rem;font-size:.84rem;outline:none;width:100%;font-family:var(--sans);transition:all .2s;-webkit-appearance:none;appearance:none;display:block}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--g);background:var(--white)}
+.field textarea{resize:vertical;min-height:88px;line-height:1.6}
+/* Mode toggle - FIXED: using div not button */
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mode-opt{padding:.72rem 1rem;border-radius:9px;border:1.5px solid var(--b2);font-size:.72rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .22s;background:var(--bg);text-align:center;user-select:none;-webkit-tap-highlight-color:rgba(109,191,65,.2)}
+.mode-opt:hover{border-color:var(--g);color:var(--g-dk);background:var(--g-bg)}
+.mode-opt.on{border-color:var(--g);background:var(--g-bg);color:var(--g-dk);font-weight:600}
+/* Address panels */
+.addr{border-radius:10px;padding:.85rem 1rem;margin-bottom:10px;border:1px solid var(--b2)}
+.addr.pickup{background:var(--g-bg);border-color:rgba(109,191,65,.22)}
+.addr-lbl{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g-dk);margin-bottom:.28rem}
+.addr-val{font-size:.8rem;color:var(--ink);font-weight:500;line-height:1.4}
+.addr-note{font-size:.62rem;color:var(--g-dk);margin-top:.18rem}
+/* Contract notice */
+.ct-notice{background:var(--bg);border:1px solid var(--b2);border-radius:10px;padding:.85rem 1rem;margin-bottom:10px;display:flex;align-items:flex-start;gap:.6rem}
+.ct-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.ct-text{font-size:.72rem;color:var(--muted);line-height:1.55}
+.ct-text strong{color:var(--ink);font-weight:600}
+/* Options */
+.opt-row{display:flex;align-items:flex-start;gap:.6rem;padding:.7rem .85rem;background:var(--bg);border-radius:9px;margin-bottom:6px;cursor:pointer;transition:background .2s;border:1.5px solid transparent}
+.opt-row:hover{background:var(--g-bg);border-color:rgba(109,191,65,.2)}
+.opt-row input[type=checkbox]{width:14px;height:14px;flex-shrink:0;margin-top:2px;accent-color:var(--g)}
+.opt-row span{font-size:.73rem;color:var(--muted);line-height:1.45}
+.opt-row strong{color:var(--ink);font-weight:500}
+/* CGV */
+.cgv-row{display:flex;align-items:flex-start;gap:.6rem;margin:.9rem 0}
+.cgv-row input{width:14px;height:14px;accent-color:var(--g);flex-shrink:0;margin-top:2px}
+.cgv-row label{font-size:.71rem;color:var(--muted);line-height:1.5;cursor:pointer}
+.cgv-row a{color:var(--g);font-weight:600}
+/* Submit */
+.btn-submit{width:100%;padding:.92rem;border-radius:11px;background:var(--ink);color:#fff;font-size:.8rem;font-weight:700;font-family:var(--serif);cursor:pointer;border:none;transition:all .25s;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.btn-submit:hover{background:var(--g);box-shadow:0 10px 28px rgba(109,191,65,.28);transform:translateY(-1px)}
+.btn-submit.sent{background:var(--g-bg);color:var(--g-dk);cursor:default;transform:none;pointer-events:none}
+.form-note{font-size:.62rem;color:var(--muted2);text-align:center;margin-top:.5rem}
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(var(--nav-h)+20px)}
+.sc{background:var(--white);border-radius:16px;border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden}
+.sc-head{padding:.8rem 1.25rem;border-bottom:1px solid var(--b);font-size:.56rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2)}
+.sc-body{padding:1.2rem}
+.ci-row{display:flex;align-items:flex-start;gap:.65rem;padding:.65rem 0;border-bottom:1px solid var(--b)}
+.ci-row:last-child{border-bottom:none}
+.ci-row a{display:flex;align-items:flex-start;gap:.65rem;width:100%;transition:opacity .2s}
+.ci-row a:hover{opacity:.75}
+.ci-ic{width:28px;height:28px;flex-shrink:0;background:var(--bg);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.ci-ic svg{width:13px;height:13px;color:var(--g-dk)}
+.ci-lbl{font-size:.55rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1px}
+.ci-val{font-size:.76rem;color:var(--ink);font-weight:500}
+.ci-note{font-size:.62rem;color:var(--muted2)}
+/* Tarif rows */
+.pr-sec-t{font-size:.56rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin:.65rem 0 .42rem}
+.pr-row{display:flex;align-items:center;justify-content:space-between;padding:.56rem .72rem;background:var(--bg);border-radius:8px;margin-bottom:5px}
+.pr-row:last-child{margin-bottom:0}
+.pr-row.we{background:var(--g-bg)}
+.pr-name{font-size:.71rem;color:var(--muted)}
+.pr-row.we .pr-name{color:var(--g-dk)}
+.pr-price{font-family:var(--serif);font-size:1rem;font-weight:800;letter-spacing:-.04em}
+.pr-row.we .pr-price{color:var(--g-dk)}
+/* Inc list */
+.inc-list{display:flex;flex-direction:column;gap:.35rem}
+.inc-item{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--muted);padding:.17rem 0}
+.inc-chk{width:14px;height:14px;background:var(--g-bg);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.inc-chk::after{content:"✓";font-size:.48rem;color:var(--g-dk);font-weight:700}
+/* FOOTER */
+footer{background:var(--white);border-top:1px solid var(--b);padding:4rem 24px 2rem}
+.ft{max-width:var(--W);margin:0 auto}
+.ft-top{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.ft-brand p{font-size:.76rem;color:var(--muted2);line-height:1.8;max-width:210px;margin-top:.9rem}
+.ft-soc{display:flex;gap:.4rem;margin-top:1.2rem}
+.ft-soc a{width:30px;height:30px;border-radius:7px;background:var(--bg);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:var(--muted2);transition:all .2s}
+.ft-soc a:hover{background:var(--ink);color:#fff}
+.ft-col h5{font-size:.57rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:1rem}
+.ft-col li{margin-bottom:.55rem}
+.ft-col a{font-size:.77rem;color:var(--muted2);transition:color .2s}
+.ft-col a:hover{color:var(--ink)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.6rem;border-top:1px solid var(--b);font-size:.63rem;color:var(--muted2);flex-wrap:wrap;gap:.5rem}
+.ft-links{display:flex;gap:.8rem}
+.ft-links a{color:var(--muted2);transition:color .2s}
+.ft-links a:hover{color:var(--ink)}
+/* WA FAB */
+.wa-fab{position:fixed;bottom:24px;right:24px;z-index:490;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:transform .2s}
+.wa-fab:hover{transform:scale(1.1)}
+.wa-fab svg{width:26px;height:26px}
+/* RESPONSIVE */
+@media(max-width:1050px){.main{grid-template-columns:1fr}.sidebar{position:static}.nav-links{display:none}.burger{display:flex}.ft-top{grid-template-columns:1fr 1fr;gap:2.5rem}}
+@media(max-width:700px){:root{--nav-h:58px;--nav-top:10px}.page-top{padding:calc(var(--nav-h) + var(--nav-top) + 36px) 16px 20px}.main{padding:0 16px 56px}.row2{grid-template-columns:1fr}.car-picker{grid-template-columns:1fr}.recap{flex-direction:column}.progress{padding:0 16px 16px}.ft-top{grid-template-columns:1fr}.ft-bot{flex-direction:column;gap:.4rem;text-align:center}footer{padding:3rem 16px 2rem}}
+@media(max-width:480px){.prog-lbl{display:none}.prog-line{width:20px}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">BNS <b>Prestige</b></div><div class="logo-sub">Location · Bruxelles</div></div>
+  </a>
+  <ul class="nav-links"><li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li><li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li><li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul>
+  <div class="nav-right">
+    <a href="reserver.html" class="nav-cta on" data-i18n="nav_reserver">Réserver →</a>
+    <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-close" onclick="document.getElementById('mob').classList.remove('open')">✕</button>
+  <a href="index.html" onclick="document.getElementById('mob').classList.remove('open')">Accueil</a><a href="nosvoitures.html" onclick="document.getElementById('mob').classList.remove('open')">Nos Voitures</a><a href="comment-ca-marche.html" onclick="document.getElementById('mob').classList.remove('open')">Comment ça marche</a><a href="contact.html" onclick="document.getElementById('mob').classList.remove('open')">Contact</a><a href="reserver.html" onclick="document.getElementById('mob').classList.remove('open')">Réserver →</a>
+</div>
+<div class="page-top">
+  <div class="page-tag" data-i18n="res_tag">Réservation en ligne</div>
+  <h1 class="page-h1">Finaliser<br/><span data-i18n="res_h1">votre réservation.</span></h1>
+  <p class="page-note" data-i18n="res_note">Remplissez le formulaire. Confirmation sous 2 heures, 7j/7.</p>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress">
+  <div class="prog-step"><div class="prog-dot done">1</div><span class="prog-lbl">Voiture</span></div>
+  <div class="prog-line done"></div>
+  <div class="prog-step"><div class="prog-dot done">2</div><span class="prog-lbl">Dates</span></div>
+  <div class="prog-line done"></div>
+  <div class="prog-step"><div class="prog-dot active">3</div><span class="prog-lbl">Formulaire</span></div>
+  <div class="prog-line"></div>
+  <div class="prog-step"><div class="prog-dot todo">4</div><span class="prog-lbl">Confirmation</span></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div>
+    <!-- RECAP BAR -->
+    <div class="recap">
+      <div class="recap-car">
+        <div class="recap-thumb" id="recap-thumb"><img id="recap-img" src="img/rs3_1.png" alt=""/></div>
+        <div><div class="recap-name" id="recap-name">Audi RS3</div><div class="recap-cat" id="recap-cat">Sportive Performance · 2026</div></div>
+      </div>
+      <div class="recap-dates" id="recap-dates">
+        <div class="rdb"><div class="rdb-l">Départ</div><div class="rdb-v" id="recap-d1">—</div></div>
+        <span class="recap-arr">→</span>
+        <div class="rdb"><div class="rdb-l">Retour</div><div class="rdb-v" id="recap-d2">—</div></div>
+        <div class="rdb" id="recap-hblock" style="display:none"><div class="rdb-l">Heure</div><div class="rdb-v" id="recap-h">—</div></div>
+      </div>
+      <div><div class="recap-price" id="recap-price">—</div><div class="recap-price-note">Estimation</div></div>
+      <a href="nosvoitures.html" id="recap-back" class="recap-edit">Modifier →</a>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card">
+      <div class="fc-head"><div class="fc-dot"></div><div class="fc-title">Formulaire de réservation</div></div>
+      <div class="fc-body">
+        <form id="resForm" onsubmit="submitForm(event)">
+          <!-- Hidden -->
+          <input type="hidden" id="f-car" name="car" value="rs3"/>
+          <input type="hidden" id="f-d1" name="date_debut"/>
+          <input type="hidden" id="f-d2" name="date_fin"/>
+          <input type="hidden" id="f-h1" name="heure_debut"/>
+          <input type="hidden" id="f-mode" name="mode" value="pickup"/>
+
+          <!-- Car selector -->
+          <span class="fsec" data-i18n="res_vehicle">Votre véhicule</span>
+          <div class="car-picker">
+            <div class="cp-card on" id="cp-rs3" onclick="pickCar('rs3',this)">
+              <div class="cp-img"><img src="img/rs3_1.png" alt="RS3"/></div>
+              <div class="cp-name">Audi RS3</div><div class="cp-price">350€/j · Sam-Dim: 600€</div>
+            </div>
+            <div class="cp-card" id="cp-golfr" onclick="pickCar('golfr',this)">
+              <div class="cp-img" style="background:#e8e8e5;border-radius:5px"><img src="img/golfr_1.png" alt="Golf R"/></div>
+              <div class="cp-name">Golf 8 R</div><div class="cp-price">280€/j · Sam-Dim: 500€</div>
+            </div>
+
+          </div>
+
+          <!-- Personal info -->
+          <span class="fsec" data-i18n="res_info">Informations personnelles</span>
+          <div class="row2">
+            <div class="field"><label data-i18n="lbl_prenom">Prénom *</label><input type="text" name="prenom" placeholder="Votre prénom" autocomplete="given-name" required/></div>
+            <div class="field"><label data-i18n="lbl_nom">Nom *</label><input type="text" name="nom" placeholder="Votre nom" autocomplete="family-name" required/></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label data-i18n="lbl_email">Email *</label><input type="email" name="email" placeholder="email@exemple.com" autocomplete="email" required/></div>
+            <div class="field"><label data-i18n="lbl_tel">WhatsApp / Tél. *</label><input type="tel" name="telephone" placeholder="+32 4XX XX XX XX" autocomplete="tel" required/></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label>Âge * <small style="color:var(--muted2)">(min. 20 ans ou 2 ans de permis)</small></label><input type="number" name="age" placeholder="20" min="20" max="80" required/></div>
+            <div class="field"><label data-i18n="lbl_nat">Nationalité *</label>
+              <select name="nationalite" required>
+                <option value="">Sélectionner</option>
+                <option>Belge</option><option>Française</option><option>Luxembourgeoise</option>
+                <option>Néerlandaise</option><option>Allemande</option><option>Autre (UE)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Contract notice -->
+          <div class="ct-notice">
+            <span class="ct-icon">📋</span>
+            <div class="ct-text"><strong>Contrat de location</strong> — Signé sur place à la remise des clés. Présentez votre <strong>permis de conduire valide</strong>. Aucun document à envoyer maintenant.</div>
+          </div>
+
+          <!-- Mode -->
+          <span class="fsec" data-i18n="mode_title">Mode de prise en charge</span>
+          <div class="mode-toggle">
+            <div class="mode-opt on" id="opt-pickup" onclick="setMode('pickup')">📍 Retrait — Bruxelles</div>
+            <div class="mode-opt" id="opt-livr" onclick="setMode('livraison')">🚗 Livraison à domicile</div>
+          </div>
+          <div id="panel-pickup" class="addr pickup">
+            <div class="addr-lbl">Adresse de retrait BNS Prestige</div>
+            <div class="addr-val">Sur rendez-vous · Bruxelles, Belgique</div>
+            <div class="addr-note">L'adresse exacte vous sera communiquée lors de la confirmation.</div>
+          </div>
+          <div id="panel-livr" style="display:none">
+            <div class="addr" style="background:var(--bg)">
+              <div class="addr-lbl">Zone de livraison</div>
+              <div class="addr-val">Bruxelles et alentours — rayon 30 km</div>
+            </div>
+            <div class="row1"><div class="field"><label>Rue et numéro *</label><input type="text" name="adresse" id="inp-rue" placeholder="Ex: Avenue Louise 123" autocomplete="street-address"/></div></div>
+            <div class="row2">
+              <div class="field"><label>Code postal *</label><input type="text" name="codepostal" id="inp-cp" placeholder="1050" maxlength="4" autocomplete="postal-code"/></div>
+              <div class="field"><label>Commune *</label><input type="text" name="ville" id="inp-ville" placeholder="Ixelles" autocomplete="address-level2"/></div>
+            </div>
+          </div>
+
+          <!-- Options -->
+          <span class="fsec" data-i18n="sec_options">Options</span>
+          <label class="opt-row"><input type="checkbox" id="opt1"/><span><strong>Conducteur supplémentaire</strong> — 2ème conducteur déclaré (inclus, à mentionner au contrat)</span></label>
+          <label class="opt-row"><input type="checkbox" id="opt2"/><span><strong>Siège enfant / rehausseur</strong> — Disponible sur demande</span></label>
+
+          <!-- Message -->
+          <span class="fsec" data-i18n="sec_msg">Message (optionnel)</span>
+          <div class="field"><textarea name="message" placeholder="Occasion particulière, question, précision utile..."></textarea></div>
+
+          <!-- CGV -->
+          <div class="cgv-row">
+            <input type="checkbox" id="cgv" required/>
+            <label for="cgv">J'accepte les <a href="cgv.html" target="_blank">conditions générales de location</a> de BNS Prestige. Je confirme avoir minimum 20 ans et un permis valide.</label>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">Envoyer ma demande →</button>
+          <p class="form-note">Sans engagement avant confirmation · Données confidentielles · Réponse sous 2h</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sc">
+      <div class="sc-head">Contact direct</div>
+      <div class="sc-body">
+        <div class="ci-row"><a href="https://wa.me/32400000000"><div class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div><div><div class="ci-lbl">WhatsApp</div><div class="ci-val">+32 4XX XX XX XX</div><div class="ci-note">Réponse &lt; 30 min</div></div></a></div>
+        <div class="ci-row"><a href="tel:+32400000000"><div class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.1 1.18 2 2 0 012.11 0h3a2 2 0 012 1.72 19.79 19.79 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.46-.46a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div><div class="ci-lbl">Téléphone</div><div class="ci-val">+32 4XX XX XX XX</div><div class="ci-note">8h–22h · 7j/7</div></div></a></div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head">Tarifs</div>
+      <div class="sc-body">
+        <div class="pr-sec-t">Semaine (Lun–Ven)</div>
+        <div class="pr-row"><span class="pr-name">Audi RS3</span><span class="pr-price">350 €/j</span></div>
+        <div class="pr-row"><span class="pr-name">Golf 8 R</span><span class="pr-price">280 €/j</span></div>
+
+        <div class="pr-sec-t">Weekend (Sam + Dim)</div>
+        <div class="pr-row we"><span class="pr-name">Audi RS3</span><span class="pr-price">600 €</span></div>
+        <div class="pr-row we"><span class="pr-name">Golf 8 R</span><span class="pr-price">500 €</span></div>
+
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head">Toujours inclus</div>
+      <div class="sc-body"><div class="inc-list">
+        <div class="inc-item"><div class="inc-chk"></div>Assurance tous risques</div>
+        <div class="inc-item"><div class="inc-chk"></div>Assistance 24h / 7j</div>
+        <div class="inc-item"><div class="inc-chk"></div>Plein de carburant</div>
+        <div class="inc-item"><div class="inc-chk"></div>Véhicule nettoyé</div>
+        <div class="inc-item"><div class="inc-chk"></div>Kilométrage illimité</div>
+        <div class="inc-item"><div class="inc-chk"></div>Contrat signé à la remise</div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="logo-name">BNS <b>Prestige</b></div></div></a>
+        <p data-i18n="ft_location">Location de voitures sportives · Bruxelles et alentours.</p>
+        <div class="ft-soc"><a href="https://instagram.com/bnsprestige" target="_blank" rel="noopener">IG</a><a href="https://wa.me/32400000000" target="_blank" rel="noopener">WA</a><a href="https://snapchat.com/add/bnsprestige" target="_blank" rel="noopener">SC</a></div>
+      </div>
+      <div class="ft-col"><h5 data-i18n="ft_pages">Pages</h5><ul>
+        <li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li>
+        <li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li>
+        <li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li>
+        <li><a href="reserver.html" data-i18n="nav_reserver">Réserver</a></li>
+        <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_fleet">Flotte</h5><ul>
+        <li><a href="nosvoitures.html#rs3">Audi RS3 — 350€/j</a></li>
+        <li><a href="nosvoitures.html#golfr">Golf 8 R — 280€/j</a></li>
+              </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_contact">Contact</h5><ul>
+        <li><a href="https://wa.me/32400000000">WhatsApp</a></li>
+        <li><a href="tel:+32400000000">+32 4XX XX XX XX</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#92f1fdfce6f3f1e6d2f0fce1e2e0f7e1e6fbf5f7bcf0f7"><span class="__cf_email__" data-cfemail="dbb8b4b5afbab8af9bb9b5a8aba9bea8afb2bcbef5b9be">[email&#160;protected]</span></a></li>
+      </ul></div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 BNS Prestige.</span>
+      <div class="ft-links"><a href="cgv.html">CGV</a> · <a href="cgv.html">RGPD</a></div>
+      <span>Bruxelles &amp; alentours</span>
+    </div>
+  </div>
+</footer>
+<a class="wa-fab" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.553 4.092 1.52 5.819L0 24l6.335-1.49C8.03 23.447 9.983 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.88 0-3.628-.507-5.135-1.39l-.369-.218-3.762.984.998-3.667-.24-.378A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg></a>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══ SUPABASE CONFIG ═══
+var SB_URL = window.SUPABASE_URL||'';
+var SB_KEY = window.SUPABASE_KEY||'';
+
+var WD  = {rs3:350, golfr:280};
+var WEd = {rs3:300, golfr:250};
+var CAR_DATA = {
+  rs3:   {name:'Audi RS3',      cat:'Sportive Performance · 2026', img:'img/rs3_1.png',   bg:'#fff'},
+  golfr: {name:'Golf 8 R',      cat:'Hot Hatch · 2026',            img:'img/golfr_1.png', bg:'#e8e8e5'},
+};
+
+// ─── Read URL params ───
+var P   = new URLSearchParams(location.search);
+var CAR = P.get('car') || 'rs3';
+var D1  = P.get('d1')  || '';
+var D2  = P.get('d2')  || '';
+var H1  = P.get('h1')  || '';
+var MODE= P.get('mode')|| '';
+if (!CAR_DATA || !CAR_DATA[CAR]) CAR = 'rs3';
+
+// ─── Fill hidden fields ───
+var setV = function(id, v){ var el=document.getElementById(id); if(el) el.value=v; };
+setV('f-car', CAR); setV('f-d1', D1); setV('f-d2', D2); setV('f-h1', H1);
+
+// ─── Format date ───
+var fmtDate = function(s){
+  if(!s) return '—';
+  var d = new Date(s + 'T00:00:00');
+  return d.toLocaleDateString('fr-BE', {weekday:'short', day:'numeric', month:'short'});
+};
+
+// ─── Calculate price ───
+var calcTotal = function(car, d1, d2){
+  // 24h mode: no d2, return 1-day price
+  if(!d1) return 0;
+  if(!d2){var d=new Date(d1+'T00:00:00');var w=d.getDay();return(w===6||w===0)?WEd[car]:WD[car];}
+  var total=0, cur=new Date(d1+'T00:00:00'), end=new Date(d2+'T00:00:00');
+  end.setDate(end.getDate()+1);
+  while(cur<end){var w=cur.getDay();total+=(w===6||w===0)?WEd[car]:WD[car];cur.setDate(cur.getDate()+1);}
+  return total;
+};
+
+// ─── Update recap bar ───
+var updateRecap = function(){
+  var cd = CAR_DATA[CAR];
+  var rn=document.getElementById('recap-name'),
+      rc=document.getElementById('recap-cat'),
+      ri=document.getElementById('recap-img'),
+      rt=document.getElementById('recap-thumb'),
+      rd1=document.getElementById('recap-d1'),
+      rd2=document.getElementById('recap-d2'),
+      rh=document.getElementById('recap-hblock'),
+      rhv=document.getElementById('recap-h'),
+      rp=document.getElementById('recap-price'),
+      rb=document.getElementById('recap-back');
+  if(rn) rn.textContent = cd.name;
+  if(rc) rc.textContent = cd.cat;
+  if(ri) ri.src = cd.img;
+  if(rt) rt.style.background = cd.bg;
+  if(rd1) rd1.textContent = fmtDate(D1);
+  if(rd2) rd2.textContent = fmtDate(D2);
+  if(H1 && rh){ rh.style.display='flex'; rhv.textContent = MODE==='24h'?H1+' (24h)':H1; }
+  if(rp){ var t=calcTotal(CAR,D1,D2); if(t>0){rp.textContent=t.toLocaleString('fr-BE')+' €';} }
+  if(rb) rb.href = 'nosvoitures.html#'+CAR;
+};
+updateRecap();
+
+// ─── Car picker ───
+var pickCar = function(car, btn){
+  document.querySelectorAll('.cp-card').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  CAR = car;
+  setV('f-car', car);
+  updateRecap();
+};
+window.pickCar = pickCar;
+
+// Pre-select car from URL
+var cpEl = document.getElementById('cp-'+CAR);
+if(cpEl){ document.querySelectorAll('.cp-card').forEach(function(b){b.classList.remove('on');}); cpEl.classList.add('on'); }
+
+// ─── Delivery mode toggle ───
+var setMode = function(m){
+  setV('f-mode', m);
+  var isLivr = m === 'livraison';
+  var op = document.getElementById('opt-pickup');
+  var ol = document.getElementById('opt-livr');
+  var pp = document.getElementById('panel-pickup');
+  var pl = document.getElementById('panel-livr');
+  var ir = document.getElementById('inp-rue');
+  var ic = document.getElementById('inp-cp');
+  var iv = document.getElementById('inp-ville');
+  if(op) op.classList.toggle('on', !isLivr);
+  if(ol) ol.classList.toggle('on', isLivr);
+  if(pp) pp.style.display = isLivr ? 'none' : 'block';
+  if(pl) pl.style.display = isLivr ? 'block' : 'none';
+  if(ir) ir.required = isLivr;
+  if(ic) ic.required = isLivr;
+  if(iv) iv.required = isLivr;
+};
+window.setMode = setMode;
+setMode('pickup');
+
+// ─── Supabase ───
+var db = null;
+var initDB = function(){
+  try{
+    if(typeof supabase !== 'undefined' && SB_URL && SB_URL.length > 10){
+      db = supabase.createClient(SB_URL, SB_KEY);
+    }
+  }catch(e){ console.warn('SB:', e.message); }
+};
+
+// ─── Submit form → saves to Supabase reservations table ───
+var submitForm = async function(e){
+  e.preventDefault();
+  var btn = document.getElementById('submitBtn');
+  btn.textContent = 'Envoi en cours…';
+  btn.disabled = true;
+
+  var isLivr = document.getElementById('opt-livr').classList.contains('on');
+  var rue   = document.querySelector('[name="adresse"]')?.value   || '';
+  var cp    = document.querySelector('[name="codepostal"]')?.value || '';
+  var ville = document.querySelector('[name="ville"]')?.value     || '';
+  var adresse = isLivr ? rue + ', ' + cp + ' ' + ville : 'Retrait BNS Prestige · Bruxelles (adresse confirmée)';
+
+  var opts = [];
+  if(document.getElementById('opt1')?.checked) opts.push('Conducteur supplémentaire');
+  if(document.getElementById('opt2')?.checked) opts.push('Siège enfant');
+
+  var data = {
+    car:          document.getElementById('f-car')?.value || CAR,
+    prenom:       document.querySelector('[name="prenom"]')?.value   || '',
+    nom:          document.querySelector('[name="nom"]')?.value      || '',
+    email:        document.querySelector('[name="email"]')?.value    || '',
+    telephone:    document.querySelector('[name="telephone"]')?.value|| '',
+    permis:       'Age: ' + (document.querySelector('[name="age"]')?.value||'—') + ' · ' + (document.querySelector('[name="nationalite"]')?.value||'—'),
+    date_debut:   document.getElementById('f-d1')?.value  || null,
+    date_fin:     document.getElementById('f-d2')?.value  || null,
+    mode_livraison: isLivr ? 'Livraison à domicile' : 'Retrait Bruxelles',
+    adresse:      adresse,
+    options:      opts.join(', '),
+    message:      document.querySelector('[name="message"]')?.value  || '',
+    status:       'pending'
+  };
+
+  var saved = false;
+  if(db){
+    try{
+      var res = await db.from('reservations').insert([data]);
+      if(!res.error) saved = true;
+      else console.warn('Insert error:', res.error);
+    }catch(err){ console.warn('DB error:', err); }
+  }
+
+  btn.innerHTML = '✓ Demande envoyée — Confirmation sous 2h par WhatsApp !';
+  btn.classList.add('sent');
+  
+  // Reset after 8s
+  setTimeout(function(){
+    btn.innerHTML = 'Envoyer ma demande →';
+    btn.classList.remove('sent');
+    btn.disabled = false;
+    e.target.reset();
+    setMode('pickup');
+    D1=''; D2=''; H1=''; MODE='';
+    setV('f-car', 'rs3');
+    var cpEl2 = document.getElementById('cp-rs3');
+    if(cpEl2) pickCar('rs3', cpEl2);
+    document.getElementById('recap-price').textContent = '—';
+    document.getElementById('recap-d1').textContent = '—';
+    document.getElementById('recap-d2').textContent = '—';
+  }, 8000);
+};
+
+// Init Supabase using config
+window.addEventListener('DOMContentLoaded', function(){
+  try{
+    if(typeof supabase !== 'undefined' && window.SUPABASE_URL && window.SUPABASE_URL.length > 10){
+      db = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+      console.log('[BNS Reserver] Supabase connecté');
+    }
+  }catch(e){ console.warn('Supabase init error:', e.message); }
+});
+</script>
+<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// Re-init after Supabase script loads
+if(typeof supabase !== 'undefined' && window.SUPABASE_URL && window.SUPABASE_URL.length > 10 && !db){
+  try{ db = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY); }catch(e){}
+}
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BNS Prestige — Location Sportives · Bruxelles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g:#6DBF41;--g-bg:#EEF8E5;--g-dk:#4a8f2a;
+  --ink:#111;--muted:#6a6d68;--muted2:#a0a39e;
+  --bg:#F7F7F4;--white:#fff;
+  --b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);
+  --sh:0 1px 14px rgba(0,0,0,.07);--sh2:0 6px 36px rgba(0,0,0,.1);
+  --serif:Syne,sans-serif;--sans:Outfit,sans-serif;
+  --nav-h:66px;--nav-top:14px;
+  --r:16px;--W:1260px;
+  /* Key: content starts AFTER nav */
+  --page-top:calc(var(--nav-h) + var(--nav-top) + 48px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:var(--sans)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px}
+
+/* ─── NAV ─── */
+.nav{
+  position:fixed;top:var(--nav-top);left:50%;transform:translateX(-50%);
+  z-index:500;width:min(calc(100% - 24px),var(--W));height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.4rem;gap:.8rem;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--b2);border-radius:14px;box-shadow:var(--sh2);
+}
+.logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:13px}
+.logo-name{font-family:var(--serif);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+.logo-name b{color:var(--g)}
+.logo-sub{font-size:.38rem;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:.15rem;flex:1;justify-content:center}
+.nav-links a{font-size:.68rem;font-weight:500;color:var(--muted);padding:.38rem .78rem;border-radius:8px;transition:all .18s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.on{background:var(--bg);color:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+.nav-cta{padding:.45rem 1.1rem;background:var(--ink);color:#fff;font-size:.66rem;font-weight:600;border-radius:9px;transition:background .2s;white-space:nowrap;display:inline-block}
+.nav-cta:hover{background:var(--g)}
+.burger{display:none;flex-direction:column;gap:5px;padding:6px}
+.burger span{width:18px;height:1.5px;background:var(--ink);display:block;border-radius:2px}
+.mob{display:none;position:fixed;inset:0;z-index:501;background:rgba(247,247,244,.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:1.8rem}
+.mob.open{display:flex}
+.mob-close{position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;color:var(--muted);padding:.4rem .7rem;background:none;border:none;cursor:pointer}
+.mob a{font-family:var(--serif);font-size:clamp(1.8rem,6vw,3rem);font-weight:700;color:var(--muted);transition:color .2s}
+.mob a:hover{color:var(--g)}
+
+/* ─── HERO ─── */
+.hero{
+  padding:var(--page-top) 24px 56px;
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;overflow:hidden;
+}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.o1{width:500px;height:500px;background:radial-gradient(circle,rgba(109,191,65,.16),transparent 70%);top:-100px;right:-60px}
+.o2{width:350px;height:350px;background:radial-gradient(circle,rgba(109,191,65,.1),transparent 70%);bottom:-50px;left:-40px}
+.hero>*:not(.orb){position:relative;z-index:1}
+.pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--white);border:1px solid var(--b2);border-radius:100px;padding:.3rem .85rem .3rem .5rem;margin-bottom:1.5rem;box-shadow:var(--sh)}
+.pill-dot{width:7px;height:7px;background:var(--g);border-radius:50%;flex-shrink:0;animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.pill-txt{font-size:.66rem;font-weight:500;color:var(--muted)}
+.h1{font-family:var(--serif);font-size:clamp(3rem,7.5vw,8rem);font-weight:800;text-align:center;line-height:.9;letter-spacing:-.04em;max-width:880px;margin-bottom:1.3rem}
+.h1 .grn{color:var(--g)}
+.h1 .dim{color:var(--muted2)}
+.hero-p{font-size:.92rem;color:var(--muted);text-align:center;max-width:420px;line-height:1.72;margin-bottom:2.2rem}
+.hero-btns{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+.btn-f{padding:.78rem 1.75rem;background:var(--ink);color:#fff;font-size:.75rem;font-weight:600;border-radius:11px;display:inline-flex;align-items:center;gap:.4rem;transition:all .25s}
+.btn-f:hover{background:var(--g);transform:translateY(-2px);box-shadow:0 10px 28px rgba(109,191,65,.28)}
+.btn-o{padding:.78rem 1.75rem;background:var(--white);color:var(--ink);font-size:.75rem;font-weight:500;border-radius:11px;border:1px solid var(--b2);box-shadow:var(--sh);display:inline-flex;align-items:center;gap:.4rem;transition:all .25s}
+.btn-o:hover{border-color:var(--g);color:var(--g-dk);transform:translateY(-2px)}
+/* Hero car cards */
+.hero-cars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:980px}
+.hc{background:var(--white);border-radius:18px;border:1px solid var(--b);box-shadow:var(--sh2);overflow:hidden;transition:transform .35s,box-shadow .35s}
+.hc:hover{transform:translateY(-7px);box-shadow:0 24px 56px rgba(0,0,0,.12)}
+.hc-photo{height:148px;display:flex;align-items:center;justify-content:center;padding:14px;position:relative}
+.hc-photo img{max-height:100%;max-width:100%;object-fit:contain;transition:transform .5s}
+.hc:hover .hc-photo img{transform:scale(1.06)}
+.avail-dot{position:absolute;top:.6rem;right:.6rem;width:9px;height:9px;border-radius:50%;background:var(--g)}
+.avail-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;background:rgba(109,191,65,.3);animation:blink 2s infinite}
+.hc-body{padding:.9rem 1.1rem 1.1rem}
+.hc-cat{font-size:.54rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:.22rem}
+.hc-name{font-family:var(--serif);font-size:1.2rem;font-weight:800;line-height:1;letter-spacing:-.03em;margin-bottom:.6rem}
+.hc-chips{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.75rem}
+.ch{padding:.2rem .55rem;border-radius:100px;font-size:.56rem;font-weight:600;background:var(--bg);color:var(--muted);border:1px solid var(--b)}
+.ch.g{background:var(--g-bg);color:var(--g-dk);border-color:rgba(109,191,65,.2)}
+.hc-ft{display:flex;align-items:flex-end;justify-content:space-between}
+.hc-price{font-family:var(--serif);font-size:1.35rem;font-weight:800;line-height:1;letter-spacing:-.04em}
+.hc-unit{font-size:.56rem;color:var(--muted2);margin-top:.2rem}
+.hc-btn{padding:.4rem .9rem;background:var(--ink);color:#fff;font-size:.62rem;font-weight:600;border-radius:8px;transition:background .2s;display:inline-block}
+.hc:hover .hc-btn{background:var(--g)}
+
+/* ─── STRIP ─── */
+.strip{background:var(--white);border-top:1px solid var(--b);border-bottom:1px solid var(--b);display:flex}
+.si{flex:1;padding:1.3rem .8rem;text-align:center;border-right:1px solid var(--b);transition:background .18s}
+.si:last-child{border-right:none}
+.si:hover{background:var(--bg)}
+.si-n{font-family:var(--serif);font-size:1.7rem;font-weight:800;line-height:1;letter-spacing:-.04em}
+.si-n span{color:var(--g)}
+.si-l{font-size:.58rem;font-weight:500;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem}
+
+/* ─── BENTO ─── */
+.bento-sec{padding:64px 24px 0;max-width:var(--W);margin:0 auto}
+.sec-tag{display:inline-flex;align-items:center;gap:.35rem;background:var(--g-bg);color:var(--g-dk);padding:.28rem .7rem;border-radius:100px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem}
+.sec-h{font-family:var(--serif);font-size:clamp(1.9rem,4vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:.95;margin-bottom:.65rem}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;margin-top:2rem}
+.bc{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.bc:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.bc1{grid-column:span 7;min-height:300px;position:relative;cursor:pointer}
+.bc2{grid-column:span 5;padding:1.6rem}
+.bc3{grid-column:span 4;padding:1.6rem}
+.bc4{grid-column:span 4;background:var(--g);padding:1.6rem}
+.bc5{grid-column:span 4;padding:1.6rem}
+.bc1-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px}
+.bc1-img img{max-height:90%;max-width:90%;object-fit:contain;filter:drop-shadow(0 12px 32px rgba(0,0,0,.1));transition:transform .6s}
+.bc1:hover .bc1-img img{transform:scale(1.04)}
+.bc1-overlay{position:absolute;bottom:0;left:0;right:0;padding:1.4rem}
+.bc1-name{font-family:var(--serif);font-size:1.8rem;font-weight:800;line-height:1;letter-spacing:-.03em}
+.bc1-sub{font-size:.7rem;color:var(--muted);margin-top:.3rem}
+.bc1-badge{position:absolute;top:1rem;left:1rem;background:var(--ink);color:#fff;padding:.28rem .65rem;border-radius:100px;font-size:.58rem;font-weight:600}
+.bn{font-family:var(--serif);font-size:2.4rem;font-weight:800;line-height:1;letter-spacing:-.05em;margin-bottom:.3rem}
+.bn span{color:var(--g)}
+.bl{font-size:.62rem;font-weight:500;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.45rem}
+.bd{font-size:.76rem;color:var(--muted);line-height:1.65}
+.bc4 .bn,.bc4 .bl,.bc4 .bd{color:#000}
+.bc4 .bn span{color:rgba(0,0,0,.4)}
+.svc-icon{width:38px;height:38px;background:var(--bg);border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;transition:background .3s}
+.bc:hover .svc-icon{background:var(--g-bg)}
+.svc-icon svg{width:18px;height:18px;color:var(--muted);transition:color .3s}
+.bc:hover .svc-icon svg{color:var(--g-dk)}
+.svc-title{font-family:var(--serif);font-size:1rem;font-weight:700;margin-bottom:.4rem}
+.svc-desc{font-size:.74rem;color:var(--muted);line-height:1.65}
+
+/* ─── COMING SOON ─── */
+.cs-sec{padding:56px 24px 0;max-width:var(--W);margin:0 auto}
+.cs-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.8rem}
+.cs-t{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.04em}
+.cs-sub{font-size:.8rem;color:var(--muted);max-width:260px;line-height:1.5}
+.cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cs-card{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.cs-card:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.cs-photo{height:190px;overflow:hidden;position:relative}
+.cs-photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.cs-card:hover .cs-photo img{transform:scale(1.04)}
+.cs-badge{position:absolute;top:.7rem;right:.7rem;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);color:#fff;padding:.2rem .55rem;border-radius:100px;font-size:.54rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.cs-body{padding:1rem 1.2rem 1.3rem}
+.cs-brand{font-size:.54rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);margin-bottom:.22rem}
+.cs-name{font-family:var(--serif);font-size:1.25rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
+.cs-power{font-size:.74rem;color:var(--muted);margin-bottom:.65rem}
+.cs-btn{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:500;color:var(--muted2);padding:.28rem .65rem;border-radius:8px;border:1px solid var(--b2);background:var(--bg);transition:all .2s}
+.cs-card:hover .cs-btn{background:var(--g-bg);color:var(--g-dk);border-color:rgba(109,191,65,.3)}
+
+/* ─── OCCASIONS STRIP ─── */
+.occ-strip{background:var(--ink);padding:1.6rem 24px;margin-top:56px}
+.occ-inner{max-width:var(--W);margin:0 auto;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+.occ-chip{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .85rem;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-size:.72rem;color:rgba(255,255,255,.65);font-weight:500;transition:all .2s}
+.occ-chip:hover{background:rgba(109,191,65,.2);border-color:rgba(109,191,65,.4);color:#fff}
+.occ-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--g);flex-shrink:0}
+
+/* ─── TESTIMONIALS ─── */
+.testi-sec{padding:56px 24px 0;max-width:var(--W);margin:0 auto}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2rem}
+.tc{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);padding:1.5rem;transition:transform .3s,box-shadow .3s}
+.tc:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.tc-stars{font-size:.95rem;margin-bottom:.7rem;color:#f59e0b}
+.tc-text{font-size:.83rem;color:var(--muted);line-height:1.72;margin-bottom:1.1rem;font-style:italic}
+.tc-ft{display:flex;align-items:center;gap:.65rem}
+.tc-av{width:36px;height:36px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0}
+.tc-name{font-weight:600;font-size:.82rem;line-height:1}
+.tc-car{font-size:.66rem;color:var(--muted2);margin-top:2px}
+
+/* ─── CTA ─── */
+.cta-sec{background:var(--g);padding:5rem 24px;margin-top:56px;position:relative;overflow:hidden}
+.cta-sec::before{content:'BNS';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);font-family:var(--serif);font-size:16rem;font-weight:800;color:rgba(0,0,0,.05);line-height:1;pointer-events:none;user-select:none}
+.cta-inner{max-width:var(--W);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;position:relative}
+.cta-h{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3.5rem);font-weight:800;color:#000;line-height:.95;letter-spacing:-.04em}
+.cta-p{font-size:.83rem;color:rgba(0,0,0,.5);max-width:320px;line-height:1.7;margin-top:.55rem}
+.cta-btns{display:flex;gap:.6rem;flex-wrap:wrap;flex-shrink:0}
+.btn-dk{padding:.78rem 1.8rem;background:#000;color:#fff;font-size:.73rem;font-weight:600;border-radius:11px;display:inline-block;transition:all .2s}
+.btn-dk:hover{background:#1a1a1a}
+.btn-dk-o{padding:.78rem 1.8rem;background:transparent;color:#000;font-size:.73rem;font-weight:500;border-radius:11px;border:1px solid rgba(0,0,0,.25);display:inline-block;transition:all .2s}
+.btn-dk-o:hover{background:rgba(0,0,0,.07)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--white);border-top:1px solid var(--b);padding:4rem 24px 2rem}
+.ft{max-width:var(--W);margin:0 auto}
+.ft-top{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.ft-brand p{font-size:.76rem;color:var(--muted2);line-height:1.8;max-width:210px;margin-top:.9rem}
+.ft-soc{display:flex;gap:.4rem;margin-top:1.2rem}
+.ft-soc a{width:30px;height:30px;border-radius:7px;background:var(--bg);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:var(--muted2);transition:all .2s}
+.ft-soc a:hover{background:var(--ink);color:#fff}
+.ft-col h5{font-size:.57rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:1rem}
+.ft-col li{margin-bottom:.55rem}
+.ft-col a{font-size:.77rem;color:var(--muted2);transition:color .2s}
+.ft-col a:hover{color:var(--ink)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.6rem;border-top:1px solid var(--b);font-size:.63rem;color:var(--muted2);flex-wrap:wrap;gap:.5rem}
+.ft-links{display:flex;gap:.8rem}
+.ft-links a{color:var(--muted2);transition:color .2s}
+.ft-links a:hover{color:var(--ink)}
+
+/* ─── WA FAB ─── */
+.wa-fab{position:fixed;bottom:24px;right:24px;z-index:490;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:transform .2s,box-shadow .2s}
+.wa-fab:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(37,211,102,.5)}
+.wa-fab svg{width:26px;height:26px}
+
+/* ─── COOKIE ─── */
+.ck-bar{position:fixed;bottom:0;left:0;right:0;z-index:495;background:var(--ink);color:#fff;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.78rem;transform:translateY(100%);transition:transform .4s}
+.ck-bar.show{transform:none}
+.ck-bar p{color:rgba(255,255,255,.65);max-width:520px;line-height:1.5}
+.ck-bar a{color:var(--g);text-decoration:underline}
+.ck-btns{display:flex;gap:.5rem;flex-shrink:0}
+.ck-btn{padding:.4rem .9rem;border-radius:7px;font-size:.7rem;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:var(--sans)}
+.ck-btn.ok{background:var(--g);color:#000}
+.ck-btn.no{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1050px){
+  .nav-links{display:none}.burger{display:flex}
+  .bento{grid-template-columns:1fr 1fr}
+  .bc1,.bc2,.bc3,.bc4,.bc5{grid-column:span 1}.bc1{min-height:240px}
+  .hero-cars{grid-template-columns:1fr 1fr;max-width:600px}
+  .cs-grid{grid-template-columns:1fr 1fr}
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .ft-top{grid-template-columns:1fr 1fr;gap:2.5rem}
+}
+@media(max-width:700px){
+  :root{--nav-h:58px;--nav-top:10px}
+  .hero-cars{grid-template-columns:1fr;max-width:380px}
+  .strip{flex-wrap:wrap}.si{flex:none;width:50%}
+  .cs-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .cta-inner{flex-direction:column}
+  .occ-inner{gap:1rem}
+  .ft-top{grid-template-columns:1fr}
+  .ft-bot{flex-direction:column;gap:.4rem;text-align:center}
+  footer{padding:3rem 16px 2rem}
+  .wa-fab{bottom:16px;right:16px}
+  .ck-bar{padding:.75rem 1rem}
+}
+@media(max-width:480px){
+  .hero{padding:calc(var(--nav-h) + var(--nav-top) + 36px) 16px 44px}
+  .h1{font-size:clamp(2.6rem,9vw,4rem)}
+  .hero-btns{gap:.5rem}
+  .bento{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">BNS <b>Prestige</b></div><div class="logo-sub">Location · Bruxelles</div></div>
+  </a>
+  <ul class="nav-links"><li><a href="index.html" class="on" data-i18n="nav_accueil">Accueil</a></li><li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li><li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul>
+  <div class="nav-right">
+    <a href="reserver.html" class="nav-cta" data-i18n="nav_reserver">Réserver →</a>
+    <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-close" onclick="document.getElementById('mob').classList.remove('open')">✕</button>
+  <a href="index.html" onclick="document.getElementById('mob').classList.remove('open')">Accueil</a><a href="nosvoitures.html" onclick="document.getElementById('mob').classList.remove('open')">Nos Voitures</a><a href="comment-ca-marche.html" onclick="document.getElementById('mob').classList.remove('open')">Comment ça marche</a><a href="contact.html" onclick="document.getElementById('mob').classList.remove('open')">Contact</a><a href="reserver.html" onclick="document.getElementById('mob').classList.remove('open')">Réserver →</a>
+</div>
+<section class="hero">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="pill"><span class="pill-dot"></span><span class="pill-txt" data-i18n="hero_pill">2 voitures disponibles · Bruxelles &amp; alentours</span></div>
+  <h1 class="h1">La <span class="grn">performance</span><br/><span class="dim">à votre portée.</span></h1>
+  <p class="hero-p" data-i18n="hero_sub">Audi RS3, Golf 8 R et Clio 5 Alpine à Bruxelles. Livrées à domicile, assurées tous risques.</p>
+  <div class="hero-btns">
+    <a href="nosvoitures.html" class="btn-f" data-i18n="btn_voir">Voir les voitures →</a>
+    <a href="reserver.html" class="btn-o" data-i18n="btn_reserver">Réserver maintenant</a>
+  </div>
+  <div class="hero-cars">
+    <a href="nosvoitures.html#rs3" class="hc">
+      <div class="hc-photo"><img src="img/rs3_1.png" alt="Audi RS3"/><div class="avail-dot"></div></div>
+      <div class="hc-body"><div class="hc-cat">Audi Sport · 2026</div><div class="hc-name">RS3 Sportback</div><div class="hc-chips"><span class="ch g">400 ch</span><span class="ch">3,8 s</span><span class="ch">Quattro</span></div><div class="hc-ft"><div><div class="hc-price">350€</div><div class="hc-unit">par jour · tout inclus</div></div><span class="hc-btn">Voir →</span></div></div>
+    </a>
+    <a href="nosvoitures.html#golfr" class="hc">
+      <div class="hc-photo" style="background:#f0f0ef"><img src="img/golfr_1.png" alt="Golf 8 R"/><div class="avail-dot"></div></div>
+      <div class="hc-body"><div class="hc-cat">Volkswagen · 2026</div><div class="hc-name">Golf 8 R</div><div class="hc-chips"><span class="ch g">333 ch</span><span class="ch">4,9 s</span><span class="ch">4Motion</span></div><div class="hc-ft"><div><div class="hc-price">280€</div><div class="hc-unit">par jour · tout inclus</div></div><span class="hc-btn">Voir →</span></div></div>
+    </a>
+    <!-- removed clio -->
+      <div class="hc-photo" style="background:#dce8f5"><img src="img/clio_1.png" alt="Clio 5 Alpine"/><div class="avail-dot"></div></div>
+      <div class="hc-body"><div class="hc-cat">Renault · Alpine</div><div class="hc-name">Clio 5 Alpine</div><div class="hc-chips"><span class="ch g">200 ch</span><span class="ch">6,4 s</span><span class="ch">EDC</span></div><div class="hc-ft"><div><div class="hc-price">180€</div><div class="hc-unit">par jour · tout inclus</div></div><span class="hc-btn">Voir →</span></div></div>
+    </a>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="si"><div class="si-n">2</div><div class="si-l">Voitures</div></div>
+  <div class="si"><div class="si-n">24<span>h</span></div><div class="si-l">Assistance</div></div>
+  <div class="si"><div class="si-n">100<span>%</span></div><div class="si-l">Tous risques</div></div>
+  <div class="si"><div class="si-n">30<span>km</span></div><div class="si-l">Livraison</div></div>
+  <div class="si"><div class="si-n">7<span>/7</span></div><div class="si-l">Disponible</div></div>
+</div>
+
+<!-- BENTO -->
+<section class="bento-sec">
+  <div class="sec-tag">Nos engagements</div>
+  <h2 class="sec-h">Pourquoi BNS Prestige.</h2>
+  <div class="bento">
+    <div class="bc bc1">
+      <span class="bc1-badge">Best-seller</span>
+      <div class="bc1-img"><img src="img/rs3_3.png" alt="RS3"/></div>
+      <div class="bc1-overlay"><div class="bc1-name">Audi RS3 2026</div><div class="bc1-sub">400 ch · Gris Nardo · 350€/j</div></div>
+    </div>
+    <div class="bc bc2">
+      <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="svc-title">Assurance tous risques</div>
+      <p class="svc-desc">Incluse dans chaque location. Roulez l'esprit tranquille, sans franchise excessive.</p>
+    </div>
+    <div class="bc bc3"><div class="bn">&lt;30<span>'</span></div><div class="bl">Réponse WhatsApp</div><p class="bd">7j/7, de 8h à 22h. Confirmation sous 2 heures garantie.</p></div>
+    <div class="bc bc4"><div class="bn">🚗</div><div class="bl">Livraison domicile</div><p class="bd">Bruxelles et alentours (30 km). Domicile, hôtel, bureau.</p></div>
+    <div class="bc bc5">
+      <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="svc-title">Plein &amp; nettoyage inclus</div>
+      <p class="svc-desc">Chaque remise se fait avec le plein et le véhicule nettoyé int./ext.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMING SOON -->
+<section class="cs-sec">
+  <div class="cs-head">
+    <div><div class="sec-tag">À venir</div><div class="cs-t" data-i18n="coming_title">Bientôt disponibles</div></div>
+    <p class="cs-sub" data-i18n="coming_sub">Contactez-nous pour être notifié en priorité.</p>
+  </div>
+  <div class="cs-grid">
+    <div class="cs-card"><div class="cs-photo"><img src="img/rs6_1.png" alt="RS6"/><span class="cs-badge">Bientôt</span></div><div class="cs-body"><div class="cs-brand">Audi Sport</div><div class="cs-name">RS6 Avant</div><div class="cs-power">630 ch · V8 biturbo · Quattro</div><a href="contact.html" class="cs-btn">Me notifier →</a></div></div>
+    <div class="cs-card"><div class="cs-photo" style="background:#111"><img src="img/g63_1.png" alt="G63"/><span class="cs-badge">Bientôt</span></div><div class="cs-body"><div class="cs-brand">Mercedes-AMG</div><div class="cs-name">G 63 AMG</div><div class="cs-power">585 ch · V8 biturbo · SUV</div><a href="contact.html" class="cs-btn">Me notifier →</a></div></div>
+    <div class="cs-card"><div class="cs-photo" style="background:#e0e0dc"><img src="img/a45s_1.png" alt="A45S"/><span class="cs-badge">Bientôt</span></div><div class="cs-body"><div class="cs-brand">Mercedes-AMG</div><div class="cs-name">A 45 S 4MATIC+</div><div class="cs-power">421 ch · Le + puissant 4-cyl</div><a href="contact.html" class="cs-btn">Me notifier →</a></div></div>
+  </div>
+</section>
+
+<!-- OCCASIONS STRIP -->
+<div class="occ-strip">
+  <div class="occ-inner">
+    <a href="occasions/mariage.html" class="occ-chip"><span class="dot"></span>💍 Mariage</a>
+    <a href="occasions/anniversaire.html" class="occ-chip"><span class="dot"></span>🎂 Anniversaire</a>
+    <a href="occasions/weekend.html" class="occ-chip"><span class="dot"></span>❤️ Weekend</a>
+    <a href="occasions/shooting.html" class="occ-chip"><span class="dot"></span>📸 Shooting</a>
+    <a href="occasions/business.html" class="occ-chip"><span class="dot"></span>💼 Business</a>
+    <a href="contact.html" class="occ-chip"><span class="dot"></span>🎁 Bon cadeau</a>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testi-sec">
+  <div class="sec-tag">Témoignages</div>
+  <h2 class="sec-h">Ils ont roulé avec nous.</h2>
+  <div class="testi-grid">
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"Service impeccable, la RS3 était propre, plein fait, livrée à l'heure. Totalement recommandé pour un weekend spécial."</p><div class="tc-ft"><div class="tc-av">AK</div><div><div class="tc-name">Adam K.</div><div class="tc-car">Audi RS3 · Weekend</div></div></div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"La Golf R est une bête ! Communication rapide, tout était clair. Prix honnête pour la qualité du service."</p><div class="tc-ft"><div class="tc-av">NL</div><div><div class="tc-name">Nicolas L.</div><div class="tc-car">Golf 8 R · 3 jours</div></div></div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"Livraison à domicile nickel, voiture en parfait état. Exactement ce que je cherchais pour mon anniversaire."</p><div class="tc-ft"><div class="tc-av">SM</div><div><div class="tc-name">Sofia M.</div><div class="tc-car">Clio Alpine · 1 jour</div></div></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-sec">
+  <div class="cta-inner">
+    <div><h2 class="cta-h">Votre voiture<br/>vous attend.</h2><p class="cta-p">Disponible dès aujourd'hui. Réservez en ligne ou contactez-nous via WhatsApp.</p></div>
+    <div class="cta-btns"><a href="reserver.html" class="btn-dk">Réserver maintenant →</a><a href="contact.html" class="btn-dk-o">Nous contacter</a></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="logo-name">BNS <b>Prestige</b></div></div></a>
+        <p data-i18n="ft_location">Location de voitures sportives · Bruxelles et alentours.</p>
+        <div class="ft-soc"><a href="https://instagram.com/bnsprestige" target="_blank" rel="noopener">IG</a><a href="https://wa.me/32400000000" target="_blank" rel="noopener">WA</a><a href="https://snapchat.com/add/bnsprestige" target="_blank" rel="noopener">SC</a></div>
+      </div>
+      <div class="ft-col"><h5 data-i18n="ft_pages">Pages</h5><ul>
+        <li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li>
+        <li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li>
+        <li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li>
+        <li><a href="reserver.html" data-i18n="nav_reserver">Réserver</a></li>
+        <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_fleet">Flotte</h5><ul>
+        <li><a href="nosvoitures.html#rs3">Audi RS3 — 350€/j</a></li>
+        <li><a href="nosvoitures.html#golfr">Golf 8 R — 280€/j</a></li>
+      </ul></div>
+      <div class="ft-col"><h5 data-i18n="ft_contact">Contact</h5><ul>
+        <li><a href="https://wa.me/32400000000">WhatsApp</a></li>
+        <li><a href="tel:+32400000000">+32 4XX XX XX XX</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#61020e0f1500021521030f1211130412150806044f0304"><span class="__cf_email__" data-cfemail="02616d6c7663617642606c7172706771766b65672c6067">[email&#160;protected]</span></a></li>
+      </ul></div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 BNS Prestige.</span>
+      <div class="ft-links"><a href="cgv.html">CGV</a> · <a href="cgv.html">RGPD</a></div>
+      <span>Bruxelles &amp; alentours</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WA FAB -->
+
+
+<!-- COOKIE -->
+</div>
+<a class="wa-fab" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.553 4.092 1.52 5.819L0 24l6.335-1.49C8.03 23.447 9.983 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.88 0-3.628-.507-5.135-1.39l-.369-.218-3.762.984.998-3.667-.24-.378A9.818 9.818 0 012.182 12C2.182 6.57 6.
+<script src="i18n.js"></script>
+</body>
+</html>

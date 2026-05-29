@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Occasions & Evenements — BNS Prestige</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--g:#6DBF41;--gl:#82d456;--g-bg:#EEF8E5;--g-dk:#4a8f2a;--ink:#111;--muted:#6a6d68;--muted2:#a0a39e;--bg:#F7F7F4;--white:#fff;--b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);--sh:0 1px 12px rgba(0,0,0,.06);--sh2:0 6px 36px rgba(0,0,0,.09);--serif:'Syne',sans-serif;--sans:'Outfit',sans-serif;--nav:66px;--W:1260px;--r:16px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}ul{list-style:none}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px}
+.nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:500;width:min(calc(100% - 24px),var(--W));height:var(--nav);display:flex;align-items:center;justify-content:space-between;padding:0 1.4rem;background:rgba(255,255,255,.96);backdrop-filter:blur(22px);border:1px solid var(--b2);border-radius:14px;box-shadow:var(--sh2)}
+.logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:13px}
+.logo-name{font-family:var(--serif);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);line-height:1}
+.logo-name b{color:var(--g)}
+.logo-sub{font-size:.38rem;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:.2rem}
+.nav-links a{font-size:.68rem;font-weight:500;color:var(--muted);padding:.38rem .75rem;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.on{background:var(--bg);color:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.nav-cta{padding:.45rem 1.1rem;background:var(--ink);color:#fff;font-size:.66rem;font-weight:600;border-radius:9px;transition:background .2s;display:inline-block}
+.nav-cta:hover{background:var(--g)}
+.burger{display:none;flex-direction:column;gap:5px;padding:4px;cursor:pointer;background:none;border:none}
+.burger span{width:18px;height:1.5px;background:var(--ink);display:block;border-radius:2px}
+.mob{display:none;position:fixed;inset:0;z-index:499;background:rgba(247,247,244,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mob.open{display:flex}
+.mob a{font-family:var(--serif);font-size:clamp(1.8rem,7vw,3.5rem);font-weight:700;color:var(--muted);transition:color .2s}
+.mob a:hover{color:var(--g)}
+.hero{padding:calc(var(--nav) + 80px) 24px 60px;max-width:var(--W);margin:0 auto;text-align:center}
+.hero-pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--g-bg);color:var(--g-dk);padding:.3rem .8rem;border-radius:100px;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.2rem}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,6rem);font-weight:800;color:var(--ink);line-height:.9;letter-spacing:-.05em;margin-bottom:1rem}
+.hero-h1 span{color:var(--g);display:block}
+.hero-p{font-size:.95rem;color:var(--muted);max-width:480px;margin:0 auto 2.5rem;line-height:1.72}
+.hero-btns{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.btn-b{padding:.78rem 1.8rem;background:var(--ink);color:#fff;font-size:.75rem;font-weight:600;border-radius:11px;display:inline-flex;align-items:center;gap:.4rem;transition:all .25s}
+.btn-b:hover{background:var(--g);transform:translateY(-2px)}
+.btn-o{padding:.78rem 1.8rem;background:var(--white);color:var(--ink);font-size:.75rem;font-weight:500;border-radius:11px;border:1px solid var(--b2);box-shadow:var(--sh);display:inline-flex;align-items:center;gap:.4rem;transition:all .25s}
+.btn-o:hover{border-color:var(--g);transform:translateY(-2px)}
+.occasions-section{padding:0 24px 80px;max-width:var(--W);margin:0 auto}
+.sec-tag{display:inline-flex;align-items:center;gap:.35rem;background:var(--g-bg);color:var(--g-dk);padding:.28rem .7rem;border-radius:100px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem}
+.sec-h{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);font-weight:800;color:var(--ink);line-height:.95;letter-spacing:-.04em;margin-bottom:.6rem}
+.occasions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2rem}
+.occ-card{background:var(--white);border-radius:20px;border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer}
+.occ-card:hover{transform:translateY(-6px);box-shadow:var(--sh2)}
+.occ-top{height:180px;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;overflow:hidden}
+.occ-top::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent)}
+.occ-label{position:absolute;bottom:.8rem;left:1rem;font-family:var(--serif);font-size:1.2rem;font-weight:800;color:#fff;z-index:2;letter-spacing:-.03em}
+.occ-body{padding:1.2rem 1.4rem}
+.occ-desc{font-size:.82rem;color:var(--muted);line-height:1.65;margin-bottom:1rem}
+.occ-perks{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.1rem}
+.occ-perk{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--muted)}
+.occ-perk::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0}
+.occ-price{font-size:.7rem;font-weight:600;color:var(--g-dk);background:var(--g-bg);padding:.3rem .7rem;border-radius:6px;display:inline-block}
+.occ-cta{display:block;text-align:center;margin-top:1rem;padding:.7rem;background:var(--ink);color:#fff;font-size:.74rem;font-weight:600;border-radius:10px;transition:background .2s}
+.occ-cta:hover{background:var(--g)}
+.b2b-section{background:var(--ink);padding:72px 24px;margin-bottom:0}
+.b2b-inner{max-width:var(--W);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.b2b-h{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;color:#fff;letter-spacing:-.04em;margin-bottom:.7rem}
+.b2b-h span{color:var(--g)}
+.b2b-p{font-size:.86rem;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:1.8rem}
+.b2b-list{display:flex;flex-direction:column;gap:.55rem;margin-bottom:2rem}
+.b2b-item{display:flex;align-items:center;gap:.65rem;font-size:.82rem;color:rgba(255,255,255,.7)}
+.b2b-ck{width:20px;height:20px;border-radius:5px;background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.6rem;color:#000;font-weight:700}
+.b2b-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.b2b-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.4rem;text-align:center}
+.b2b-icon{font-size:2rem;margin-bottom:.6rem}
+.b2b-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.3rem}
+.b2b-sub{font-size:.72rem;color:rgba(255,255,255,.4)}
+.btn-g-dk{padding:.85rem 2rem;background:var(--g);color:#000;font-size:.76rem;font-weight:700;border-radius:11px;display:inline-block;transition:all .25s;font-family:var(--serif)}
+.btn-g-dk:hover{filter:brightness(1.1);transform:translateY(-2px)}
+footer{background:var(--white);border-top:1px solid var(--b);padding:4rem 24px 2rem}
+.ft{max-width:var(--W);margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3.5rem;margin-bottom:3.5rem}
+.ft-brand-p{font-size:.74rem;color:var(--muted2);line-height:1.8;max-width:200px;margin-top:.85rem}
+.ft-soc{display:flex;gap:.4rem;margin-top:1.2rem}
+.ft-soc a{width:29px;height:29px;border-radius:7px;background:var(--bg);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;color:var(--muted2);transition:all .2s}
+.ft-soc a:hover{background:var(--ink);color:#fff}
+.ft-col h5{font-size:.56rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:1rem}
+.ft-col li{margin-bottom:.55rem}
+.ft-col a{font-size:.76rem;color:var(--muted2);transition:color .2s}
+.ft-col a:hover{color:var(--ink)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;padding-top:1.6rem;border-top:1px solid var(--b);font-size:.63rem;color:var(--muted2)}
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:999;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);cursor:pointer;transition:transform .2s;text-decoration:none}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:28px;height:28px;fill:#fff}
+@media(max-width:1100px){.occasions-grid{grid-template-columns:1fr 1fr}.b2b-inner{grid-template-columns:1fr}.b2b-cards{grid-template-columns:repeat(4,1fr)}.ft-top{grid-template-columns:1fr 1fr;gap:2.5rem}}
+@media(max-width:768px){:root{--nav:58px}.nav{top:10px;padding:0 1rem}.nav-links,.nav-cta{display:none}.burger{display:flex}.occasions-grid{grid-template-columns:1fr}.b2b-section{padding:56px 16px}.b2b-cards{grid-template-columns:1fr 1fr}.ft-top{grid-template-columns:1fr 1fr;gap:2rem}.ft-bot{flex-direction:column;gap:.4rem;text-align:center}footer{padding:3rem 16px 2rem}}
+@media(max-width:480px){.b2b-cards{grid-template-columns:1fr 1fr}.ft-top{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="logo"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="logo-name">BNS <b>Prestige</b></div><div class="logo-sub">Location · Bruxelles</div></div></a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-i18n="nav_accueil">Accueil</a></li>
+    <li><a href="nosvoitures.html" data-i18n="nav_voitures">Nos Voitures</a></li>
+    <li><a href="comment-ca-marche.html" data-i18n="nav_comment">Comment ça marche</a></li>
+    <li><a href="evenements.html" class="on" data-i18n="nav_occasions">Occasions</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="reserver.html" class="nav-cta" data-i18n="nav_reserver">Réserver →</a>
+    <button class="burger" onclick="document.getElementById('mob').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob" id="mob">
+  <button type="button" style="position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;background:none;border:none;cursor:pointer;color:var(--muted)" onclick="document.getElementById('mob').classList.remove('open')">✕</button>
+  <a href="index.html" onclick="document.getElementById('mob').classList.remove('open')">Accueil</a>
+  <a href="nosvoitures.html" onclick="document.getElementById('mob').classList.remove('open')">Nos Voitures</a>
+  <a href="comment-ca-marche.html" onclick="document.getElementById('mob').classList.remove('open')">Comment ça marche</a>
+  <a href="evenements.html" onclick="document.getElementById('mob').classList.remove('open')">Occasions</a>
+  <a href="contact.html" onclick="document.getElementById('mob').classList.remove('open')">Contact</a>
+  <a href="reserver.html" onclick="document.getElementById('mob').classList.remove('open')">Réserver →</a>
+</div>
+
+<div class="hero">
+  <div class="hero-pill" data-i18n="occ_tag">Pour chaque moment</div>
+  <h1 class="hero-h1">Une voiture pour <span>chaque occasion.</span></h1>
+  <p class="hero-p">Anniversaire, mariage, shooting, voyage d'affaires ou simplement le plaisir de conduire — nous avons la voiture qu'il vous faut.</p>
+  <div class="hero-btns">
+    <a href="nosvoitures.html" class="btn-b">Voir les voitures →</a>
+    <a href="contact.html" class="btn-o">Nous contacter</a>
+  </div>
+</div>
+
+<section class="occasions-section">
+  <div class="sec-tag">Occasions</div>
+  <h2 class="sec-h">Pour quel moment ?</h2>
+  <div class="occasions-grid">
+
+    <div class="occ-card" id="mariage">
+      <div class="occ-top" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+        <span style="position:relative;z-index:3">💍</span>
+        <div class="occ-label">Mariage</div>
+      </div>
+      <div class="occ-body">
+        <p class="occ-desc">Arrivez en grande pompe le jour J. Voiture décorée, livrée à l'église ou à la salle, chauffeur optionnel disponible.</p>
+        <div class="occ-perks">
+          <div class="occ-perk">Livraison à l'heure exacte</div>
+          <div class="occ-perk">Véhicule nettoyé et décoré</div>
+          <div class="occ-perk">Kilométrage illimité</div>
+        </div>
+        <span class="occ-price">Dès 350€ / jour</span>
+        <a href="reserver.html" class="occ-cta">Réserver pour un mariage</a>
+      </div>
+    </div>
+
+    <div class="occ-card" id="anniversaire">
+      <div class="occ-top" style="background:linear-gradient(135deg,#1a0a2e,#2d1b69)">
+        <span style="position:relative;z-index:3">🎂</span>
+        <div class="occ-label">Anniversaire</div>
+      </div>
+      <div class="occ-body">
+        <p class="occ-desc">Offrez-vous ou offrez à quelqu'un le cadeau parfait : une journée au volant d'une sportive de prestige.</p>
+        <div class="occ-perks">
+          <div class="occ-perk">Location 24h ou weekend</div>
+          <div class="occ-perk">Bon cadeau disponible</div>
+          <div class="occ-perk">Livraison à domicile incluse</div>
+        </div>
+        <span class="occ-price">Dès 280€ / 24h</span>
+        <a href="reserver.html" class="occ-cta">Réserver pour un anniversaire</a>
+      </div>
+    </div>
+
+    <div class="occ-card" id="shooting">
+      <div class="occ-top" style="background:linear-gradient(135deg,#0a1a0a,#1a3a1a)">
+        <span style="position:relative;z-index:3">📸</span>
+        <div class="occ-label">Shooting</div>
+      </div>
+      <div class="occ-body">
+        <p class="occ-desc">Pour vos photos, vidéos, clips ou contenus réseaux sociaux. Nos voitures sont des sujets qui font toujours l'effet.</p>
+        <div class="occ-perks">
+          <div class="occ-perk">Forfait à la demi-journée</div>
+          <div class="occ-perk">Plusieurs voitures disponibles</div>
+          <div class="occ-perk">Déplacement sur site possible</div>
+        </div>
+        <span class="occ-price">Forfait sur devis</span>
+        <a href="contact.html" class="occ-cta">Demander un devis</a>
+      </div>
+    </div>
+
+    <div class="occ-card" id="weekend">
+      <div class="occ-top" style="background:linear-gradient(135deg,#1a0a0a,#3a1010)">
+        <span style="position:relative;z-index:3">❤️</span>
+        <div class="occ-label">Weekend romantique</div>
+      </div>
+      <div class="occ-body">
+        <p class="occ-desc">Surprenez votre moitié avec un weekend inoubliable. Road trip, restaurant gastronomique, découverte de l'Ardenne.</p>
+        <div class="occ-perks">
+          <div class="occ-perk">Forfait Sam + Dim</div>
+          <div class="occ-perk">Livraison à votre hôtel</div>
+          <div class="occ-perk">Kilométrage illimité</div>
+        </div>
+        <span class="occ-price">Dès 500€ le weekend</span>
+        <a href="reserver.html" class="occ-cta">Réserver le weekend</a>
+      </div>
+    </div>
+
+    <div class="occ-card" id="business">
+      <div class="occ-top" style="background:linear-gradient(135deg,#0a0a1a,#1a1a3a)">
+        <span style="position:relative;z-index:3">💼</span>
+        <div class="occ-label">Business</div>
+      </div>
+      <div class="occ-body">
+        <p class="occ-desc">Impressionnez vos clients ou partenaires. Arrivez en RS3 ou Golf R à votre prochain rendez-vous important.</p>
+        <div class="occ-perks">
+          <div class="occ-perk">Facture entreprise disponible</div>
+          <div class="occ-perk">Tarifs groupes et récurrents</div>
+          <div class="occ-perk">Disponible à l'aéroport</div>
+        </div>
+        <span class="occ-price">Tarif entreprise sur devis</span>
+        <a href="contact.html" class="occ-cta">Contact entreprise</a>
+      </div>
+    </div>
+
+    <div class="occ-card" id="cadeau">
+      <div class="occ-top" style="background:linear-gradient(135deg,#0a1a10,#1a2a1a)">
+        <span style="position:relative;z-index:3">🎁</span>
+        <div class="occ-label">Bon Cadeau</div>
+      </div>
+      <div class="occ-body">
+        <p class="occ-desc">Le cadeau qui marque les esprits. Valable pour n'importe quelle voiture de notre flotte, sur une durée de votre choix.</p>
+        <div class="occ-perks">
+          <div class="occ-perk">Valable 12 mois</div>
+          <div class="occ-perk">Envoi par WhatsApp ou email</div>
+          <div class="occ-perk">Montant au choix</div>
+        </div>
+        <span class="occ-price">Dès 100€</span>
+        <a href="contact.html" class="occ-cta">Commander un bon cadeau</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="b2b-section">
+  <div class="b2b-inner">
+    <div>
+      <h2 class="b2b-h">Vous êtes une <span>entreprise ?</span></h2>
+      <p class="b2b-p">Tarifs préférentiels pour les locations récurrentes, événements d'entreprise, accueil VIP, ou pour vos équipes commerciales.</p>
+      <div class="b2b-list">
+        <div class="b2b-item"><div class="b2b-ck">✓</div>Facturation au nom de votre société</div>
+        <div class="b2b-item"><div class="b2b-ck">✓</div>Contrats de location longue durée</div>
+        <div class="b2b-item"><div class="b2b-ck">✓</div>Accueil VIP pour vos invités</div>
+        <div class="b2b-item"><div class="b2b-ck">✓</div>Flotte dédiée pour séminaires</div>
+        <div class="b2b-item"><div class="b2b-ck">✓</div>Disponibilité prioritaire</div>
+      </div>
+      <a href="contact.html" class="btn-g-dk">Parler à l'équipe →</a>
+    </div>
+    <div class="b2b-cards">
+      <div class="b2b-card"><div class="b2b-icon">🤝</div><div class="b2b-name">Accueil VIP</div><div class="b2b-sub">Clients &amp; partenaires</div></div>
+      <div class="b2b-card"><div class="b2b-icon">🏢</div><div class="b2b-name">Team Building</div><div class="b2b-sub">Séminaires</div></div>
+      <div class="b2b-card"><div class="b2b-icon">✈️</div><div class="b2b-name">Airport Transfer</div><div class="b2b-sub">Zaventem</div></div>
+      <div class="b2b-card"><div class="b2b-icon">🎬</div><div class="b2b-name">Tournages</div><div class="b2b-sub">Clips &amp; pubs</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft">
+    <div class="ft-top">
+      <div>
+        <a href="index.html" class="logo" style="display:inline-flex"><div class="logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="logo-name">BNS <b>Prestige</b></div></div></a>
+        <p class="ft-brand-p" data-i18n="ft_location">Location de voitures sportives · Bruxelles et alentours.</p>
+        <div class="ft-soc">
+          <a href="https://instagram.com/bnsprestige" target="_blank">IG</a>
+          <a href="https://wa.me/32400000000" target="_blank">WA</a>
+          <a href="https://snapchat.com/add/bnsprestige" target="_blank">SC</a>
+        </div>
+      </div>
+      <div class="ft-col"><h5>Pages</h5><ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="nosvoitures.html">Nos Voitures</a></li>
+        <li><a href="evenements.html">Occasions</a></li>
+        <li><a href="comment-ca-marche.html">Comment ça marche</a></li>
+        <li><a href="reserver.html">Réserver</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="ft-col"><h5>Flotte</h5><ul>
+        <li><a href="nosvoitures.html#rs3">Audi RS3 — 350€/j</a></li>
+        <li><a href="nosvoitures.html#golfr">Golf 8 R — 280€/j</a></li>
+      </ul></div>
+      <div class="ft-col"><h5>Contact</h5><ul>
+        <li><a href="https://wa.me/32400000000">WhatsApp</a></li>
+        <li><a href="tel:+32400000000">+32 4XX XX XX XX</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#47242829332624330725293437352234332e2022692522"><span class="__cf_email__" data-cfemail="97f4f8f9e3f6f4e3d7f5f9e4e7e5f2e4e3fef0f2b9f5f2">[email&#160;protected]</span></a></li>
+      </ul></div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 BNS Prestige.</span>
+      <div style="display:flex;gap:.8rem"><a href="cgv.html">CGV</a><span>·</span><a href="cgv.html">RGPD</a></div>
+      <span>Bruxelles &amp; alentours</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/32400000000?text=Bonjour%20BNS%20Prestige%20!" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.553 4.092 1.52 5.819L0 24l6.335-1.49C8.03 23.447 9.983 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.88 0-3.628-.507-5.135-1.39l-.369-.218-3.762.984.998-3.667-.24-.378A9.818 9.818 0 012.182 12C2.182 6.57 6.57
+</body>
+</html>

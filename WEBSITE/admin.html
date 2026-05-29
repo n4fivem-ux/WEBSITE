@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin — BNS Prestige</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<style>
+:root{--g:#6DBF41;--g-bg:#EEF8E5;--g-dk:#4a8f2a;--ink:#111;--muted:#6a6d68;--muted2:#a0a39e;--bg:#F7F7F4;--white:#fff;--b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.11);--red:#ef4444;--red-bg:#fef2f2;--sh:0 1px 12px rgba(0,0,0,.06);--sh2:0 6px 36px rgba(0,0,0,.09);--serif:'Syne',sans-serif;--sans:'Outfit',sans-serif;--r:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}button{cursor:pointer;border:none;background:none;font-family:var(--sans)}
+
+/* ── LOGIN SCREEN ── */
+.login-wrap{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;padding:24px;
+}
+.login-card{
+  background:var(--white);border-radius:20px;border:1px solid var(--b2);
+  box-shadow:var(--sh2);padding:2.5rem 2rem;width:100%;max-width:360px;
+  text-align:center;
+}
+.login-logo{
+  width:52px;height:52px;background:var(--ink);border-radius:14px;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;
+}
+.login-logo svg{width:28px;height:20px}
+.login-title{font-family:var(--serif);font-size:1.5rem;font-weight:800;color:var(--ink);margin-bottom:.3rem}
+.login-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.8rem}
+.login-field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem;text-align:left}
+.login-field label{font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2)}
+.login-input{
+  background:var(--bg);border:1.5px solid transparent;border-radius:10px;
+  color:var(--ink);padding:.75rem 1rem;font-size:1.1rem;font-weight:600;
+  outline:none;width:100%;font-family:var(--sans);transition:all .2s;
+  letter-spacing:.3em;text-align:center;
+}
+.login-input:focus{border-color:var(--g);background:var(--white);box-shadow:0 0 0 3px rgba(109,191,65,.1)}
+.login-btn{
+  width:100%;padding:.9rem;border-radius:10px;background:var(--ink);color:#fff;
+  font-size:.8rem;font-weight:700;font-family:var(--serif);cursor:pointer;border:none;
+  transition:all .22s;margin-top:.4rem;letter-spacing:.03em;
+}
+.login-btn:hover{background:var(--g)}
+.login-error{font-size:.76rem;color:var(--red);margin-top:.5rem;display:none}
+
+/* ── APP (hidden until logged in) ── */
+.app{display:none}
+
+/* ── SIDEBAR ── */
+.app-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{
+  background:var(--ink);position:sticky;top:0;height:100vh;
+  display:flex;flex-direction:column;padding:1.5rem 1rem;
+  overflow-y:auto;
+}
+.sb-logo{display:flex;align-items:center;gap:.65rem;padding:.5rem .8rem;margin-bottom:1.8rem}
+.sb-logo-icon{width:34px;height:34px;background:rgba(255,255,255,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-logo-icon svg{width:18px;height:13px}
+.sb-title{font-family:var(--serif);font-size:.82rem;font-weight:700;color:#fff;letter-spacing:.06em;text-transform:uppercase}
+.sb-title b{color:var(--g)}
+.sb-section{font-size:.55rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25);padding:.5rem .8rem .3rem;margin-top:.8rem}
+.nav-item{
+  display:flex;align-items:center;gap:.65rem;
+  padding:.65rem .8rem;border-radius:9px;cursor:pointer;
+  transition:all .2s;color:rgba(255,255,255,.5);
+  font-size:.78rem;font-weight:500;
+}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.8)}
+.nav-item.active{background:rgba(109,191,65,.15);color:var(--g)}
+.nav-item svg{width:16px;height:16px;flex-shrink:0}
+.nav-item .badge{margin-left:auto;background:var(--red);color:#fff;font-size:.58rem;font-weight:700;padding:.15rem .4rem;border-radius:100px}
+.sb-logout{
+  margin-top:auto;padding:.65rem .8rem;border-radius:9px;
+  color:rgba(255,255,255,.3);font-size:.76rem;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;gap:.6rem;
+  transition:all .2s;
+}
+.sb-logout:hover{color:var(--red);background:rgba(239,68,68,.08)}
+.sb-logout svg{width:15px;height:15px}
+
+/* ── MAIN CONTENT ── */
+.content{padding:2rem 2.2rem;overflow-y:auto}
+.page{display:none}
+.page.active{display:block}
+.page-title{font-family:var(--serif);font-size:1.8rem;font-weight:800;color:var(--ink);letter-spacing:-.04em;margin-bottom:.3rem}
+.page-sub{font-size:.82rem;color:var(--muted);margin-bottom:2rem}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);overflow:hidden;margin-bottom:1.2rem}
+.card-head{padding:1rem 1.4rem;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+.card-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)}
+.card-body{padding:1.4rem}
+
+/* ── STAT CARDS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.2rem}
+.stat-card{background:var(--white);border-radius:var(--r);border:1px solid var(--b);box-shadow:var(--sh);padding:1.2rem 1.4rem}
+.stat-n{font-family:var(--serif);font-size:2.2rem;font-weight:800;color:var(--ink);letter-spacing:-.05em;line-height:1}
+.stat-n span{color:var(--g)}
+.stat-l{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-top:.25rem}
+
+/* ── CALENDAR ADMIN ── */
+.car-tabs{display:flex;gap:8px;margin-bottom:1.2rem}
+.car-tab{
+  padding:.5rem 1.1rem;border-radius:9px;font-size:.74rem;font-weight:600;
+  border:1.5px solid var(--b2);color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.car-tab:hover{border-color:var(--g);color:var(--g-dk)}
+.car-tab.on{border-color:var(--g);background:var(--g-bg);color:var(--g-dk)}
+
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-month-title{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--ink)}
+.cal-nav-btns{display:flex;gap:.4rem}
+.cal-nav-btn{width:32px;height:32px;border-radius:8px;background:var(--bg);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all .2s;color:var(--muted)}
+.cal-nav-btn:hover{background:var(--ink);color:#fff}
+
+.admin-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:.8rem}
+.day-header{text-align:center;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:.4rem 0}
+.day-cell{
+  aspect-ratio:1;border-radius:9px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;cursor:pointer;
+  transition:all .2s;border:1.5px solid transparent;
+  font-size:.78rem;font-weight:600;position:relative;
+}
+.day-cell.empty{background:transparent;cursor:default;border:none}
+.day-cell.past{background:var(--bg);color:var(--muted2);cursor:not-allowed;opacity:.4;border:none}
+.day-cell.available{background:var(--g-bg);color:var(--g-dk);border-color:rgba(109,191,65,.3)}
+.day-cell.available:hover{background:var(--g);color:#fff;border-color:var(--g);transform:scale(1.05)}
+.day-cell.booked{background:var(--red-bg);color:var(--red);border-color:rgba(239,68,68,.3)}
+.day-cell.booked:hover{background:var(--red);color:#fff;border-color:var(--red);transform:scale(1.05)}
+.day-cell.today{box-shadow:0 0 0 2px var(--ink)}
+
+.cal-legend{display:flex;gap:1.2rem;margin-top:1rem;flex-wrap:wrap}
+.cl-item{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--muted)}
+.cl-dot{width:10px;height:10px;border-radius:3px}
+.cl-dot.g{background:var(--g)}
+.cl-dot.r{background:var(--red)}
+.cl-dot.n{background:var(--bg);border:1px solid var(--b2)}
+
+.bulk-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.bulk-btn{padding:.4rem .9rem;border-radius:8px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid}
+.bulk-avail{background:var(--g-bg);color:var(--g-dk);border-color:rgba(109,191,65,.3)}
+.bulk-avail:hover{background:var(--g);color:#fff}
+.bulk-booked{background:var(--red-bg);color:var(--red);border-color:rgba(239,68,68,.3)}
+.bulk-booked:hover{background:var(--red);color:#fff}
+.bulk-clear{background:var(--bg);color:var(--muted);border-color:var(--b2)}
+.bulk-clear:hover{background:var(--ink);color:#fff}
+.bulk-info{font-size:.7rem;color:var(--muted2);font-style:italic}
+
+/* Saving indicator */
+.save-toast{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+  background:var(--ink);color:#fff;
+  padding:.6rem 1.2rem;border-radius:10px;
+  font-size:.76rem;font-weight:500;
+  display:none;align-items:center;gap:.5rem;
+  box-shadow:var(--sh2);
+}
+.save-toast.show{display:flex}
+.save-dot{width:8px;height:8px;background:var(--g);border-radius:50%;animation:pulse .8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* ── RESERVATIONS TABLE ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{padding:.7rem 1rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);border-bottom:2px solid var(--b);background:var(--bg)}
+td{padding:.85rem 1rem;border-bottom:1px solid var(--b);color:var(--ink);vertical-align:top}
+tr:hover td{background:var(--bg)}
+.status-badge{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .6rem;border-radius:100px;font-size:.62rem;font-weight:700;letter-spacing:.06em}
+.status-badge.pending{background:rgba(234,179,8,.12);color:#a16207}
+.status-badge.confirmed{background:var(--g-bg);color:var(--g-dk)}
+.status-badge.done{background:var(--bg);color:var(--muted2)}
+.action-btn{padding:.3rem .65rem;border-radius:7px;font-size:.66rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid;font-family:var(--sans)}
+.action-btn.confirm{background:var(--g-bg);color:var(--g-dk);border-color:rgba(109,191,65,.3)}
+.action-btn.confirm:hover{background:var(--g);color:#fff;border-color:var(--g)}
+.action-btn.done-btn{background:var(--bg);color:var(--muted);border-color:var(--b2)}
+.action-btn.done-btn:hover{background:var(--ink);color:#fff}
+
+/* Empty state */
+.empty-state{text-align:center;padding:3rem;color:var(--muted2)}
+.empty-state svg{width:40px;height:40px;margin:0 auto 1rem;opacity:.3}
+.empty-state p{font-size:.82rem}
+
+/* Loading */
+.loading{text-align:center;padding:2rem;color:var(--muted2);font-size:.82rem}
+
+/* Responsive */
+@media(max-width:900px){
+  .app-layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;flex-direction:row;flex-wrap:wrap;padding:1rem;gap:.4rem}
+  .sb-section{display:none}
+  .nav-item{padding:.5rem .7rem}
+  .sb-logo{margin-bottom:0}
+  .sb-logout{margin-top:0;margin-left:auto}
+  .content{padding:1.2rem}
+  .stats-row{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .stats-row{grid-template-columns:1fr}
+  .car-tabs{flex-wrap:wrap}
+}
+
+
+@media print {
+  body > *:not(#app) { display: none !important; }
+  .app { display: block !important; }
+  .app-layout { display: block !important; }
+  .sidebar { display: none !important; }
+  .app-main { padding: 0 !important; }
+  #page-dashboard, #page-calendar, #page-reservations { display: none !important; }
+  #page-contract { display: block !important; }
+  .page-title, .page-sub { display: none; }
+  /* Hide form side, show only contract preview */
+  #page-contract > div > div:first-child { display: none !important; }
+  #page-contract > div > div:last-child { display: block !important; width: 100% !important; }
+  .contract-preview { 
+    box-shadow: none !important; 
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .contract-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    border: none !important;
+    page-break-inside: avoid;
+  }
+  .print-btn-row { display: none !important; }
+  .ct-res-select-row { display: none !important; }
+  @page { margin: 15mm; size: A4; }
+}
+  .content { padding: 0 !important; }
+  #contract-doc { box-shadow: none !important; }
+  body, .app { background: white !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="login-title">BNS Prestige</div>
+    <div class="login-sub">Page d'administration · Accès sécurisé</div>
+    <div class="login-field">
+      <label>Mot de passe</label>
+      <input type="password" class="login-input" id="pwInput" placeholder="••••" maxlength="10" onkeydown="if(event.key==='Enter')checkPw()"/>
+    </div>
+    <button class="login-btn" onclick="checkPw()">Accéder →</button>
+    <div class="login-error" id="loginError">Mot de passe incorrect</div>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div class="app" id="app">
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sb-logo">
+        <div class="sb-logo-icon"><svg viewBox="0 0 22 16" fill="none"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" fill="none" stroke-linecap="round"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <span class="sb-title">BNS <b>Admin</b></span>
+      </div>
+
+      <div class="sb-section">Menu</div>
+      <div class="nav-item active" onclick="goPage('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Tableau de bord
+      </div>
+      <div class="nav-item" onclick="goPage('calendar',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Disponibilités
+      </div>
+      <div class="nav-item" onclick="goPage('reservations',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+        Réservations
+        <span class="badge" id="pending-badge" style="display:none">0</span>
+      </div>
+
+      <div class="nav-item" onclick="goPage('contract',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+        Générer contrat
+      </div>
+      <button class="sb-logout" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Déconnexion
+      </button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-title">Tableau de bord</div>
+        <div class="page-sub" id="dashboard-date">Chargement...</div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-n" id="stat-pending">—</div>
+            <div class="stat-l">Demandes en attente</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-n" id="stat-total">—</div>
+            <div class="stat-l">Total demandes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-n"><span id="stat-cars">2</span></div>
+            <div class="stat-l">Voitures actives</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-n"><span>24/7</span></div>
+            <div class="stat-l">Disponibilité</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Dernières demandes</div></div>
+          <div class="card-body" id="dashboard-recent" style="padding:0">
+            <div class="loading">Chargement...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALENDAR -->
+      <div class="page" id="page-calendar">
+        <div class="page-title">Disponibilités</div>
+        <div class="page-sub">Cliquez sur un jour pour basculer Disponible ↔ Complet. Mis à jour en temps réel pour les visiteurs.</div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="car-tabs">
+              <button class="car-tab on" onclick="switchCar('rs3',this)">Audi RS3</button>
+              <button class="car-tab" onclick="switchCar('golfr',this)">Golf 8 R</button>
+            </div>
+            <div class="bulk-actions">
+              <button class="bulk-btn bulk-avail" onclick="bulkMonth('available')">Tout Disponible</button>
+              <button class="bulk-btn bulk-booked" onclick="bulkMonth('booked')">Tout Complet</button>
+              <button class="bulk-btn bulk-clear" onclick="bulkMonth('none')">Effacer tout</button>
+              <span class="bulk-info" id="bulk-info"></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="cal-header">
+              <span class="cal-month-title" id="admin-cal-title"></span>
+              <div class="cal-nav-btns">
+                <button class="cal-nav-btn" onclick="adminPrevMonth()">‹</button>
+                <button class="cal-nav-btn" onclick="adminNextMonth()">›</button>
+              </div>
+            </div>
+            <div class="admin-cal-grid" id="admin-cal-days-header">
+              <div class="day-header">Lun</div><div class="day-header">Mar</div>
+              <div class="day-header">Mer</div><div class="day-header">Jeu</div>
+              <div class="day-header">Ven</div><div class="day-header">Sam</div>
+              <div class="day-header">Dim</div>
+            </div>
+            <div class="admin-cal-grid" id="admin-cal-grid"></div>
+            <div class="cal-legend">
+              <div class="cl-item"><div class="cl-dot g"></div>Disponible — visible sur le site</div>
+              <div class="cl-item"><div class="cl-dot r"></div>Complet — visible sur le site</div>
+              <div class="cl-item"><div class="cl-dot n"></div>Non défini — invisible</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESERVATIONS -->
+      <div class="page" id="page-reservations">
+        <div class="page-title">Demandes de réservation</div>
+        <div class="page-sub">Formulaires reçus depuis le site BNS Prestige.</div>
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Toutes les demandes</div>
+            <div style="display:flex;gap:.5rem">
+              <button class="bulk-btn bulk-avail" onclick="loadReservations()">Actualiser</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th><th>Voiture</th><th>Client</th><th>Dates</th>
+                  <th>Contact</th><th>Statut</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="res-tbody"><tr><td colspan="8" class="loading">Chargement...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- CONTRACT GENERATOR -->
+      <div class="page" id="page-contract">
+        <div class="page-title">Générer un contrat</div>
+        <div class="page-sub">Sélectionnez une réservation pour remplir automatiquement, ou remplissez manuellement.</div>
+        <!-- AUTO-FILL FROM RESERVATION -->
+        <div style="background:var(--g-bg);border:1px solid rgba(109,191,65,.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap">
+          <span style="font-size:.62rem;font-weight:700;color:var(--g-dk);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap">Charger depuis une réservation</span>
+          <select id="ct-res-select" onchange="fillContractFromRes()" style="flex:1;min-width:200px;background:var(--white);border:1.5px solid rgba(109,191,65,.3);border-radius:8px;padding:.45rem .75rem;font-size:.82rem;color:var(--ink);outline:none;font-family:var(--sans)">
+            <option value="">— Sélectionnez une réservation —</option>
+          </select>
+          <button onclick="fillContractFromRes()" style="padding:.45rem 1rem;background:var(--g);color:#000;font-size:.7rem;font-weight:700;border-radius:8px;cursor:pointer;border:none;white-space:nowrap;font-family:var(--sans)">Remplir automatiquement ↓</button>
+        </div>
+        <div style="display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start">
+          <!-- Form side -->
+          <div style="background:var(--white);border-radius:14px;border:1px solid var(--b);box-shadow:var(--sh);padding:1.5rem;overflow-y:auto;max-height:calc(100vh - 160px)">
+            <div style="font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--g-dk);margin-bottom:.7rem;padding-bottom:.35rem;border-bottom:1px solid rgba(109,191,65,.2)">Locataire</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Prénom</label><input id="c-prenom" type="text" placeholder="Mohamed" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Nom</label><input id="c-nom" type="text" placeholder="Benali" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+            </div>
+            <div style="margin-bottom:8px"><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Date de naissance</label><input id="c-dob" type="date" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+            <div style="margin-bottom:8px"><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Adresse complète</label><input id="c-adresse" type="text" placeholder="Rue, n°, CP, commune" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">N° permis</label><input id="c-permis" type="text" placeholder="B-123456-789" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Délivré le</label><input id="c-permis-date" type="date" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Téléphone</label><input id="c-tel" type="tel" placeholder="+32 4XX XX XX XX" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Email</label><input id="c-email" type="email" placeholder="email@exemple.com" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+            </div>
+            <div style="font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--g-dk);margin-bottom:.7rem;padding-bottom:.35rem;border-bottom:1px solid rgba(109,191,65,.2)">Véhicule</div>
+            <div style="margin-bottom:8px"><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Véhicule</label><select id="c-car" onchange="cCarChanged()" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans);cursor:pointer;-webkit-appearance:none"><option value="rs3">Audi RS3 Sportback 2026</option><option value="golfr">Volkswagen Golf 8 R 2026</option></select></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Immatriculation</label><input id="c-plaque" type="text" placeholder="1-ABC-234" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Km au départ</label><input id="c-km" type="number" placeholder="12500" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+            </div>
+            <div style="font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--g-dk);margin-bottom:.7rem;padding-bottom:.35rem;border-bottom:1px solid rgba(109,191,65,.2)">Dates & Tarif</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Date départ</label><input id="c-d1" type="date" oninput="cCalcPrice()" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Date retour</label><input id="c-d2" type="date" oninput="cCalcPrice()" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Heure départ</label><select id="c-h1" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans);cursor:pointer;-webkit-appearance:none"></select></div>
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Heure retour</label><select id="c-h2" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans);cursor:pointer;-webkit-appearance:none"></select></div>
+            </div>
+            <div id="contract-price-preview" style="background:var(--g-bg);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:.75rem;color:var(--g-dk)">Remplissez les dates pour voir le tarif</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Caution (€)</label><input id="c-caution" type="number" value="500" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans)"/></div>
+              <div><label style="font-size:.6rem;color:var(--muted2);display:block;margin-bottom:2px">Paiement</label><select id="c-paiement" style="width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:8px;padding:.55rem .75rem;font-size:.82rem;outline:none;font-family:var(--sans);cursor:pointer;-webkit-appearance:none"><option>Virement</option><option>Espèces</option><option>Payconiq</option></select></div>
+            </div>
+            <button onclick="generateContract()" style="width:100%;padding:.9rem;background:var(--g);color:#000;font-size:.8rem;font-weight:700;border-radius:11px;border:none;cursor:pointer;margin-bottom:8px;font-family:var(--serif)">Générer le contrat →</button>
+            <button onclick="window.print()" style="width:100%;padding:.8rem;background:var(--ink);color:#fff;font-size:.76rem;font-weight:600;border-radius:11px;border:none;cursor:pointer;font-family:var(--sans)">Imprimer / Sauvegarder PDF</button>
+          </div>
+          <!-- Preview side -->
+          <div>
+            <div style="font-family:var(--serif);font-size:1.1rem;font-weight:800;color:var(--ink);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem">Aperçu du contrat <span style="background:var(--g-bg);color:var(--g-dk);font-size:.58rem;font-weight:700;padding:.2rem .5rem;border-radius:4px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--sans)">Temps réel</span></div>
+            <div id="contract-doc" style="background:var(--white);border-radius:8px;box-shadow:var(--sh2);padding:32px 40px;font-size:10pt;line-height:1.5;color:#111">
+              <div style="text-align:center;padding:40px 0;color:#ccc;font-size:.88rem">Remplissez le formulaire et cliquez <strong style="color:var(--g)">Générer le contrat</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Saving toast -->
+<div class="save-toast" id="saveToast">
+  <div class="save-dot"></div>
+  <span id="saveToastMsg">Sauvegarde...</span>
+</div>
+
+<script>
+// ── AUTH ──
+const ADMIN_PW = '1357';
+function checkPw() {
+  const v = document.getElementById('pwInput').value;
+  if (v === ADMIN_PW) {
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+function logout() {
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+}
+
+// ── SUPABASE ──
+let resData = []; // Global reservation data
+
+let db;
+function initApp() {
+  try {
+    db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // Update dashboard date
+    const now = new Date();
+    document.getElementById('dashboard-date').textContent =
+      now.toLocaleDateString('fr-BE', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    loadDashboard();
+    initAdminCal();
+    loadReservations();
+
+    // Real-time subscription for reservations
+    db.channel('reservations').on('postgres_changes',
+      { event:'INSERT', schema:'public', table:'reservations' },
+      () => { loadDashboard(); loadReservations(); }
+    ).subscribe();
+  } catch(e) {
+    console.warn('Supabase not configured yet:', e.message);
+    showToast('⚠ Configurez supabase-config.js', 4000);
+  }
+}
+
+// ── TOAST ──
+function showToast(msg, duration=1800) {
+  const t = document.getElementById('saveToast');
+  document.getElementById('saveToastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ── NAV ──
+function goPage(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  el.classList.add('active');
+  if (page === 'reservations') loadReservations();
+  if (page === 'contract') { setTimeout(cInitSelects, 100); setTimeout(populateContractResSelect, 200); }
+}
+
+// ── DASHBOARD ──
+async function loadDashboard() {
+  if (!db) return;
+  try {
+    const { data, error } = await db.from('reservations').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+
+    const pending = data.filter(r => r.status === 'pending').length;
+    document.getElementById('stat-pending').innerHTML = `${pending}<span></span>`;
+    document.getElementById('stat-total').textContent = data.length;
+
+    // Badge
+    const badge = document.getElementById('pending-badge');
+    if (pending > 0) { badge.textContent = pending; badge.style.display = ''; }
+    else badge.style.display = 'none';
+
+    // Recent table
+    const tbody = document.getElementById('dashboard-recent');
+    if (!data.length) {
+      tbody.innerHTML = '<div class="empty-state"><p>Aucune demande reçue pour le moment.</p></div>';
+      return;
+    }
+    const recent = data.slice(0, 5);
+    tbody.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:.78rem">
+      <thead><tr>
+        <th style="padding:.6rem 1rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a0a39e;border-bottom:2px solid rgba(0,0,0,.07);background:#F7F7F4">Date</th>
+        <th style="padding:.6rem 1rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a0a39e;border-bottom:2px solid rgba(0,0,0,.07);background:#F7F7F4">Client</th>
+        <th style="padding:.6rem 1rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a0a39e;border-bottom:2px solid rgba(0,0,0,.07);background:#F7F7F4">Voiture</th>
+        <th style="padding:.6rem 1rem;text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a0a39e;border-bottom:2px solid rgba(0,0,0,.07);background:#F7F7F4">Statut</th>
+      </tr></thead>
+      <tbody>${recent.map(r => `
+        <tr>
+          <td style="padding:.75rem 1rem;border-bottom:1px solid rgba(0,0,0,.07)">${new Date(r.created_at).toLocaleDateString('fr-BE')}</td>
+          <td style="padding:.75rem 1rem;border-bottom:1px solid rgba(0,0,0,.07);font-weight:500">${r.prenom} ${r.nom}</td>
+          <td style="padding:.75rem 1rem;border-bottom:1px solid rgba(0,0,0,.07)">${CAR_NAMES[r.car] || r.car}</td>
+          <td style="padding:.75rem 1rem;border-bottom:1px solid rgba(0,0,0,.07)"><span class="status-badge ${r.status}">${r.status === 'pending' ? '🕐 En attente' : r.status === 'confirmed' ? '✓ Confirmé' : 'Terminé'}</span></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+  } catch(e) {
+    console.warn('Dashboard error:', e.message);
+  }
+}
+
+// ── CALENDAR ADMIN ──
+let adminCar = 'rs3';
+let adminYear, adminMonth;
+let availData = {}; // { 'YYYY-MM-DD': 'available'|'booked' }
+
+function initAdminCal() {
+  const now = new Date();
+  adminYear = now.getFullYear();
+  adminMonth = now.getMonth();
+  loadAdminCal();
+}
+
+function switchCar(car, btn) {
+  document.querySelectorAll('.car-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  adminCar = car;
+  loadAdminCal();
+}
+
+async function loadAdminCal() {
+  // Load availability for this car/month from Supabase
+  if (!db) { renderAdminCal(); return; }
+  const start = `${adminYear}-${String(adminMonth+1).padStart(2,'0')}-01`;
+  const end   = `${adminYear}-${String(adminMonth+1).padStart(2,'0')}-31`;
+  try {
+    const { data, error } = await db.from('availability')
+      .select('*').eq('car', adminCar)
+      .gte('date', start).lte('date', end);
+    if (error) throw error;
+    availData = {};
+    data.forEach(row => { availData[row.date] = row.status; });
+  } catch(e) {
+    console.warn('loadAdminCal:', e.message);
+  }
+  renderAdminCal();
+}
+
+function renderAdminCal() {
+  const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  document.getElementById('admin-cal-title').textContent = `${months[adminMonth]} ${adminYear}`;
+
+  const grid = document.getElementById('admin-cal-grid');
+  grid.innerHTML = '';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const firstDay = new Date(adminYear, adminMonth, 1);
+  let dow = firstDay.getDay();
+  dow = dow === 0 ? 6 : dow - 1;
+  const daysInMonth = new Date(adminYear, adminMonth+1, 0).getDate();
+
+  for (let i=0; i<dow; i++) {
+    const el = document.createElement('div');
+    el.className = 'day-cell empty';
+    grid.appendChild(el);
+  }
+
+  for (let d=1; d<=daysInMonth; d++) {
+    const dateStr = `${adminYear}-${String(adminMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const thisDate = new Date(adminYear, adminMonth, d);
+    const status = availData[dateStr] || 'none';
+
+    const el = document.createElement('div');
+    el.className = 'day-cell ' + (thisDate < today ? 'past' : status);
+    el.textContent = d;
+    if (thisDate.toDateString() === today.toDateString()) el.classList.add('today');
+
+    if (thisDate >= today) {
+      el.addEventListener('click', () => toggleDay(dateStr, el));
+    }
+    grid.appendChild(el);
+  }
+}
+
+async function toggleDay(dateStr, el) {
+  const current = availData[dateStr] || 'none';
+  const next = current === 'none' ? 'available' : current === 'available' ? 'booked' : 'none';
+
+  availData[dateStr] = next;
+
+  // Update visual immediately
+  el.className = 'day-cell ' + next;
+  if (el.classList.contains('today-mark')) el.classList.add('today');
+
+  showToast('💾 Sauvegarde...');
+
+  if (!db) { showToast('⚠ Supabase non configuré'); return; }
+
+  try {
+    if (next === 'none') {
+      await db.from('availability').delete().eq('car', adminCar).eq('date', dateStr);
+    } else {
+      await db.from('availability').upsert({ car: adminCar, date: dateStr, status: next }, { onConflict: 'car,date' });
+    }
+    showToast('✓ Sauvegardé en temps réel');
+  } catch(e) {
+    showToast('❌ Erreur: ' + e.message, 3000);
+  }
+}
+
+async function bulkMonth(status) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const daysInMonth = new Date(adminYear, adminMonth+1, 0).getDate();
+  const rows = [];
+
+  for (let d=1; d<=daysInMonth; d++) {
+    const thisDate = new Date(adminYear, adminMonth, d);
+    if (thisDate >= today) {
+      const dateStr = `${adminYear}-${String(adminMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      if (status === 'none') {
+        availData[dateStr] = 'none';
+      } else {
+        availData[dateStr] = status;
+        rows.push({ car: adminCar, date: dateStr, status });
+      }
+    }
+  }
+
+  const months = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];
+  document.getElementById('bulk-info').textContent = `${months[adminMonth]} ${adminYear}`;
+  renderAdminCal();
+  showToast('💾 Sauvegarde...');
+
+  if (!db) { showToast('⚠ Supabase non configuré'); return; }
+
+  try {
+    const start = `${adminYear}-${String(adminMonth+1).padStart(2,'0')}-01`;
+    const end   = `${adminYear}-${String(adminMonth+1).padStart(2,'0')}-31`;
+    await db.from('availability').delete().eq('car', adminCar).gte('date', start).lte('date', end);
+    if (rows.length > 0) await db.from('availability').insert(rows);
+    showToast(`✓ ${rows.length} jours mis à jour`);
+  } catch(e) {
+    showToast('❌ Erreur: ' + e.message, 3000);
+  }
+}
+
+function adminPrevMonth() {
+  if (adminMonth === 0) { adminYear--; adminMonth = 11; } else adminMonth--;
+  loadAdminCal();
+}
+function adminNextMonth() {
+  if (adminMonth === 11) { adminYear++; adminMonth = 0; } else adminMonth++;
+  loadAdminCal();
+}
+
+// ── RESERVATIONS ──
+async function loadReservations() {
+  if (!db) { document.getElementById('res-tbody').innerHTML = '<tr><td colspan="8" style="padding:1rem;color:#a0a39e;text-align:center">Configurez supabase-config.js.</td></tr>'; return; }
+  try {
+    const { data, error } = await db.from('reservations').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    const tbody = document.getElementById('res-tbody');
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><p>Aucune demande pour le moment.</p></div></td></tr>';
+      return;
+    }
+    resData = data;
+    tbody.innerHTML = data.map(r => {
+      const tel = (r.telephone||'').replace(/[^0-9]/g,'');
+      const waNum = tel.startsWith('0') ? '32'+tel.slice(1) : tel;
+      // WhatsApp message for auto-response (bot message)
+      const waMsgBot = encodeURIComponent(`Bonjour ${r.prenom} ! 👋\nMerci pour votre demande de réservation BNS Prestige.\n\nVotre dossier est en cours de traitement. Nous vous confirmons sous 5–10 minutes.\n\n🏎️ Véhicule demandé : ${CAR_NAMES[r.car]||r.car}\n📅 Du ${r.date_debut||'?'} au ${r.date_fin||'?'}\n\nMerci de votre confiance !`);
+      // WhatsApp message for confirmation
+      const waMsgConfirm = encodeURIComponent(`✅ Bonjour ${r.prenom} !\n\nVotre réservation BNS Prestige est CONFIRMÉE !\n\n🏎️ ${CAR_NAMES[r.car]||r.car}\n📅 ${r.date_debut||'?'} → ${r.date_fin||'?'}\n📍 ${r.mode_livraison||''}\n\nNous allons vous envoyer le contrat par email sous peu. Avez-vous des questions ?`);
+
+      return `
+      <tr>
+        <td>${new Date(r.created_at).toLocaleDateString('fr-BE',{day:'numeric',month:'short'})}<br/><span style="font-size:.62rem;color:#a0a39e">${new Date(r.created_at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})}</span></td>
+        <td style="font-weight:600;font-size:.82rem">${CAR_NAMES[r.car]||r.car}</td>
+        <td><b>${r.prenom} ${r.nom}</b><br/><span style="font-size:.68rem;color:#6a6d68">${r.permis||''}</span></td>
+        <td style="font-size:.73rem">${r.date_debut||'—'}<br/><span style="color:#a0a39e">→ ${r.date_fin||'—'}</span><br/><span style="color:#a0a39e;font-size:.62rem">${r.mode_livraison||''}</span></td>
+        <td>
+          <a href="tel:${r.telephone}" style="color:#111;font-weight:500;font-size:.8rem">${r.telephone}</a><br/>
+          <a href="mailto:${r.email}" style="color:#6a6d68;font-size:.68rem">${r.email}</a>
+        </td>
+        <td><span class="status-badge ${r.status}">${r.status==='pending'?'🕐 Attente':r.status==='confirmed'?'✓ Confirmé':'✓ Terminé'}</span></td>
+        <td style="min-width:160px">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            ${r.status==='pending' ? `
+              <a href="https://wa.me/${waNum}?text=${waMsgBot}" target="_blank" class="action-btn" style="background:rgba(37,211,102,.12);color:#128C7E;border-color:rgba(37,211,102,.3);text-align:center;display:block">📨 Envoyer accusé WA</a>
+              <button class="action-btn confirm" onclick="confirmReservation('${r.id}','${r.car}','${r.date_debut}','${r.date_fin}','${waNum}','${waMsgConfirm}',this)">✅ Confirmer</button>
+            ` : r.status==='confirmed' ? `
+              <a href="https://wa.me/${waNum}?text=${waMsgConfirm}" target="_blank" class="action-btn" style="background:rgba(37,211,102,.12);color:#128C7E;border-color:rgba(37,211,102,.3);text-align:center;display:block">💬 Continuer WA</a>
+              <a href="contrat-admin.html" target="_blank" class="action-btn" style="background:var(--g-bg);color:var(--g-dk);border-color:rgba(109,191,65,.3);text-align:center;display:block">📄 Contrat</a>
+            ` : ''}
+            ${r.status!=='done' ? `<button class="action-btn done-btn" onclick="updateStatus('${r.id}','done',this)">Archiver</button>` : ''}
+            ${r.message ? `<div style="font-size:.68rem;color:#6a6d68;word-break:break-word;padding:.3rem 0">💬 ${r.message}</div>` : ''}
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch(e) { console.warn('loadReservations:', e.message); }
+}
+
+// ── CONFIRM RESERVATION → block calendar automatically ──
+async function confirmReservation(id, car, d1, d2, waNum, waMsg, btn) {
+  if (!db || !d1 || !d2) { showToast('⚠ Dates manquantes pour bloquer le calendrier', 3000); return; }
+  btn.disabled = true; btn.textContent = '⏳ ...';
+
+  try {
+    // 1. Update reservation status
+    await db.from('reservations').update({ status: 'confirmed' }).eq('id', id);
+
+    // 2. Auto-block all dates from d1 to d2 in calendar
+    const rows = [];
+    const cur = new Date(d1+'T00:00:00');
+    const end = new Date(d2+'T00:00:00');
+    while (cur <= end) {
+      const key = `${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,'0')}-${String(cur.getDate()).padStart(2,'0')}`;
+      rows.push({ car, date: key, status: 'booked' });
+      cur.setDate(cur.getDate()+1);
+    }
+
+    // Upsert all days (won't fail if already exists)
+    await db.from('availability').upsert(rows, { onConflict: 'car,date' });
+
+    showToast(`✓ Confirmé + ${rows.length} jours bloqués dans le calendrier !`);
+    loadReservations();
+    loadDashboard();
+    setTimeout(populateContractResSelect, 800);
+
+    // 3. Open WhatsApp to send confirmation message
+    setTimeout(() => {
+      if (confirm('Ouvrir WhatsApp pour envoyer le message de confirmation au client ?')) {
+        window.open(`https://wa.me/${waNum}?text=${waMsg}`, '_blank');
+      }
+    }, 600);
+
+  } catch(e) {
+    showToast('❌ Erreur : ' + e.message, 3500);
+    btn.disabled = false;
+    btn.textContent = '✅ Confirmer';
+  }
+}
+
+async function updateStatus(id, status, btn) {
+  if (!db) return;
+  btn.disabled = true; btn.textContent = '...';
+  try {
+    await db.from('reservations').update({ status }).eq('id', id);
+    showToast('✓ Archivé');
+    loadReservations();
+    loadDashboard();
+    setTimeout(populateContractResSelect, 800);
+  } catch(e) { showToast('❌ Erreur', 3000); }
+}
+
+// ─── CONTRACT GENERATOR ───
+const CWD={rs3:350,golfr:280,clio:180};
+const CWEd={rs3:300,golfr:250,clio:175};
+const CWE={rs3:600,golfr:500,clio:350};
+const CCAR_NAMES={rs3:'Audi RS3 Sportback',golfr:'Volkswagen Golf 8 R',clio:'Renault Clio 5 Alpine'};
+
+// Init time selects
+function cInitSelects(){
+  ['c-h1','c-h2'].forEach((id,i)=>{
+    const sel=document.getElementById(id);
+    if(!sel||sel.options.length) return;
+    for(let h=7;h<=23;h++){
+      const o=document.createElement('option');
+      o.value=h+'h00'; o.textContent=h+'h00';
+      if(i===0&&h===9)o.selected=true;
+      if(i===1&&h===18)o.selected=true;
+      sel.appendChild(o);
+    }
+  });
+  const t=new Date(); const t2=new Date(t); t2.setDate(t2.getDate()+1);
+  const d=document.getElementById('c-d1'); if(d&&!d.value) d.value=t.toISOString().split('T')[0];
+  const d2=document.getElementById('c-d2'); if(d2&&!d2.value) d2.value=t2.toISOString().split('T')[0];
+  cCalcPrice();
+}
+
+function cCalcPrice(){
+  const car=document.getElementById('c-car')?.value;
+  const d1=document.getElementById('c-d1')?.value;
+  const d2=document.getElementById('c-d2')?.value;
+  const prev=document.getElementById('contract-price-preview');
+  if(!prev) return;
+  if(!d1||!d2){prev.innerHTML='Remplissez les dates';return;}
+  const s=new Date(d1+'T00:00:00'), e=new Date(d2+'T00:00:00');
+  if(e<=s){prev.innerHTML='<span style="color:var(--red)">Date retour invalide</span>';return;}
+  let total=0,days=0,rows='';
+  const c=new Date(s);
+  while(c<e){
+    const w=c.getDay(); const isWE=w===6||w===0; const price=isWE?CWEd[car]:CWD[car];
+    rows+=`<div style="display:flex;justify-content:space-between;font-size:.7rem"><span>${c.toLocaleDateString('fr-BE',{weekday:'short',day:'numeric',month:'short'})}</span><span>${price}€${isWE?' (WE)':''}</span></div>`;
+    total+=price; days++; c.setDate(c.getDate()+1);
+  }
+  prev.innerHTML=rows+`<div style="display:flex;justify-content:space-between;font-weight:700;padding-top:6px;border-top:1px solid rgba(109,191,65,.25);margin-top:4px"><span>${days}j</span><span>${total.toLocaleString('fr-BE')} €</span></div>`;
+}
+
+function cv(id){return(document.getElementById(id)?.value||'').trim();}
+
+function generateContract(){
+  const car=cv('c-car');
+  const d1=cv('c-d1'), d2=cv('c-d2');
+  let total=0,days=0;
+  if(d1&&d2){const s=new Date(d1+'T00:00:00'),e=new Date(d2+'T00:00:00');const c=new Date(s);while(c<e){const w=c.getDay();total+=(w===6||w===0)?CWEd[car]:CWD[car];days++;c.setDate(c.getDate()+1);}}
+  const no='BNS-'+new Date().getFullYear()+'-'+String(Date.now()).slice(-4);
+  const today=new Date().toLocaleDateString('fr-BE',{day:'numeric',month:'long',year:'numeric'});
+  const fmtD=s=>{if(!s)return'—';const d=new Date(s+'T00:00:00');return d.toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});};
+  document.getElementById('contract-doc').innerHTML=`
+  <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:2.5px solid #6DBF41;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:42px;height:42px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 22 16" fill="none" width="20" height="14"><path d="M1 1v14M1 1h6.5C9.5 1 11 2.8 11 4.5c0 1.5-1 2.7-2.5 3.1C10.2 8 11.2 9.5 11.2 11.2 11.2 13.4 9.5 15 7.2 15H1" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round" fill="none"/><line x1="1" y1="8" x2="9.5" y2="8" stroke="#6DBF41" stroke-width="1.6" stroke-linecap="round"/><path d="M14 1v14M14 1l7 14V1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div style="font-size:13pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-family:'Syne',sans-serif">BNS <span style="color:#6DBF41">Prestige</span></div><div style="font-size:7pt;color:#999;letter-spacing:.2em;text-transform:uppercase">Location · Bruxelles, Belgique</div></div>
+    </div>
+    <div style="text-align:right"><div style="font-size:15pt;font-weight:800;font-family:'Syne',sans-serif">CONTRAT DE LOCATION</div><div style="font-size:7.5pt;color:#999">Réf. ${no} · ${today}</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:18px">
+    <div>
+      <div style="font-size:7.5pt;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#6DBF41;margin-bottom:8px;border-bottom:1px solid #EEF8E5;padding-bottom:4px">Le Loueur</div>
+      <div style="margin-bottom:5px"><div style="font-size:7pt;color:#999">Société</div><div style="font-size:10pt;font-weight:600">BNS Prestige</div></div>
+      <div style="margin-bottom:5px"><div style="font-size:7pt;color:#999">Adresse</div><div style="font-size:9.5pt;border-bottom:1px solid #eee;padding-bottom:3px">Bruxelles, Belgique</div></div>
+      <div style="margin-bottom:5px"><div style="font-size:7pt;color:#999">Téléphone</div><div style="font-size:9.5pt;border-bottom:1px solid #eee;padding-bottom:3px">+32 4XX XX XX XX</div></div>
+    </div>
+    <div>
+      <div style="font-size:7.5pt;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#6DBF41;margin-bottom:8px;border-bottom:1px solid #EEF8E5;padding-bottom:4px">Le Locataire</div>
+      <div style="margin-bottom:5px"><div style="font-size:7pt;color:#999">Nom complet</div><div style="font-size:10pt;font-weight:600">${cv('c-prenom')} ${cv('c-nom')}</div></div>
+      <div style="margin-bottom:5px"><div style="font-size:7pt;color:#999">Date de naissance</div><div style="font-size:9.5pt;border-bottom:1px solid #eee;padding-bottom:3px">${fmtD(cv('c-dob'))}</div></div>
+      <div style="margin-bottom:5px"><div style="font-size:7pt;color:#999">Adresse</div><div style="font-size:9.5pt;border-bottom:1px solid #eee;padding-bottom:3px">${cv('c-adresse')}</div></div>
+      <div style="margin-bottom:5px"><div style="font-size:7pt;color:#999">N° permis</div><div style="font-size:9.5pt;border-bottom:1px solid #eee;padding-bottom:3px">${cv('c-permis')} — ${fmtD(cv('c-permis-date'))}</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:5px">
+        <div><div style="font-size:7pt;color:#999">Téléphone</div><div style="font-size:9pt;border-bottom:1px solid #eee;padding-bottom:3px">${cv('c-tel')}</div></div>
+        <div><div style="font-size:7pt;color:#999">Email</div><div style="font-size:9pt;border-bottom:1px solid #eee;padding-bottom:3px">${cv('c-email')}</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom:16px">
+    <div style="font-size:7.5pt;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#6DBF41;margin-bottom:8px;border-bottom:1px solid #EEF8E5;padding-bottom:4px">Véhicule & Période</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+      <div><div style="font-size:7pt;color:#999">Véhicule</div><div style="font-size:10pt;font-weight:700">${CCAR_NAMES[car]||car}</div></div>
+      <div><div style="font-size:7pt;color:#999">Immatriculation</div><div style="font-size:9.5pt;border-bottom:1px solid #eee;padding-bottom:3px">${cv('c-plaque')}</div></div>
+      <div><div style="font-size:7pt;color:#999">Km au départ</div><div style="font-size:9.5pt;border-bottom:1px solid #eee;padding-bottom:3px">${cv('c-km')?Number(cv('c-km')).toLocaleString('fr-BE')+' km':'—'}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><div style="font-size:7pt;color:#999">Départ</div><div style="font-size:9.5pt;font-weight:600;border-bottom:1px solid #eee;padding-bottom:3px">${fmtD(d1)} à ${cv('c-h1')}</div></div>
+      <div><div style="font-size:7pt;color:#999">Retour prévu</div><div style="font-size:9.5pt;font-weight:600;border-bottom:1px solid #eee;padding-bottom:3px">${fmtD(d2)} à ${cv('c-h2')}</div></div>
+    </div>
+  </div>
+  <div style="background:#EEF8E5;border-radius:8px;padding:12px 16px;margin-bottom:16px">
+    <div style="font-size:7.5pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4a8f2a;margin-bottom:8px">Tarif de la location</div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5pt"><span>Location ${days} jour${days>1?'s':''}</span><span>${total.toLocaleString('fr-BE')} €</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5pt"><span>Assurance tous risques</span><span style="color:#4a8f2a">Incluse</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5pt"><span>Plein de carburant</span><span style="color:#4a8f2a">Inclus</span></div>
+    <div style="display:flex;justify-content:space-between;font-weight:700;font-size:12pt;border-top:1.5px solid #6DBF41;margin-top:8px;padding-top:8px"><span>TOTAL</span><span>${total.toLocaleString('fr-BE')} €</span></div>
+    <div style="font-size:8.5pt;color:#555;margin-top:6px">Caution : <strong>${Number(cv('c-caution')||500).toLocaleString('fr-BE')} €</strong> · Paiement : ${cv('c-paiement')||'Virement'}</div>
+  </div>
+  <div style="margin-bottom:20px">
+    <div style="font-size:7.5pt;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#6DBF41;margin-bottom:6px">Conditions générales</div>
+    <ul style="font-size:8pt;color:#555;line-height:1.7;list-style:none">
+      <li style="padding-left:12px;position:relative;margin-bottom:2px"><span style="position:absolute;left:0;color:#6DBF41">•</span>Permis valide depuis min. 2 ans · Âge minimum 21 ans.</li>
+      <li style="padding-left:12px;position:relative;margin-bottom:2px"><span style="position:absolute;left:0;color:#6DBF41">•</span>Le véhicule est remis propre avec le plein et restitué dans le même état.</li>
+      <li style="padding-left:12px;position:relative;margin-bottom:2px"><span style="position:absolute;left:0;color:#6DBF41">•</span>Assurance tous risques incluse. Le locataire reste responsable des infractions.</li>
+      <li style="padding-left:12px;position:relative;margin-bottom:2px"><span style="position:absolute;left:0;color:#6DBF41">•</span>La caution est restituée intégralement à la restitution du véhicule en bon état.</li>
+      <li style="padding-left:12px;position:relative;margin-bottom:2px"><span style="position:absolute;left:0;color:#6DBF41">•</span>Retard non signalé : une journée supplémentaire sera facturée.</li>
+      <li style="padding-left:12px;position:relative"><span style="position:absolute;left:0;color:#6DBF41">•</span>Il est interdit de fumer dans le véhicule. Kilométrage illimité.</li>
+    </ul>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+    <div style="border-top:1px solid #ddd;padding-top:10px"><div style="font-size:7.5pt;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Le Loueur — BNS Prestige</div><div style="margin-bottom:36px"></div><div style="border-bottom:1px solid #333;margin-bottom:4px"></div><div style="font-size:7pt;color:#aaa;text-align:center">Signature + cachet</div></div>
+    <div style="border-top:1px solid #ddd;padding-top:10px"><div style="font-size:7.5pt;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Le Locataire — ${cv('c-prenom')} ${cv('c-nom')}</div><div style="margin-bottom:36px"></div><div style="border-bottom:1px solid #333;margin-bottom:4px"></div><div style="font-size:7pt;color:#aaa;text-align:center">Signature précédée de « Lu et approuvé »</div></div>
+  </div>
+  <div style="margin-top:20px;padding-top:12px;border-top:1px solid #eee;display:flex;justify-content:space-between;font-size:7pt;color:#ccc">
+    <span>BNS Prestige · Bruxelles · contact@bnsprestige.be</span><span>Contrat ${no}</span>
+  </div>`;
+}
+
+
+// ─── Auto-fill contract from reservation ───
+function populateContractSelect(){
+  var sel = document.getElementById('ct-res-select');
+  if(!sel) return;
+  sel.innerHTML = '<option value="">— Sélectionnez une réservation —</option>';
+  if(!resData || resData.length === 0){
+    sel.innerHTML += '<option disabled>Aucune réservation chargée</option>';
+    return;
+  }
+  resData.forEach(function(r){
+    var opt = document.createElement('option');
+    opt.value = r.id;
+    var label = '#' + r.id + ' · ' + (r.prenom||'') + ' ' + (r.nom||'') + ' · ' + r.car.toUpperCase() + ' · ' + (r.date_debut||'—');
+    opt.textContent = label;
+    sel.appendChild(opt);
+  });
+}
+
+function fillContractFromRes(){
+  var sel = document.getElementById('ct-res-select');
+  if(!sel || !sel.value) return;
+  var id = parseInt(sel.value);
+  var res = (resData||[]).find(function(r){ return r.id === id; });
+  if(!res){ alert('Réservation introuvable'); return; }
+  
+  // Fill client info
+  sv('c-prenom', res.prenom || '');
+  sv('c-nom',    res.nom    || '');
+  sv('c-email',  res.email  || '');
+  sv('c-tel',    res.telephone || '');
+  sv('c-age',    res.permis ? res.permis.replace('Age: ','').split(' ·')[0] : '');
+  sv('c-nat',    res.permis ? (res.permis.split('· ')[1] || '') : '');
+  sv('c-adresse', res.adresse || '');
+  
+  // Fill car info
+  sv('c-car', res.car || 'rs3');
+  sv('c-d1',  res.date_debut || '');
+  sv('c-d2',  res.date_fin   || '');
+  sv('c-mode', res.mode_livraison || '');
+  
+  // Trigger contract preview refresh
+  if(typeof generateContract === 'function') generateContract();
+  
+  // Show success
+  var btn = event.target;
+  var orig = btn.textContent;
+  btn.textContent = '✓ Rempli !';
+  btn.style.background = '#111';
+  btn.style.color = '#fff';
+  setTimeout(function(){ btn.textContent = orig; btn.style.background = 'var(--g)'; btn.style.color = '#000'; }, 2000);
+}
+
+// Populate select when reservations are loaded
+var origLoadRes = typeof loadReservations === 'function' ? loadReservations : null;
+
+
+// Car vehicle info for contract
+var CAR_VEHICLE = {
+  rs3: { name: 'Audi RS3 Sportback 2026', plaque: '1-BNS-RS3', couleur: 'Gris Nardo' },
+  golfr: { name: 'Volkswagen Golf 8 R 2026', plaque: '1-BNS-GR8', couleur: 'Bleu Lapiz' }
+};
+
+function cCarChanged(){
+  var car = document.getElementById('c-car')?.value;
+  if(car && CAR_VEHICLE[car]){
+    var v = CAR_VEHICLE[car];
+    // Auto-fill plaque if empty
+    var plaqueEl = document.getElementById('c-plaque');
+    if(plaqueEl && !plaqueEl.value) plaqueEl.value = v.plaque;
+  }
+  cCalcPrice();
+  generateContract();
+}
+
+// Populate the reservation select dropdown
+function populateContractResSelect(){
+  var sel = document.getElementById('ct-res-select');
+  if(!sel) return;
+  sel.innerHTML = '<option value="">— Sélectionnez une demande de réservation —</option>';
+  if(!resData || resData.length === 0) return;
+  resData.filter(function(r){ return r.status !== 'done'; }).forEach(function(r){
+    var opt = document.createElement('option');
+    opt.value = r.id;
+    var carName = CAR_NAMES[r.car] || r.car || 'Voiture';
+    var d1 = r.date_debut || '?';
+    var d2 = r.date_fin || '?';
+    opt.textContent = '#' + r.id + ' — ' + (r.prenom||'') + ' ' + (r.nom||'') + ' — ' + carName + ' — ' + d1 + ' → ' + d2;
+    sel.appendChild(opt);
+  });
+}
+
+function fillContractFromRes(){
+  var sel = document.getElementById('ct-res-select');
+  if(!sel || !sel.value) return;
+  var id = parseInt(sel.value);
+  var res = (resData||[]).find(function(r){ return r.id === id; });
+  if(!res){ alert('Réservation introuvable'); return; }
+  
+  function sv(id, val){ var el=document.getElementById(id); if(el&&val) el.value=val; }
+  
+  // Client info
+  sv('c-prenom', res.prenom || '');
+  sv('c-nom', res.nom || '');
+  sv('c-email', res.email || '');
+  sv('c-tel', res.telephone || '');
+  sv('c-adresse', res.adresse || '');
+  
+  // Extract age from permis field "Age: 25 · Belge"
+  if(res.permis){
+    var ageMatch = res.permis.match(/Age:\s*(\d+)/);
+    // Store age in notes or adress field is already set
+  }
+  
+  // Vehicle info
+  if(res.car){
+    sv('c-car', res.car);
+    var v = CAR_VEHICLE[res.car];
+    if(v){ sv('c-plaque', v.plaque); }
+  }
+  
+  // Dates
+  sv('c-d1', res.date_debut || '');
+  sv('c-d2', res.date_fin || '');
+  
+  // Recalculate price
+  cCalcPrice();
+  // Regenerate contract preview
+  generateContract();
+  
+  // Visual feedback
+  var bar = document.getElementById('ct-autofill-bar');
+  if(bar){
+    var orig = bar.style.background;
+    bar.style.background = 'rgba(109,191,65,.25)';
+    bar.style.borderColor = 'var(--g)';
+    setTimeout(function(){ bar.style.background = 'var(--g-bg)'; bar.style.borderColor = 'rgba(109,191,65,.3)'; }, 1500);
+  }
+}
+
+</script>
+</body>
+</html>
